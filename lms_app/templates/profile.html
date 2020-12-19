@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="wrapper">
+        <!-- copy over once more finalized OR see about doing {% block nav %} -->
+        <nav></nav>
+        <h2>Welcome, {{user.name}}!</h2>
+        <!-- were we doing this? Can't remember -->
+        <div class="col-sm-4">
+            <div style="overflow-x:auto;">
+                <table class="table">
+                    <th scope="col">Your Playlist</th>
+                    {% for playlist in ___ %}
+                    <td scope="row">{{playlist.title}}</td> 
+                    <!-- these are all just placeholders until views are done -->
+                    {% endfor %}
+                </table>
+            </div>
+            <form action="____">
+                <button class="btn btn-light">Add a Playlist</button>
+            </form>
+        </div>
+        <div class="vertical_line"></div>
+        <div class="col-md-8">
+            <h3>{{Playlist.title}}</h3>
+            {% for course in ___ %}
+            <div class="card" style="width:100px;">
+                <img src="{{course.thumbnail}}" alt="course thumbnail" href="/view_here/{course.id}">
+                <!-- possibly this: <img src="https://img.youtube.com/vi/{{ Course.video_id }}/0.jpg"> -->
+                <p><small>{{course.title}}</small></p>
+            </div>
+            {% endfor %}
+            <hr class="horizontal_line"></hr>
+            {% for course_done in ___ %}
+            <h3>Courses Completed</h3>
+            <div>
+                <img src="{{course_done.thumbnail}}" alt="course done thumbnail" href="/view_here/{course.id}">
+                <!-- possibly this: <img src="https://img.youtube.com/vi/{{ Course.video_id }}/0.jpg"> -->
+                <p><small>{{course_done.title}}</small></p>
+                <p><small>{{course_done.score}}/5</small></p>
+                <a><small>Retake Course</small></a>
+            </div>
+            {% endfor %}
+        </div>
+        <footer></footer>
+    <!-- end wrapper -->
+    <div></div>
+</body>
+</html>
