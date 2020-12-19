@@ -26,32 +26,45 @@ class User(models.Model):
 
     objects = UserManager()
 
+    # This provides a name for when looking at the database from admin view (superuser)
+    def __str__(self):
+        return f"{self.name}"
+
 class Playlist(models.Model):
     title = models.CharField(max_length=45)
     user = models.ForeignKey(User, related_name="playlists", on_delete = models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return self.title
+
 class Course(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField()
-    videolink = models.FieldField(upload_to='videos/')
+    video_id = models.CharField(max_length=16)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-class User_Quiz(models.Model):
-    took_quiz = models.BooleanField(default=False)
-    quiz_score = models.IntegerField(null=True)
-    course = models.ForeignKey(Course, related_name="user_quizzes", on_delete = models.CASCADE)
+    def __str__(self):
+        return self.title
+
+class User_Quiz_Record(models.Model):
+    users = models.ManyToManyField(User, related_name="records")
+    course = models.ManyToManyField(Course, related_name="records")
+    score = models.IntegerField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
 class Question(models.Model):
     content = models.TextField()
     correct_answer_id = models.IntegerField()
-    course = models.ForeignKey(Course, related_name="courses", on_delete = models.CASCADE)
+    course = models.ForeignKey(Course, related_name="questions", on_delete = models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.content
 
 class Answer(models.Model):
     content = models.CharField(max_length=255)
@@ -59,8 +72,14 @@ class Answer(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return self.content
+
 class Topic(models.Model):
     title = models.CharField(max_length=45)
     courses = models.ManyToManyField(Course, related_name="topics")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.title
