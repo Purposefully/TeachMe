@@ -38,14 +38,16 @@
         <div class="row">
             <div class="col-sm-6" id=description>
                 <h4>Description:</h4>
-                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Culpa pariatur soluta debitis, quis quasi ea labore reiciendis officiis, repellat accusantium assumenda quas earum autem. Sunt earum inventore distinctio dicta consectetur.</p>
+                <p>{{Course.description}}</p>
             </div>
-            <div class="col-sm-6">[Video]</div>
+            <div class="col-sm-6" id=video><iframe src="https://www.youtube.com/embed/{{ Course.video_id }}" frameborder="0" width="480" height="270"></iframe></div>
+            <!-- When video ends (onend), modal should pop up with a button to take the quiz -->
         </div>
         <div class="row">
             <div class="col-sm-6">
                 <h4>Not sure if it's for you? Take a quiz to see if you already know the information...</h4>
-                <button type="button" class="btn">Take Quiz</button>
+                <a href="/take_quiz" class="btn btn-info" role="button">Take the Quiz</a>
+                <!-- Goes directly to quiz page -->
             </div>
             <div class="col-sm-6">
                 <h4>Save for Later:</h4>
@@ -57,15 +59,34 @@
                         {% if course in playlist %}
                             <li class=disabled><a href="#" method=POST>{{Playlist.title}}</a></li>
                         {% else %}
-                            <li class=active><a href="#" method=POST>{{Playlist.title}}</a></li>
+                            <li class=active><a href="/add_to_playlist/{{course.id}}" method=POST>{{Playlist.title}}</a></li>
                         {% endfor %}
+                        <!-- Drop down menu of all playlists. If the course is already in the playlist, that option is disabled. If not, the link should lead to a view that adds the video to the playlist -->
                     </ul>
                   </div>
+            </div>
+        </div>
+        <div id="myModal" class="modal">
+            <div class="modal-content">
+              <span class="close">&times;</span>
+              <p>You finished the video!</p>
+              <a href="/take_quiz" class="btn btn-info" role="button">Take the Quiz</a>
+              <!-- Modal that opens when the video ends with an option to take the quiz -->
             </div>
         </div>
     </div>
     <div id=footer>
         <div class="col-sm-12">Copyright</div>
     </div>
+
+      
+    <script type='text/javascript'>
+        var vid = document.getElementById("video");
+        vid.onended = function() {
+            modal.style.display = "block";
+        };
+    </script>
+
+
 </body>
 </html>
