@@ -6,4 +6,5 @@ urlpatterns = [
     path('test', views.test),
     # path('Lisa', views.Lisa),
     # path('grade', views.grade)
+    # path('profile', views.profile), 
 ]

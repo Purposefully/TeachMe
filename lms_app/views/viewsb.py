@@ -58,6 +58,11 @@ def signup(request):
         return redirect('/profile')
     return redirect('/login')
 
+#profile test - feel free to delete
+# def profile(request):
+#     return render(request, 'profile.html')
+
+
 # Quizzes
 def get_quiz(request, course_id):
     if 'user_id' in request.session:
