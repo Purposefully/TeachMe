@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel=”stylesheet” href={% static ‘/style-course-vid.css’ %}>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <style>
+        *{
+            border: 1px dotted red;
+        }
+        .container-fluid{
+            height: 100vh;
+            background-image: linear-gradient(rgb(138, 138, 138), rgb(228, 227, 227), rgb(138, 138, 138));
+        }
+        #footer{
+            background-color:rgb(88, 88, 88);
+            color:rgb(228, 227, 227);
+        }
+        #footer .col-sm-12{
+            width: 70px;
+            margin: 0 auto;
+            font-size: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Title and Nav Bar</h1>
+    <div class="container-fluid">
+        <h2>Take the Quiz!</h2>
+        <form action="/submit_quiz" method=POST>
+            <!-- Entire quiz is a form -->
+            {% for question in shuffled_question_list %}
+            <!-- List of questions -->
+            <div class="row">
+                <div class="col-sm-6" id=description>
+                    <p>{% question.id %}: {% question.content %}</p>
+                </div>
+                <div class="col-sm-6">
+                    {% for answer in shuffled_answer_list %}
+                    <input type="radio" id="{{ answer.id }}" name="choice" value="{{ answer.id }}">
+                    <label for="{{ answer.id }}">{% answer.content %}</label><br>
+                    {% endfor %}
+                    <!-- Radio list of answers -->
+                </div>
+            </div>
+            {% endfor %}
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+    <div id=footer>
+        <div class="col-sm-12">Copyright</div>
+    </div>
+</body>
+</html>
