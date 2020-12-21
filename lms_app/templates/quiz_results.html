@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel=”stylesheet” href={% static ‘/style-course-vid.css’ %}>
+    <title>Your Quiz Results</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
@@ -25,17 +24,69 @@
             margin: 0 auto;
             font-size: 10px;
         }
+        #star{
+            color: green;
+            display: inline-block;
+        }
+        #x{
+            color: red;
+            display: inline-block;
+        }
+        #question_desc{
+            display: inline-block;
+        }
     </style>
 </head>
 <body>
     <h1>Title and Nav Bar</h1>
     <div class="container-fluid">
         <h2>Quiz Results: {{ score }}</h2>
-        <form action="/submit_quiz" method=POST>
+
+        {% for item in items %}
+
+        <div id="question" class="row">
+            <div class="m-10 col-sm-6" id=description>
+                <input type="hidden" name="{{q_num}}" value="{{q_id}}">
+                {% if question{{num}} == correct %}
+                <h1 id=star>★</h1>
+                {% elif question{{num}} == wrong %}
+                <h1 id=x>X</h1>
+                <p id=question_desc>{{item.q_num}}. {{item.q_content}}</p>
+            </div>
+            <div class="col-sm-6">
+                <!-- {% if user checked answer %} -->
+                <input type="radio" name="{{item.q_id}}" value="{{item.answer1}}" checked >
+                <label for="{{item.answer1}}">{{item.answer1}}</label>
+                <!-- {% else %} -->
+                <input type="radio" name="{{item.q_id}}" value="{{item.answer1}}" >
+                <label for="{{item.answer1}}">{{item.answer1}}</label>
+                <!-- each answer has two options - if it was selected by the user and if not -->
+                <!-- {% if user checked answer %} -->
+                <input type="radio" name="{{item.q_id}}" value="{{item.answer2}}" checked >
+                <label for="{{item.answer2}}">{{item.answer2}}</label>
+                <!-- {% else %} -->
+                <input type="radio" name="{{item.q_id}}" value="{{item.answer2}}" >
+                <label for="{{item.answer2}}">{{item.answer2}}</label>
+                <!-- {% if user checked answer %} -->
+                <input type="radio" name="{{item.q_id}}" value="{{item.answer3}}" checked >
+                <label for="{{item.answer3}}">{{item.answer3}}</label>
+                <!-- {% else %} -->
+                <input type="radio" name="{{item.q_id}}" value="{{item.answer3}}" >
+                <label for="{{item.answer3}}">{{item.answer3}}</label>
+                <!-- {% if user checked answer %} -->
+                <input type="radio" name="{{item.q_id}}" value="{{item.answer4}}" checked >
+                <label for="{{item.answer4}}">{{item.answer4}}</label>
+                <!-- {% else %} -->
+                <input type="radio" name="{{item.q_id}}" value="{{item.answer4}}" >
+                <label for="{{item.answer4}}">{{item.answer4}}</label>
+            </div>
+        </div>
+
+        <!-- <form action="/submit_quiz" method=POST>
             {% for question in shuffled_question_list %}
             <div class="row">
                 <div class="col-sm-6" id=description>
-                    <!-- Add if statement of, if correct, x picture, else y picture -->
+                     Add if statement of, if correct, x picture, else y picture 
                     <p>{% question.id %}: {% question.content %}</p>
                 </div>
                 <div class="col-sm-6">
@@ -46,11 +97,15 @@
                 </div>
             </div>
             {% endfor %}
-            <!-- Add if statement of, if score>3/5, move on, else, retake -->
-        </form>
+            Add if statement of, if score>3/5, move on, else, retake 
+        </form> -->
     </div>
     <div id=footer>
         <div class="col-sm-12">Copyright</div>
     </div>
+
+    <script>
+        $(':radio:not(:checked)').attr('disabled', true);
+    </script>
 </body>
 </html>

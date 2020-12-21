@@ -7,4 +7,5 @@ urlpatterns = [
     # path('Lisa', views.Lisa),
     # path('grade', views.grade)
     # path('profile', views.profile), 
+    #path('take_quiz/<int:id>', views.get_quiz), (should go to the views where the quiz appears)
 ]

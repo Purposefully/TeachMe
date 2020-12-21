@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Take the Quiz</title>
     <link rel=”stylesheet” href={% static ‘/style-course-vid.css’ %}>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
@@ -25,26 +25,32 @@
             margin: 0 auto;
             font-size: 10px;
         }
+        .col-sm-6{
+            padding: 10px;
+        }
     </style>
 </head>
 <body>
     <h1>Title and Nav Bar</h1>
     <div class="container-fluid">
         <h2>Take the Quiz!</h2>
-        <form action="/submit_quiz" method=POST>
-            <!-- Entire quiz is a form -->
-            {% for question in shuffled_question_list %}
-            <!-- List of questions -->
-            <div class="row">
-                <div class="col-sm-6" id=description>
-                    <p>{% question.id %}: {% question.content %}</p>
+        <form action="/submit_quiz/{{course.id}}" method="POST">
+            {% csrf_token %}
+            {% for item in items %}
+            <div id="question" class="row">
+                <div class="m-10 col-sm-6" id=description>
+                    <input type="hidden" name="{{q_num}}" value="{{q_id}}">
+                    <p>{{item.q_num}}. {{item.q_content}}</p>
                 </div>
-                <div class="col-sm-6">
-                    {% for answer in shuffled_answer_list %}
-                    <input type="radio" id="{{ answer.id }}" name="choice" value="{{ answer.id }}">
-                    <label for="{{ answer.id }}">{% answer.content %}</label><br>
-                    {% endfor %}
-                    <!-- Radio list of answers -->
+                <div class="m-10 col-sm-6">
+                    <input type="radio" name="{{item.q_id}}" value="{{item.answer1_id}}">
+                    <label for="{{item.answer1_id}}">{{item.answer1_content}}</label>
+                    <input type="radio" name="{{item.q_id}}" value="{{item.answer2_id}}">
+                    <label for="{{item.answer2_id}}">{{question.answer2_content}}</label>
+                    <input type="radio" name="{{item.q_id}}" value="{{item.answer3_id}}">
+                    <label for="{{item.answer3_id}}">{{question.answer3_content}}</label>
+                    <input type="radio" name="{{item.q_id}}" value="{{item.answer4_id}}">
+                    <label for="{{item.answer4_id}}">{{question.answer4_content}}</label>
                 </div>
             </div>
             {% endfor %}
