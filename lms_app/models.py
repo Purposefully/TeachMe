@@ -43,7 +43,7 @@ class Course(models.Model):
 class Playlist(models.Model):
     title = models.CharField(max_length=45)
     user = models.ForeignKey(User, related_name="playlists", on_delete = models.CASCADE)
-    course = models.ManytoMany(Course, related_name="playlists")
+    course = models.ManyToManyField(Course, related_name="playlists")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
