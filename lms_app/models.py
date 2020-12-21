@@ -30,19 +30,20 @@ class User(models.Model):
     def __str__(self):
         return f"{self.name}"
 
-class Playlist(models.Model):
-    title = models.CharField(max_length=45)
-    user = models.ForeignKey(User, related_name="playlists", on_delete = models.CASCADE)
+class Course(models.Model):
+    title = models.CharField(max_length=255)
+    description = models.TextField()
+    video_id = models.CharField(max_length=16)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.title
 
-class Course(models.Model):
-    title = models.CharField(max_length=255)
-    description = models.TextField()
-    video_id = models.CharField(max_length=16)
+class Playlist(models.Model):
+    title = models.CharField(max_length=45)
+    user = models.ForeignKey(User, related_name="playlists", on_delete = models.CASCADE)
+    course = models.ManytoMany(Course, related_name="playlists")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

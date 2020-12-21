@@ -24,10 +24,10 @@ def login(request):
         else:
             messages.error(request, "Email not found")
             request.session['type'] = "login"
-    return redirect('/login')
+    return redirect('/')
 
 
-def signup(request):
+def register(request):
     if request.method == "POST":
 
         errors = User.objects.basic_validator(request.POST)
@@ -43,7 +43,7 @@ def signup(request):
             request.session['name'] = request.POST['name']
             request.session['email'] = request.POST['email']
             request.session['type'] = "signup"
-            return redirect('/login')
+            return redirect('/')
 
         #if no errors, add user to database
         pwdhash = bcrypt.hashpw(request.POST['password'].encode(), bcrypt.gensalt()).decode()
@@ -56,7 +56,7 @@ def signup(request):
         request.session.flush()
         request.session['user_id'] = User.objects.last().id
         return redirect('/profile')
-    return redirect('/login')
+    return redirect('/')
 
 #profile test - feel free to delete
 # def profile(request):
@@ -97,13 +97,14 @@ def get_quiz(request, course_id):
         else:
             this_course = Course.objects.get(id=course_id)
             # get and shuffle the five questions for this course
-            question_list = Questions.objects.filter(course=this_course)
-            shuffled_question_list = random.shuffle(question_list)
+            # random.shuffle shuffles the list in place
+            question_list = Question.objects.filter(course=this_course)
+            random.shuffle(question_list)
             # create a list of dictionaries with questions and answers
             items = []
             # for each question, get and shuffle the answers
             q_num = 1
-            for question in shuffled_question_list:
+            for question in question_list:
                 # create dictionary for that question 
                 quiz_item = {
                     'q_num': q_num,
@@ -114,13 +115,13 @@ def get_quiz(request, course_id):
                 request.session[f'q'+str(q_num)] = question.id
                 q_num +=1
                 # get answers and shuffle them
-                answer_list = Answers.objects.filter(question=question)
-                shuffled_answer_list = random.shuffle(answer_list)
+                answer_list = Answer.objects.filter(question=question)
+                random.shuffle(answer_list)
                 # add answer choices to quiz item dictionary
                 # add answer choices to session for correct order retrieval 
                 # on results page 
                 count = 1
-                for answer in shuffled_answer_list:
+                for answer in answer_list:
                     quiz_item[f'answer'+str(count)+'_id'] = answer.id
                     request.session[f'q'+ str(q_num)+'ans'+ str(count)] = answer.id
                     quiz_item[f'answer'+str(count)+'_content'] = answer.content
