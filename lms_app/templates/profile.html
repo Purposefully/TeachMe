@@ -3,13 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>{{user.name}}'s Profile</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 </head>
 <body>
     <div id="wrapper">
         <!-- copy over once more finalized OR see about doing {% block nav %} -->
         <nav></nav>
-        <h2>Welcome, {{user.name}}!</h2>
+        <h4>Welcome, {{user.name}}!</h4>
         <!-- were we doing this? Can't remember -->
         <div class="col-sm-4">
             <div style="overflow-x:auto;">
@@ -30,24 +36,63 @@
             <h3>{{Playlist.title}}</h3>
             {% for course in ___ %}
             <div class="card" style="width:100px;">
-                <img src="{{course.thumbnail}}" alt="course thumbnail" href="/view_here/{course.id}">
-                <!-- possibly this: <img src="https://img.youtube.com/vi/{{ Course.video_id }}/0.jpg"> -->
+                <img src="https://img.youtube.com/vi/{{Course.video_id}}/0.jpg" alt="course thumbnail" href="/video/{course.id}">
                 <p><small>{{course.title}}</small></p>
             </div>
             {% endfor %}
             <hr class="horizontal_line"></hr>
-            {% for course_done in ___ %}
+            {% for quiz in get_quiz %}
             <h3>Courses Completed</h3>
             <div>
-                <img src="{{course_done.thumbnail}}" alt="course done thumbnail" href="/view_here/{course.id}">
+                <img src="https://img.youtube.com/vi/{{Course.video_id}}/0.jpg" alt="course completed thumbnail" href="/get_quiz/{course.id}">
                 <!-- possibly this: <img src="https://img.youtube.com/vi/{{ Course.video_id }}/0.jpg"> -->
-                <p><small>{{course_done.title}}</small></p>
-                <p><small>{{course_done.score}}/5</small></p>
-                <a><small>Retake Course</small></a>
+                <p><small>{{quiz.title}}</small></p> 
+                <!-- would it make sense to add a context object in the get_quiz area so that i can pull over the course info using the same loop? -->
+                <p><small>{{quiz.score}}/5</small></p>
+                <a href="/video/{{course_id}}"><small>Retake Course</small></a>
             </div>
             {% endfor %}
         </div>
-        <footer></footer>
+        <footer class="bg-light text-center text-lg-start">
+            <!-- Grid container -->
+            <div class="container p-4">
+              <!--Grid row-->
+              <div class="row">
+                <!--Grid column-->
+                <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+                  <h5 class="text-uppercase">Links</h5>
+          
+                  <ul class="list-unstyled mb-0">
+                    <li>
+                      <a href="#!" class="text-dark">Contact Us</a>
+                    </li>
+                    <li>
+                      <a href="#!" class="text-dark">Work for Us</a>
+                    </li>
+                  </ul>
+                </div>         
+                <!--Grid column-->
+                <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+                  <h5 class="text-uppercase mb-0">Connect with TeachMe</h5>
+                  <a href="http://scripteden.com/download/eden-ui/" target="_blank" class="btn-social btn-facebook"><i class="fa fa-facebook"></i></a>
+                  <a href="http://scripteden.com/download/eden-ui/" target="_blank" class="btn-social btn-linkedin"><i class="fa fa-linkedin"></i></a>
+                  <a href="http://scripteden.com/download/eden-ui/" target="_blank" class="btn-social btn-trello"><i class="fa fa-trello"></i></a>
+                  <a href="http://scripteden.com/download/eden-ui/" target="_blank" class="btn-social btn-twitter"><i class="fa fa-twitter"></i></a>
+                  <a href="http://scripteden.com/download/eden-ui/" target="_blank" class="btn-social btn-youtube"><i class="fa fa-youtube"></i></a>
+                </div>
+                <!--Grid column-->
+              </div>
+              <!--Grid row-->
+            </div>
+            <!-- Grid container -->
+          
+            <!-- Copyright -->
+            <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2)">
+              © 2020 Copyright:
+              <a class="text-dark" href="https://mdbootstrap.com/">MDBootstrap.com</a>
+            </div>
+            <!-- Copyright -->
+          </footer>
     <!-- end wrapper -->
     <div></div>
 </body>
