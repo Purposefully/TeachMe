@@ -48,6 +48,32 @@
         .nav_transparency {
             background-color: rgb(248, 249, 250, 0.85);
         }
+        #title{
+            width: fit-content;
+            margin: 10px auto 10px;
+            padding: 15px;
+            background-color:rgba(156, 102, 177, 0.7);
+            border-radius: 15px;
+            text-decoration: underline;
+        }
+        #quiz-results{
+            background-image: radial-gradient(rgb(255, 246, 209), white, rgb(255, 246, 209));
+        }
+        .answer{
+            display: block;
+        }
+        #final-statement{
+            width: fit-content;
+            margin: 0px auto;
+        }
+        .statement{
+            display: block;
+        }
+        .purple-background{
+            background-color: rgba(156, 102, 177);
+            border: 2px solid rgba(156, 102, 177);
+            color: white;
+        }
     </style>
 </head>
 <body>
@@ -76,55 +102,75 @@
             </div>
         </nav>
         <div class="container-fluid">
-            <h2>Your Results: You answered {{ score }} out of 5 correctly!</h2>
-
+            <h2 id=title class="shadow p-3">Your Results: You answered {{ score }} out of 5 correctly!</h2>
+            <div id=quiz-results class="shadow p-3">
             {% for item in items %}
-
-            <div id="question" class="row">
-                <div class="m-10 col-sm-6" id=description>
-                    <input type="hidden" name="{{q_num}}" value="{{q_id}}">
-                    {% if question{{num}} == correct %}
-                    <h1 id=star>★</h1>
-                    {% elif question{{num}} == wrong %}
-                    <h1 id=x>X</h1>
-                    <p id=question_desc>{{item.q_num}}. {{item.q_content}}</p>
+                <div id="question" class="row">
+                    <div class="m-10 col-sm-6" id=description>
+                        <input type="hidden" name="{{q_num}}" value="{{q_id}}">
+                        {% if item.quiz_item.evaluation == correct %}
+                        <h1 id=star>★</h1>
+                        {% elif item.quiz_item.evaluation == wrong %}
+                        <h1 id=x>X</h1>
+                        <p id=question_desc>{{item.q_num}}. {{item.q_content}}</p>
+                    </div>
+                    <div class="col-sm-6">
+                        <!-- {% if user checked answer %} -->
+                        <div class=answer>
+                            <input type="radio" name="{{item.quiz_item.q_id}}" value="{{item.quiz_item.answer1}}" checked >
+                            <label for="{{item.quiz_item.answer1}}">{{item.quiz_item.answer1}}</label>
+                        </div>
+                        <!-- {% else %} -->
+                        <div class=answer>
+                            <input type="radio" name="{{item.quiz_item.q_id}}" value="{{item.quiz_item.answer1}}" >
+                            <label for="{{item.quiz_item.answer1}}">{{item.quiz_item.answer1}}</label>
+                        </div>
+                        <!-- each answer has two options - if it was selected by the user and if not -->
+                        <!-- {% if user checked answer %} -->
+                        <div class=answer>
+                            <input type="radio" name="{{item.quiz_item.q_id}}" value="{{item.quiz_item.answer2}}" checked >
+                            <label for="{{item.quiz_item.answer2}}">{{item.quiz_item.answer2}}</label>
+                        </div>
+                        <!-- {% else %} -->
+                        <div class=answer>
+                            <input type="radio" name="{{item.quiz_item.q_id}}" value="{{item.quiz_item.answer2}}" >
+                            <label for="{{item.quiz_item.answer2}}">{{item.quiz_item.answer2}}</label>
+                        </div>
+                        <!-- {% if user checked answer %} -->
+                        <div class=answer>
+                            <input type="radio" name="{{item.quiz_item.q_id}}" value="{{item.quiz_item.answer3}}" checked >
+                            <label for="{{item.quiz_item.answer3}}">{{item.quiz_item.answer3}}</label>
+                        </div>
+                        <!-- {% else %} -->
+                        <div class=answer>
+                            <input type="radio" name="{{item.quiz_item.q_id}}" value="{{item.quiz_item.answer3}}" >
+                            <label for="{{item.quiz_item.answer3}}">{{item.quiz_item.answer3}}</label>
+                        </div>
+                        <!-- {% if user checked answer %} -->
+                        <div class=answer>
+                            <input type="radio" name="{{item.quiz_item.q_id}}" value="{{item.quiz_item.answer4}}" checked >
+                            <label for="{{item.quiz_item.answer4}}">{{item.quiz_item.answer4}}</label>
+                        </div>  
+                        <!-- {% else %} -->
+                        <div class=answer>
+                            <input type="radio" name="{{item.quiz_item.q_id}}" value="{{item.quiz_item.answer4}}" >
+                            <label for="{{item.quiz_item.answer4}}">{{item.quiz_item.answer4}}</label>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-sm-6">
-                    <!-- {% if user checked answer %} -->
-                    <input type="radio" name="{{item.q_id}}" value="{{item.answer1}}" checked >
-                    <label for="{{item.answer1}}">{{item.answer1}}</label>
-                    <!-- {% else %} -->
-                    <input type="radio" name="{{item.q_id}}" value="{{item.answer1}}" >
-                    <label for="{{item.answer1}}">{{item.answer1}}</label>
-                    <!-- each answer has two options - if it was selected by the user and if not -->
-                    <!-- {% if user checked answer %} -->
-                    <input type="radio" name="{{item.q_id}}" value="{{item.answer2}}" checked >
-                    <label for="{{item.answer2}}">{{item.answer2}}</label>
-                    <!-- {% else %} -->
-                    <input type="radio" name="{{item.q_id}}" value="{{item.answer2}}" >
-                    <label for="{{item.answer2}}">{{item.answer2}}</label>
-                    <!-- {% if user checked answer %} -->
-                    <input type="radio" name="{{item.q_id}}" value="{{item.answer3}}" checked >
-                    <label for="{{item.answer3}}">{{item.answer3}}</label>
-                    <!-- {% else %} -->
-                    <input type="radio" name="{{item.q_id}}" value="{{item.answer3}}" >
-                    <label for="{{item.answer3}}">{{item.answer3}}</label>
-                    <!-- {% if user checked answer %} -->
-                    <input type="radio" name="{{item.q_id}}" value="{{item.answer4}}" checked >
-                    <label for="{{item.answer4}}">{{item.answer4}}</label>
-                    <!-- {% else %} -->
-                    <input type="radio" name="{{item.q_id}}" value="{{item.answer4}}" >
-                    <label for="{{item.answer4}}">{{item.answer4}}</label>
-                </div>
+                {% endfor %}
             </div>
-            {% endfor %}
-            <div id=final_statement>
-                {% if {{score}} > 2 %}
-                <p>Great Job, you passed!</p>
-                <a href="/profile/{{user.id}}" class="btn btn-info" role="button">Take another course</a>
-                {% elif {{score}} < 3 %}
-                <p>Seems like you need to try again!</p>
-                <a href="/course/{{course.id}}" class="btn btn-info" role="button">Take the course again</a>
+            <div class=row>
+                <div class=col-sm-12>
+                    <div id=final-statement>
+                        {% if {{score}} > 2 %}
+                        <p class=statement>Great Job, you passed!</p>
+                        <a href="/profile/{{user.id}}" id="new_course" class="btn btn-info purple-background" role="button">Take another course</a>
+                        {% elif {{score}} < 3 %}
+                        <p class=statement>Seems like you need to try again!</p>
+                        <a href="/course/{{course.id}}" id="course_again" class="btn btn-info purple-background" role="button">Take the course again</a>
+                    </div>
+                </div>        
             </div>
             
         </div>
@@ -135,6 +181,18 @@
 
     <script>
         $(':radio:not(:checked)').attr('disabled', true);
+        document.getElementById("new_course").addEventListener("mouseover", function() {
+        document.getElementById("new_course").style.backgroundColor = "rgba(156, 102, 177)";
+        document.getElementById("new_course").style.border = "2px solid rgba(156, 102, 177)";
+        });
+        document.getElementById("course_again").addEventListener("mouseover", function() {
+        document.getElementById("course_again").style.backgroundColor = "rgba(156, 102, 177)";
+        document.getElementById("course_again").style.border = "2px solid rgba(156, 102, 177)";
+        });
+        document.getElementById("course_again").addEventListener("click", function() {
+        document.getElementById("course_again").style.backgroundColor = "rgba(156, 102, 177)";
+        document.getElementById("course_again").style.border = "2px solid rgba(156, 102, 177)";
+        });
     </script>
 </body>
 </html>

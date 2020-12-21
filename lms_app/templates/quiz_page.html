@@ -19,10 +19,10 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
     <style>
-        *{
+        /*{
             border: 1px dotted red;
-        }
-        .container-fluid{
+        }*/
+        #wrapper{
             height: 100vh;
             background-image: linear-gradient(rgb(165, 165, 165), rgb(243, 241, 241), rgb(165, 165, 165));
         }
@@ -88,8 +88,8 @@
             </div>
         </nav>
         <!-- End Nav Bar -->
+        <h2 id="title" class="shadow p-3">Take the Quiz!</h2>
         <div class="container-fluid">
-            <h2 id="title" class="shadow p-3">Take the Quiz!</h2>
             <div id=quiz class="shadow p-3">
                 <form action="/submit_quiz/{{course.id}}" method="POST">
                     {% csrf_token %}
@@ -127,9 +127,9 @@
                 </form>
             </div>
         </div>
-        <div id=footer>
-            <div class="col-sm-12">Copyright</div>
-        </div>
+    </div>
+    <div id=footer>
+        <div class="col-sm-12">Copyright</div>
     </div>
 </body>
 </html>
