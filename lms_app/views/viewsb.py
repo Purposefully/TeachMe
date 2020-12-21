@@ -27,7 +27,7 @@ def login(request):
     return redirect('/')
 
 
-def register(request):
+def signup(request):
     if request.method == "POST":
 
         errors = User.objects.basic_validator(request.POST)
@@ -98,7 +98,7 @@ def get_quiz(request, course_id):
             this_course = Course.objects.get(id=course_id)
             # get and shuffle the five questions for this course
             # random.shuffle shuffles the list in place
-            question_list = Question.objects.filter(course=this_course)
+            question_list = list(Question.objects.filter(course=this_course))
             random.shuffle(question_list)
             # create a list of dictionaries with questions and answers
             items = []
@@ -115,7 +115,7 @@ def get_quiz(request, course_id):
                 request.session[f'q'+str(q_num)] = question.id
                 q_num +=1
                 # get answers and shuffle them
-                answer_list = Answer.objects.filter(question=question)
+                answer_list = list(Answer.objects.filter(question=question))
                 random.shuffle(answer_list)
                 # add answer choices to quiz item dictionary
                 # add answer choices to session for correct order retrieval 

@@ -3,15 +3,15 @@ from . import views
 
 urlpatterns = [
     path('', views.index),
-    path('register', views.register),
+    path('signup', views.signup),
     path('login', views.login),
     path('profile', views.profile), 
-    #path('playlist/<int:playlist_id>', views.get_playlist),
-    #path('add_playlist', views.add_playlist),
+    # path('playlist/<int:playlist_id>', views.get_playlist),
+    # path('add_playlist', views.add_playlist),
     path('view_here/<int:course_id>', views.video),
     path('library', views.library),
-    path('take_quiz/<int:course_id', views.get_quiz),
-    #path('add_to_playlist/<int:course_id>', views.add_to_playlist),
+    path('take_quiz/<int:course_id>', views.get_quiz),
+    # path('add_to_playlist/<int:course_id>', views.add_to_playlist),
 
 
 
