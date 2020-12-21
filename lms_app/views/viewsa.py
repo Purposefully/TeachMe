@@ -18,6 +18,7 @@ def video(request):
                 {
                     "Course": Course.objects.get(id=request.POST["course_id"]),
                     "logged_user": User.objects.get(id=request.session["user_id"]),
+                    # "playlist":
                 },
             )
     return redirect("/")
@@ -30,8 +31,11 @@ def add_to_playlist(course_id):
 # course library
 def library(request):
     if "user_id" in request.session:
-        # assuming library template called "course_library"
-        return render(request, "course_library.html", {"topics": Topic.objects.all()})
+        return render(
+            request,
+            "course_library.html",
+            {"topics": Topic.objects.all(), "Course": Course.objects.all()},
+        )
     return redirect("/")
 
 
