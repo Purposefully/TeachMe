@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Library</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div id="other_wrapper">
+        <nav class="navbar navbar-expand-lg navbar-light nav_transparency">
+            <img src="{% static 'img/LOGO_TeachMe_Owl.png' %}" alt="TeachMe Logo" class="img-fluid" style="max-width: 150px;">
+            <!-- <a class="navbar-brand" href="#">Navbar w/ text</a> -->
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarText">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/library">Course Library</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/profile">Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Contact</a>
+                </li>
+            </ul>
+            <span class="navbar-text">
+                Your learning resource for on-demand instruction.
+            </span>
+            </div>
+        </nav>
+    <!-- search bar -->
+        <form class="form-inline">
+            <i class="fas fa-search" aria-hidden="true"></i>
+            <input class="form-control form-control-sm ml-3 w-75" type="text" placeholder="Search" aria-label="Search">
+        </form>
+        <h3>Popular Courses</h3>
+    <!--Carousel Wrapper-->
+        <div id="multi-item-example" class="carousel slide carousel-multi-item" data-ride="carousel">
+    <!--Controls-->
+            <div class="controls-top">
+                <a class="btn-floating" href="#multi-item-example" data-slide="prev"><i class="fasfa-chevron-left"></i></a>
+                <a class="btn-floating" href="#multi-item-example" data-slide="next"><i class="fas fa-chevron-right"></i></a>
+            </div>
+    <!--/.Controls-->
+    <!--Indicators-->
+            <ol class="carousel-indicators">
+                <li data-target="#multi-item-example" data-slide-to="0" class="active"></li>
+                <li data-target="#multi-item-example" data-slide-to="1"></li>
+            </ol>
+    <!--/.Indicators-->
+    {% for course in Course %}
+    <!--Slides-->
+            <div class="carousel-inner" role="listbox">
+        <!--First slide-->
+                <div class="carousel-item active">
+                    <div class="col-md-3" style="float:left">
+                        <div class="card mb-2">
+                            <img class="card-img-top"
+                            src="{{course.thumbnail}}" alt="course image">
+                            <div class="card-body">
+                                <h4 class="card-title">{{course.title}}</h4>
+                                <p class="card-text">{{course.description}}</p>
+                                <a class="btn btn-light" href="/video/{{course_id}}">Visit Course Page</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3" style="float:left">
+                        <div class="card mb-2">
+                            <img class="card-img-top"
+                            src="{{course.thumbnail.next}}" alt="course image">
+                            <!-- No idea if this .next stuff will work. I think we need another view to direct it to move to the next course_id? -->
+                            <div class="card-body">
+                                <h4 class="card-title">{{course.title.next}}</h4>
+                                <p class="card-text">{{course.description.next}}</p>
+                                <a class="btn btn-light" href="/video/{{course_id.next}}">Visit Course Page</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3" style="float:left">
+                        <div class="card mb-2">
+                            <img class="card-img-top"
+                            src="{{course.thumbnail.next}}" alt="course image">
+                            <!-- No idea if this .next stuff will work. I think we need another view to direct it to move to the next course_id? -->
+                            <div class="card-body">
+                                <h4 class="card-title">{{course.title.next}}</h4>
+                                <p class="card-text">{{course.description.next}}</p>
+                                <a class="btn btn-light" href="/video/{{course_id.next}}">Visit Course Page</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3" style="float:left">
+                        <div class="card mb-2">
+                            <img class="card-img-top"
+                            src="{{course.thumbnail.next}}" alt="course image">
+                            <!-- No idea if this .next stuff will work. I think we need another view to direct it to move to the next course_id? -->
+                            <div class="card-body">
+                                <h4 class="card-title">{{course.title.next}}</h4>
+                                <p class="card-text">{{course.description.next}}</p>
+                                <a class="btn btn-light" href="/video/{{course_id.next}}">Visit Course Page</a>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+            {% endfor %}
+        </div>
+            <!--/.Slides-->
+    </div>
+    <!--/.Carousel Wrapper-->
+    </div> 
+    <h3>Full List of Courses</h3>
+<!-- we probably need a way to alphabetize by title. This page has some good info. Looks like you just add a meta class for the key you want it sorted by? https://stackoverflow.com/questions/6540032/sorting-related-items-in-a-django-template  OR in views, this might work?? all_videos = video.objects.all().order_by('title')-->
+    {% for course in Courses %}
+        {% if forloop.first %}<div class="row">{% endif %}
+            <div class="col-xs-4">
+                <a href="/video/{{course_id}}">{{ course.title }}</a>
+            </div>
+        {% if forloop.counter|divisibleby:3 %}</div><div class="row">{% endif %}
+        {% if forloop.last %}</div>{% endif %}   
+    {% endfor %}
+    <footer class="bg-light text-center text-lg-start">
+        <!-- Grid container -->
+        <div class="container p-4">
+          <!--Grid row-->
+          <div class="row">
+            <!--Grid column-->
+            <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+              <h5 class="text-uppercase">Links</h5>
+      
+              <ul class="list-unstyled mb-0">
+                <li>
+                  <a href="#!" class="text-dark">Contact Us</a>
+                </li>
+                <li>
+                  <a href="#!" class="text-dark">Work for Us</a>
+                </li>
+              </ul>
+            </div>         
+            <!--Grid column-->
+            <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+              <h5 class="text-uppercase mb-0">Connect with TeachMe</h5>
+              <a href="http://scripteden.com/download/eden-ui/" target="_blank" class="btn-social btn-facebook"><i class="fa fa-facebook"></i></a>
+              <a href="http://scripteden.com/download/eden-ui/" target="_blank" class="btn-social btn-linkedin"><i class="fa fa-linkedin"></i></a>
+              <a href="http://scripteden.com/download/eden-ui/" target="_blank" class="btn-social btn-trello"><i class="fa fa-trello"></i></a>
+              <a href="http://scripteden.com/download/eden-ui/" target="_blank" class="btn-social btn-twitter"><i class="fa fa-twitter"></i></a>
+              <a href="http://scripteden.com/download/eden-ui/" target="_blank" class="btn-social btn-youtube"><i class="fa fa-youtube"></i></a>
+            </div>
+            <!--Grid column-->
+          </div>
+          <!--Grid row-->
+        </div>
+        <!-- Grid container -->
+      
+        <!-- Copyright -->
+        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2)">
+          © 2020 Copyright:
+          <a class="text-dark" href="https://mdbootstrap.com/">MDBootstrap.com</a>
+        </div>
+        <!-- Copyright -->
+      </footer>
+    <!-- /page wrapper -->
+</body>
+</html>

@@ -1,1 +1,26 @@
-This is my stuff
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=, initial-scale=1.0">
+    <title>Document</title>
+    {% load static %}
+</head>
+<body>
+    <form action="/grade" method="POST">
+        {% csrf_token %}
+        {% for question in questions %}
+            <input type="hidden" name="{{question.question_num}}" value="{{question.question_id}}">
+            <p>{{question.question_num}}. {{question.question_content}}</p>
+            <input type="radio" name="{{question.question_id}}" value="{{question.answer1_id}}">
+            <label for="{{question.question_id}}">{{question.answer1content}}</label>
+            <input type="radio" name="{{question.question_id}}" value="{{question.answer2_id}}">
+            <label for="{{question.question_id}}">{{question.answer2content}}</label>
+            <input type="radio" name="{{question.question_id}}" value="{{question.answer3_id}}">
+            <label for="{{question.question_id}}">{{question.answer3content}}</label>
+        {% endfor %}
+        <input type="submit" value="submit">
+
+    </form>
+</body>
+</html>
