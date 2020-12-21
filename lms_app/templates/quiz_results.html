@@ -4,6 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Your Quiz Results</title>
+
+    {% load static %}
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
@@ -13,7 +23,7 @@
         }
         .container-fluid{
             height: 100vh;
-            background-image: linear-gradient(rgb(138, 138, 138), rgb(228, 227, 227), rgb(138, 138, 138));
+            background-image: linear-gradient(rgb(165, 165, 165), rgb(243, 241, 241), rgb(165, 165, 165));
         }
         #footer{
             background-color:rgb(88, 88, 88);
@@ -35,73 +45,92 @@
         #question_desc{
             display: inline-block;
         }
+        .nav_transparency {
+            background-color: rgb(248, 249, 250, 0.85);
+        }
     </style>
 </head>
 <body>
-    <h1>Title and Nav Bar</h1>
-    <div class="container-fluid">
-        <h2>Quiz Results: {{ score }}</h2>
-
-        {% for item in items %}
-
-        <div id="question" class="row">
-            <div class="m-10 col-sm-6" id=description>
-                <input type="hidden" name="{{q_num}}" value="{{q_id}}">
-                {% if question{{num}} == correct %}
-                <h1 id=star>★</h1>
-                {% elif question{{num}} == wrong %}
-                <h1 id=x>X</h1>
-                <p id=question_desc>{{item.q_num}}. {{item.q_content}}</p>
+    <div id=wrapper>
+        <nav class="navbar navbar-expand-lg navbar-light nav_transparency">
+            <img src="{% static '/img/LOGO_TeachMe_Owl.png' %}" alt="TeachMe Logo" class="img-fluid" style="max-width: 150px;">
+            <!-- <a class="navbar-brand" href="#">Navbar w/ text</a> -->
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarText">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                <a class="nav-link" href="#">About</a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="#">Course Library</a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="#">Contact</a>
+                </li>
+            </ul>
+            <span class="navbar-text">
+                Your learning resource for on-demand instruction.
+            </span>
             </div>
-            <div class="col-sm-6">
-                <!-- {% if user checked answer %} -->
-                <input type="radio" name="{{item.q_id}}" value="{{item.answer1}}" checked >
-                <label for="{{item.answer1}}">{{item.answer1}}</label>
-                <!-- {% else %} -->
-                <input type="radio" name="{{item.q_id}}" value="{{item.answer1}}" >
-                <label for="{{item.answer1}}">{{item.answer1}}</label>
-                <!-- each answer has two options - if it was selected by the user and if not -->
-                <!-- {% if user checked answer %} -->
-                <input type="radio" name="{{item.q_id}}" value="{{item.answer2}}" checked >
-                <label for="{{item.answer2}}">{{item.answer2}}</label>
-                <!-- {% else %} -->
-                <input type="radio" name="{{item.q_id}}" value="{{item.answer2}}" >
-                <label for="{{item.answer2}}">{{item.answer2}}</label>
-                <!-- {% if user checked answer %} -->
-                <input type="radio" name="{{item.q_id}}" value="{{item.answer3}}" checked >
-                <label for="{{item.answer3}}">{{item.answer3}}</label>
-                <!-- {% else %} -->
-                <input type="radio" name="{{item.q_id}}" value="{{item.answer3}}" >
-                <label for="{{item.answer3}}">{{item.answer3}}</label>
-                <!-- {% if user checked answer %} -->
-                <input type="radio" name="{{item.q_id}}" value="{{item.answer4}}" checked >
-                <label for="{{item.answer4}}">{{item.answer4}}</label>
-                <!-- {% else %} -->
-                <input type="radio" name="{{item.q_id}}" value="{{item.answer4}}" >
-                <label for="{{item.answer4}}">{{item.answer4}}</label>
-            </div>
-        </div>
+        </nav>
+        <div class="container-fluid">
+            <h2>Your Results: You answered {{ score }} out of 5 correctly!</h2>
 
-        <!-- <form action="/submit_quiz" method=POST>
-            {% for question in shuffled_question_list %}
-            <div class="row">
-                <div class="col-sm-6" id=description>
-                     Add if statement of, if correct, x picture, else y picture 
-                    <p>{% question.id %}: {% question.content %}</p>
+            {% for item in items %}
+
+            <div id="question" class="row">
+                <div class="m-10 col-sm-6" id=description>
+                    <input type="hidden" name="{{q_num}}" value="{{q_id}}">
+                    {% if question{{num}} == correct %}
+                    <h1 id=star>★</h1>
+                    {% elif question{{num}} == wrong %}
+                    <h1 id=x>X</h1>
+                    <p id=question_desc>{{item.q_num}}. {{item.q_content}}</p>
                 </div>
                 <div class="col-sm-6">
-                    {% for answer in shuffled_answer_list %}
-                    <input type="radio" id="{{ answer.id }}" name="choice" value="{{ answer.id }}">
-                    <label for="{{ answer.id }}">{% answer.content %}</label><br>
-                    {% endfor %}
+                    <!-- {% if user checked answer %} -->
+                    <input type="radio" name="{{item.q_id}}" value="{{item.answer1}}" checked >
+                    <label for="{{item.answer1}}">{{item.answer1}}</label>
+                    <!-- {% else %} -->
+                    <input type="radio" name="{{item.q_id}}" value="{{item.answer1}}" >
+                    <label for="{{item.answer1}}">{{item.answer1}}</label>
+                    <!-- each answer has two options - if it was selected by the user and if not -->
+                    <!-- {% if user checked answer %} -->
+                    <input type="radio" name="{{item.q_id}}" value="{{item.answer2}}" checked >
+                    <label for="{{item.answer2}}">{{item.answer2}}</label>
+                    <!-- {% else %} -->
+                    <input type="radio" name="{{item.q_id}}" value="{{item.answer2}}" >
+                    <label for="{{item.answer2}}">{{item.answer2}}</label>
+                    <!-- {% if user checked answer %} -->
+                    <input type="radio" name="{{item.q_id}}" value="{{item.answer3}}" checked >
+                    <label for="{{item.answer3}}">{{item.answer3}}</label>
+                    <!-- {% else %} -->
+                    <input type="radio" name="{{item.q_id}}" value="{{item.answer3}}" >
+                    <label for="{{item.answer3}}">{{item.answer3}}</label>
+                    <!-- {% if user checked answer %} -->
+                    <input type="radio" name="{{item.q_id}}" value="{{item.answer4}}" checked >
+                    <label for="{{item.answer4}}">{{item.answer4}}</label>
+                    <!-- {% else %} -->
+                    <input type="radio" name="{{item.q_id}}" value="{{item.answer4}}" >
+                    <label for="{{item.answer4}}">{{item.answer4}}</label>
                 </div>
             </div>
             {% endfor %}
-            Add if statement of, if score>3/5, move on, else, retake 
-        </form> -->
-    </div>
-    <div id=footer>
-        <div class="col-sm-12">Copyright</div>
+            <div id=final_statement>
+                {% if {{score}} > 2 %}
+                <p>Great Job, you passed!</p>
+                <a href="/profile/{{user.id}}" class="btn btn-info" role="button">Take another course</a>
+                {% elif {{score}} < 3 %}
+                <p>Seems like you need to try again!</p>
+                <a href="/course/{{course.id}}" class="btn btn-info" role="button">Take the course again</a>
+            </div>
+            
+        </div>
+        <div id=footer>
+            <div class="col-sm-12">Copyright</div>
+        </div>
     </div>
 
     <script>
