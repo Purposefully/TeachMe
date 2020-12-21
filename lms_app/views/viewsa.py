@@ -42,14 +42,11 @@ def library(request):
 # profile option
 def profile(request):
     if "user_id" in request.session:
-
+        logged_user = User.objects.get(id=request.session["user_id"])
         return render(
             request,
             "profile.html",
-            {
-                "user": User.objects.get(id=request.session["user_id"]),
-                # "playlist":
-            },
+            {"user": logged_user, "playlists": logged_user.playlists.all()},
         )
 
     return redirect("/")
