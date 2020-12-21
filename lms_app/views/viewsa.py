@@ -23,6 +23,10 @@ def video(request):
     return redirect("/")
 
 
+def add_to_playlist(course_id):
+    pass
+
+
 # course library
 def library(request):
     if "user_id" in request.session:
@@ -35,11 +39,13 @@ def library(request):
 def profile(request):
     if "user_id" in request.session:
 
-        # assuming profile template is called "profile_option"
         return render(
             request,
-            "profile_option.html",
-            {"logged_user": User.objects.get(id=request.session["user_id"])},
+            "profile.html",
+            {
+                "user": User.objects.get(id=request.session["user_id"]),
+                # "playlist":
+            },
         )
 
     return redirect("/")
