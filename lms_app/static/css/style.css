@@ -20,12 +20,15 @@
 .messages {
     color: red;
 }
+.centerdiv {
+    align-items: center;
+}
 .logregdiv {
     display: inline-block;
     vertical-align: top;
     background-color:rgb(138, 37, 177, 0.7);
     padding: 20px;
-    margin: 25px;
+    margin: 30px;
     border-radius: 15px;
     color: white;
 }
@@ -40,7 +43,7 @@
     top: 0;
   }
   
-  .horizontal_line {
+.horizontal_line {
       color: gray;
       width: 3px;
       position: absolute;
@@ -49,12 +52,21 @@
       border-style: inset;
   }
 
-  /* search bar */
-  .active-purple input[type=text] {
+/* search bar */
+ .active-purple input[type=text] {
     border-bottom: 1px solid #8A25B1;
     box-shadow: 0 1px 0 0 #8A25B1;
   }
+footer {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      height: auto;
+  }
 
+h2, h3, h4, h5 {
+    padding: 10px;
+}
 /* social media buttons in footer */
 /* source: https://codepen.io/codename065/pen/doyRNw/*/
 
