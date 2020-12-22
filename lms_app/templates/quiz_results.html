@@ -128,67 +128,81 @@
                 <div id="question" class="row">
                     <div class="m-10 col-sm-6" id=description>
                         <input type="hidden" name="{{q_num}}" value="{{q_id}}">
-                        {% if item.quiz_item.evaluation == correct %}
-                        <h1 id=star class="star_gradient_text" >★</h1>
-                        {% elif item.quiz_item.evaluation == wrong %}
-                        <h1 class="x_gradient_text">X</h1>
+                        {% if item.evaluation == "correct" %}
+                        <h1 id=star>★</h1>
+                        {% elif item.evaluation == "wrong" %}
+                        <h1 id=x>X</h1>
+                        {% endif %}
                         <p id=question_desc>{{item.q_num}}. {{item.q_content}}</p>
                     </div>
                     <div class="col-sm-6">
-                        <!-- {% if user checked answer %} -->
+                        <!-- if user checked answer -->
+                        {% if item.qchosenans == item.answer1 %}
                         <div class=answer>
-                            <input type="radio" name="{{item.quiz_item.q_id}}" value="{{item.quiz_item.answer1}}" checked >
-                            <label for="{{item.quiz_item.answer1}}">{{item.quiz_item.answer1}}</label>
+                            <input type="radio" name="{{item.q_id}}" value="{{item.answer1}}" checked >
+                            <label for="{{item.answer1}}">{{item.answer1content}}</label>
                         </div>
-                        <!-- {% else %} -->
+                        <!-- else -->
+                        {% else %}
                         <div class=answer>
-                            <input type="radio" name="{{item.quiz_item.q_id}}" value="{{item.quiz_item.answer1}}" >
-                            <label for="{{item.quiz_item.answer1}}">{{item.quiz_item.answer1}}</label>
+                            <input type="radio" name="{{item.q_id}}" value="{{item.answer1}}">
+                            <label for="{{item.answer1}}">{{item.answer1content}}</label>
                         </div>
+                        {% endif %}
                         <!-- each answer has two options - if it was selected by the user and if not -->
-                        <!-- {% if user checked answer %} -->
+                        <!-- if user checked answer -->
+                        {% if item.qchosenans == item.answer2 %}
                         <div class=answer>
-                            <input type="radio" name="{{item.quiz_item.q_id}}" value="{{item.quiz_item.answer2}}" checked >
-                            <label for="{{item.quiz_item.answer2}}">{{item.quiz_item.answer2}}</label>
+                            <input type="radio" name="{{item.q_id}}" value="{{item.answer2}}" checked >
+                            <label for="{{item.answer2}}">{{item.answer2content}}</label>
                         </div>
-                        <!-- {% else %} -->
+                        <!-- else -->
+                        {% else %}
                         <div class=answer>
-                            <input type="radio" name="{{item.quiz_item.q_id}}" value="{{item.quiz_item.answer2}}" >
-                            <label for="{{item.quiz_item.answer2}}">{{item.quiz_item.answer2}}</label>
+                            <input type="radio" name="{{item.q_id}}" value="{{item.answer2}}" >
+                            <label for="{{item.answer2}}">{{item.answer2content}}</label>
                         </div>
-                        <!-- {% if user checked answer %} -->
+                        {% endif %}
+                        <!-- if user checked answer -->
+                        {% if item.qchosenans == item.answer3 %}
                         <div class=answer>
-                            <input type="radio" name="{{item.quiz_item.q_id}}" value="{{item.quiz_item.answer3}}" checked >
-                            <label for="{{item.quiz_item.answer3}}">{{item.quiz_item.answer3}}</label>
+                            <input type="radio" name="{{item.q_id}}" value="{{item.answer3}}" checked >
+                            <label for="{{item.answer3}}">{{item.answer3content}}</label>
                         </div>
-                        <!-- {% else %} -->
+                        <!--  else  -->
+                        {% else %}
                         <div class=answer>
-                            <input type="radio" name="{{item.quiz_item.q_id}}" value="{{item.quiz_item.answer3}}" >
-                            <label for="{{item.quiz_item.answer3}}">{{item.quiz_item.answer3}}</label>
+                            <input type="radio" name="{{item.q_id}}" value="{{item.answer3}}" >
+                            <label for="{{item.answer3}}">{{item.answer3content}}</label>
                         </div>
-                        <!-- {% if user checked answer %} -->
+                        {% endif %}
+                        <!--  if user checked answer  -->
+                        {% if item.qchosenans == item.answer4 %}
                         <div class=answer>
-                            <input type="radio" name="{{item.quiz_item.q_id}}" value="{{item.quiz_item.answer4}}" checked >
-                            <label for="{{item.quiz_item.answer4}}">{{item.quiz_item.answer4}}</label>
+                            <input type="radio" name="{{item.q_id}}" value="{{item.answer4}}" checked >
+                            <label for="{{item.answer4}}">{{item.answer4content}}</label>
                         </div>  
-                        <!-- {% else %} -->
+                        <!--  else  -->
+                        {% else %}
                         <div class=answer>
-                            <input type="radio" name="{{item.quiz_item.q_id}}" value="{{item.quiz_item.answer4}}" >
-                            <label for="{{item.quiz_item.answer4}}">{{item.quiz_item.answer4}}</label>
+                            <input type="radio" name="{{item.q_id}}" value="{{item.answer4}}" >
+                            <label for="{{item.answer4}}">{{item.answer4content}}</label>
                         </div>
+                        {% endif %}
                     </div>
                 </div>
                 {% endfor %}
             </div>
             <div class=row>
-                <div class=col-md-6>
-                    <div class="quiz_result_statement">
-                        {% if {{score}} > 2 %}
-                        <h3 class=statement>Great Job, you passed!</h3>
-                        <a href="/profile/{{user.id}}" id="new_course" class="btn btn-light" role="button">Take another course</a>
-                        {% elif {{score}} < 3 %}
-                        <h3 class=statement>Seems like you need to try again!</h3>
-                        <a href="/course/{{course.id}}" id="course_again" class="btn btn-light" role="button">Take the course again</a>
+                <div class=col-sm-12>
+                    <div id=final-statement>
+                        {% if score > 2 %}
+                        <p class=statement>Great Job, you passed!</p>
+                        <a href="/profile/{{user.id}}" id="new_course" class="btn btn-info purple-background" role="button">Take another course</a>
+                        {% elif score < 3 %}
+                        <p class=statement>Seems like you need to try again!</p>
+                        <a href="/course/{{course.id}}" id="course_again" class="btn btn-info purple-background" role="button">Take the course again</a>
+                        {% endif %}
                     </div>
                 </div>        
             </div>

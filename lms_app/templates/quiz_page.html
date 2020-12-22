@@ -54,7 +54,7 @@
                     {% for item in items %}
                     <div id="question" class="row">
                         <div class="m-10 col-sm-6" id=description>
-                            <input type="hidden" name="{{q_num}}" value="{{q_id}}">
+                            <input type="hidden" name="{{item.q_num}}" value="{{item.q_id}}">
                             <p>{{item.q_num}}. {{item.q_content}}</p>
                         </div>
                         <div class="m-10 col-sm-6">
