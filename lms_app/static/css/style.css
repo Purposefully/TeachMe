@@ -8,7 +8,7 @@
     height: 800px;
 }
 #other_wrapper {
-    background-image: linear-gradient(rgb(165, 165, 165), rgb(243, 241, 241), rgb(165, 165, 165));
+    background-image: linear-gradient(#F2F1F1, #C6C7C8, #969697);
     background-size: cover;
     vertical-align: top;
     width: 100%;
