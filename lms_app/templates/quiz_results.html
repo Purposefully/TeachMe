@@ -6,7 +6,6 @@
     <title>Your Quiz Results</title>
 
     {% load static %}
-
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"crossorigin="anonymous"></script>
@@ -18,10 +17,10 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
     <style>
-        *{
+        /* *{
             border: 1px dotted red;
-        }
-        .container-fluid{
+        } */
+        /* .container-fluid{
             height: 100vh;
             background-image: linear-gradient(rgb(165, 165, 165), rgb(243, 241, 241), rgb(165, 165, 165));
         }
@@ -33,54 +32,71 @@
             width: 70px;
             margin: 0 auto;
             font-size: 10px;
-        }
-        #star{
-            color: green;
+        } */
+        .star_gradient_text {
+            background-image: linear-gradient(45deg,#067e9c, #06f0a6);
+            background-size: 100%;
+            font-size: 3em;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             display: inline-block;
+            color: rgb(97, 184, 97);
         }
-        #x{
-            color: red;
-            display: inline-block;
+        .star_gradient_text:hover {
+            background-image: linear-gradient(45deg,#06f0a6, #067e9c);
+            transform: scale(1.3)
+        } 
+        .x_gradient_text {
+        background-image: linear-gradient(45deg,#ff0000, #8d0000);
+        background-size: 100%;
+        font-size: 2.5em;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        color: red;
+        display: inline-block;
+        }
+        .x_gradient_text:hover {
+            background-image: linear-gradient(45deg,#8d0000, #ff0000);
+            transform: scale(1.3)
         }
         #question_desc{
             display: inline-block;
         }
-        .nav_transparency {
+        /* .nav_transparency {
             background-color: rgb(248, 249, 250, 0.85);
-        }
-        #title{
+        } */
+        /* #title{
             width: fit-content;
             margin: 10px auto 10px;
             padding: 15px;
             background-color:rgba(156, 102, 177, 0.7);
             border-radius: 15px;
             text-decoration: underline;
-        }
-        #quiz-results{
+        } */
+        /* #quiz-results{
             background-image: radial-gradient(rgb(255, 246, 209), white, rgb(255, 246, 209));
-        }
-        .answer{
+        } */
+        /* .answer{
             display: block;
-        }
-        #final-statement{
+        } */
+
+        .quiz_result_statement {
             width: fit-content;
             margin: 0px auto;
-        }
-        .statement{
-            display: block;
-        }
-        .purple-background{
-            background-color: rgba(156, 102, 177);
-            border: 2px solid rgba(156, 102, 177);
+            background-color:rgb(138, 37, 177, 0.7);
+            padding: 20px;
+            margin: 30px;
+            border-radius: 15px;
             color: white;
+            display: block;
+            align-items: center;
         }
     </style>
 </head>
 <body>
-    <div id=wrapper>
+    <div id="quiz-result-wrapper">
         <nav class="navbar navbar-expand-lg navbar-light nav_transparency">
-            <img src="{% static '/img/LOGO_TeachMe_Owl.png' %}" alt="TeachMe Logo" class="img-fluid" style="max-width: 150px;">
-            <!-- <a class="navbar-brand" href="#">Navbar w/ text</a> -->
+            <a href="/"><img src="{% static 'img/LOGO_TeachMe_Owl.png' %}" alt="TeachMe Logo" class="img-fluid" style="max-width: 150px;" ></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
             </button>
@@ -90,8 +106,11 @@
                 <a class="nav-link" href="#">About</a>
                 </li>
                 <li class="nav-item">
-                <a class="nav-link" href="#">Course Library</a>
+                <a class="nav-link" href="/library">Course Library</a>
                 </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/profile">Profile</a>
+                  </li>
                 <li class="nav-item">
                 <a class="nav-link" href="#">Contact</a>
                 </li>
@@ -102,16 +121,17 @@
             </div>
         </nav>
         <div class="container-fluid">
-            <h2 id=title class="shadow p-3">Your Results: You answered {{ score }} out of 5 correctly!</h2>
-            <div id=quiz-results class="shadow p-3">
+            <h3>Your Results</h3>
+            <h4>You answered {{ score }} out of 5 correctly!</h4>
+            <div id=quiz class="shadow p-3">
             {% for item in items %}
                 <div id="question" class="row">
                     <div class="m-10 col-sm-6" id=description>
                         <input type="hidden" name="{{q_num}}" value="{{q_id}}">
                         {% if item.quiz_item.evaluation == correct %}
-                        <h1 id=star>★</h1>
+                        <h1 id=star class="star_gradient_text" >★</h1>
                         {% elif item.quiz_item.evaluation == wrong %}
-                        <h1 id=x>X</h1>
+                        <h1 class="x_gradient_text">X</h1>
                         <p id=question_desc>{{item.q_num}}. {{item.q_content}}</p>
                     </div>
                     <div class="col-sm-6">
@@ -161,37 +181,74 @@
                 {% endfor %}
             </div>
             <div class=row>
-                <div class=col-sm-12>
-                    <div id=final-statement>
+                <div class=col-md-6>
+                    <div class="quiz_result_statement">
                         {% if {{score}} > 2 %}
-                        <p class=statement>Great Job, you passed!</p>
-                        <a href="/profile/{{user.id}}" id="new_course" class="btn btn-info purple-background" role="button">Take another course</a>
+                        <h3 class=statement>Great Job, you passed!</h3>
+                        <a href="/profile/{{user.id}}" id="new_course" class="btn btn-light" role="button">Take another course</a>
                         {% elif {{score}} < 3 %}
-                        <p class=statement>Seems like you need to try again!</p>
-                        <a href="/course/{{course.id}}" id="course_again" class="btn btn-info purple-background" role="button">Take the course again</a>
+                        <h3 class=statement>Seems like you need to try again!</h3>
+                        <a href="/course/{{course.id}}" id="course_again" class="btn btn-light" role="button">Take the course again</a>
                     </div>
                 </div>        
             </div>
             
         </div>
-        <div id=footer>
-            <div class="col-sm-12">Copyright</div>
-        </div>
+        <footer class="bg-light text-center text-lg-start navbar-fixed-bottom">
+            <!-- Grid container -->
+            <div class="container p-4">
+              <!--Grid row-->
+              <div class="row">
+                <!--Grid column-->
+                <div class="col-md-6">
+                  <h5 class="text-uppercase">Links</h5>
+          
+                  <ul class="list-unstyled mb-0">
+                    <li>
+                      <a href="#!" class="text-dark">Contact Us</a>
+                    </li>
+                    <li>
+                      <a href="#!" class="text-dark">Work for Us</a>
+                    </li>
+                  </ul>
+                </div>         
+                <!--Grid column-->
+                <div class="col-md-6">
+                  <h5 class="text-uppercase mb-0">Connect with TeachMe</h5>
+                  <a href="http://scripteden.com/download/eden-ui/" target="_blank" class="btn-social btn-facebook"><i class="fa fa-facebook"></i></a>
+                  <a href="http://scripteden.com/download/eden-ui/" target="_blank" class="btn-social btn-linkedin"><i class="fa fa-linkedin"></i></a>
+                  <a href="http://scripteden.com/download/eden-ui/" target="_blank" class="btn-social btn-trello"><i class="fa fa-trello"></i></a>
+                  <a href="http://scripteden.com/download/eden-ui/" target="_blank" class="btn-social btn-twitter"><i class="fa fa-twitter"></i></a>
+                  <a href="http://scripteden.com/download/eden-ui/" target="_blank" class="btn-social btn-youtube"><i class="fa fa-youtube"></i></a>
+                </div>
+                <!--Grid column-->
+              </div>
+              <!--Grid row-->
+            </div>
+            <!-- Grid container -->
+          
+            <!-- Copyright -->
+            <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2)">
+              © 2020 Copyright:
+              <a class="text-dark" href="https://TeachMe.com/">TeachMe.com</a>
+            </div>
+            <!-- Copyright -->
+          </footer>
     </div>
 
     <script>
         $(':radio:not(:checked)').attr('disabled', true);
         document.getElementById("new_course").addEventListener("mouseover", function() {
-        document.getElementById("new_course").style.backgroundColor = "rgba(156, 102, 177)";
-        document.getElementById("new_course").style.border = "2px solid rgba(156, 102, 177)";
+        document.getElementById("new_course").style.backgroundColor = "#C6C7C8";
+        document.getElementById("new_course").style.border = "2px solid #C6C7C8";
         });
         document.getElementById("course_again").addEventListener("mouseover", function() {
-        document.getElementById("course_again").style.backgroundColor = "rgba(156, 102, 177)";
-        document.getElementById("course_again").style.border = "2px solid rgba(156, 102, 177)";
+        document.getElementById("course_again").style.backgroundColor = "#C6C7C8)";
+        document.getElementById("course_again").style.border = "2px solid #C6C7C8)";
         });
         document.getElementById("course_again").addEventListener("click", function() {
-        document.getElementById("course_again").style.backgroundColor = "rgba(156, 102, 177)";
-        document.getElementById("course_again").style.border = "2px solid rgba(156, 102, 177)";
+        document.getElementById("course_again").style.backgroundColor = "#C6C7C8";
+        document.getElementById("course_again").style.border = "2px solid #C6C7C8";
         });
     </script>
 </body>
