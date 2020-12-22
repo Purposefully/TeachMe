@@ -64,7 +64,7 @@ def signup(request):
 
 
 # Quizzes
-def get_quiz(request, course_id):
+def take_quiz(request, course_id):
     if 'user_id' in request.session:
         # user submits answers
         if request.method == "POST":
@@ -165,6 +165,81 @@ def show_quiz_results(request):
     }
 
     return render(request, "quiz_results.html", context)
+
+# Creating a quiz for the database for a specific course
+# Questions and answers are random lorem ipsum
+def create_random_quiz(request):
+    if request.method == "POST":
+        course_id = request.POST['course']
+        questions = [
+            "What lorem ipsum dolor sit amet, consectetur adipiscing elit?",
+            "Who lorem ipsum dolor sit amet, consectetur adipiscing elit?",
+            "Where lorem ipsum dolor sit amet, consectetur adipiscing elit?",
+            "How lorem ipsum dolor sit amet, consectetur adipiscing elit?",
+            "When lorem ipsum dolor sit amet, consectetur adipiscing elit?"
+        ]
+        random.shuffle(questions)
+        correct_answer_index = random.randint(1,4)
+        # temporarily assign a correct_answer_id and then come back to update it
+        for question in questions:
+            item = Question(
+                content = question,
+                correct_answer_id = 2,
+                course = Course.objects.get(id = course_id)
+            )
+            item.save()
+
+            a_num = 0
+            for num in range(1,5):
+                if num == correct_answer_index:
+                    correct_option = create_correct_answer()
+                    item.correct_answer_id = correct_option.id
+                    item.save()
+                else:
+                    create_wrong_answer(a_num)
+                    a_num +=1
+        return redirect(f"/take_quiz/{course_id}")
+    else:
+        # all_courses = Course.objects.all()
+
+        return render(request, "create_random_quiz.html", {"courses": Course.objects.all()})
+
+def create_correct_answer():
+    # Creating a correct answer
+    correct_answers = [
+        "Pick me!  I'm the right answer.",
+        "Obviously the correct answer",
+        "Pick me if you want to be right!",
+        "I'm telling you: this is the correct answer.",
+        "Hint: this is the correct answer!"
+    ]
+
+    correct_answer = Answer(
+        content = random.choice(correct_answers),
+        question = Question.objects.last()
+    )
+    correct_answer.save()
+    # print(correct_answer.__dict__)
+    return correct_answer
+
+def create_wrong_answer(idx):
+    # Creating a correct answer
+    wrong_answers = [
+        "An appealing but incorrect answer.",
+        "Obviously NOT the correct answer",
+        "Hint: this is an incorrect answer!"
+    ]
+
+    answer = Answer(
+        content = wrong_answers[idx],
+        question = Question.objects.last()
+    )
+    answer.save()
+    # print(answer.__dict__)
+
+    return answer
+
+
 
 
 # def Lisa(request):
