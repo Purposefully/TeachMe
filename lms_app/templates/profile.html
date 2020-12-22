@@ -13,9 +13,33 @@
 </head>
 <body>
 
-    <div id="other_wrapper">
-        <!-- copy over once more finalized OR see about doing {% block nav %} -->
-        <nav></nav>
+    <div id="wrapper">
+      <nav class="navbar navbar-expand-lg navbar-light nav_transparency">
+        <img src="{% static 'img/LOGO_TeachMe_Owl.png' %}" alt="TeachMe Logo" class="img-fluid" style="max-width: 150px;">
+        <!-- <a class="navbar-brand" href="#">Navbar w/ text</a> -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarText">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+            <a class="nav-link" href="#">About</a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link" href="/library">Course Library</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/profile">Profile</a>
+              </li>
+            <li class="nav-item">
+            <a class="nav-link" href="#">Contact</a>
+            </li>
+        </ul>
+        <span class="navbar-text">
+            Your learning resource for on-demand instruction.
+        </span>
+        </div>
+    </nav>
         <h4>Welcome, {{user.name}}!</h4>
         <!-- were we doing this? Can't remember -->
         <div class="col-sm-4">
@@ -28,30 +52,24 @@
                     {% endfor %}
                 </table>
             </div>
-
-            <form action="____">
-                <button class="btn btn-light">Add a Playlist</button>
-            </form>
         </div>
         <div class="vertical_line"></div>
         <div class="col-md-8">
             <h3>{{Playlist.title}}</h3>
-            {% for course in ___ %}
+            {% for course in playlists %}
             <div class="card" style="width:100px;">
-                <img src="https://img.youtube.com/vi/{{Course.video_id}}/0.jpg" alt="course thumbnail" href="/video/{course.id}">
+                <img src="https://img.youtube.com/vi/{{course.video_id}}/0.jpg" alt="course thumbnail" href="/video/{course.id}">
                 <p><small>{{course.title}}</small></p>
-
             </div>
             {% endfor %}
             <hr class="horizontal_line"></hr>
-            {% for quiz in get_quiz %}
+            {% for course in completed_courses %}
             <h3>Courses Completed</h3>
             <div>
-                <img src="https://img.youtube.com/vi/{{Course.video_id}}/0.jpg" alt="course completed thumbnail" href="/get_quiz/{course.id}">
-                <!-- possibly this: <img src="https://img.youtube.com/vi/{{ Course.video_id }}/0.jpg"> -->
-                <p><small>{{quiz.title}}</small></p> 
+                <img src="https://img.youtube.com/vi/{{course.video_id}}/0.jpg" alt="course completed thumbnail" href="/get_quiz/{course.id}">
+                <p><small>{{course.title}}</small></p> 
                 <!-- would it make sense to add a context object in the get_quiz area so that i can pull over the course info using the same loop? -->
-                <p><small>{{quiz.score}}/5</small></p>
+                <p><small>{{course.score}}/5</small></p>
                 <a href="/video/{{course_id}}"><small>Retake Course</small></a>
             </div>
             {% endfor %}
