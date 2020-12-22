@@ -38,8 +38,8 @@ def create_course():
     )
     course.save()
     # logger.info("{} course created.".format(course))
-    print("*************************************************************")
-    print(course.__dict__)
+    # print("*************************************************************")
+    # print(course.__dict__)
     return course
 
 def create_quiz():
@@ -71,8 +71,8 @@ def create_quiz():
             else:
                 create_wrong_answer(a_num)
                 a_num +=1
-        print("-----------------------------------------------------------------------")
-        print(item.__dict__)
+        # print("-----------------------------------------------------------------------")
+        # print(item.__dict__)
 
 
 def create_correct_answer():
@@ -91,7 +91,7 @@ def create_correct_answer():
         question = Question.objects.last()
     )
     correct_answer.save()
-    print(correct_answer.__dict__)
+    # print(correct_answer.__dict__)
     return correct_answer
 
 def create_wrong_answer(idx):
@@ -108,7 +108,7 @@ def create_wrong_answer(idx):
         question = Question.objects.last()
     )
     answer.save()
-    print(answer.__dict__)
+    # print(answer.__dict__)
 
     return answer
 
