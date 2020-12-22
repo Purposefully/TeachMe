@@ -21,23 +21,23 @@
             <div style="overflow-x:auto;">
                 <table class="table">
                     <th scope="col">Your Playlist</th>
-                    {% for playlist in ___ %}
-                    <td scope="row">{{playlist.title}}</td> 
+                    {% for playlist in playlists %}
+                    <td scope="row"><a>{{playlist.title}}</a></td> 
                     <!-- these are all just placeholders until views are done -->
                     {% endfor %}
                 </table>
             </div>
-            <form action="____">
+            <!-- <form action="____">
                 <button class="btn btn-light">Add a Playlist</button>
-            </form>
+            </form> -->
         </div>
         <div class="vertical_line"></div>
         <div class="col-md-8">
-            <h3>{{Playlist.title}}</h3>
-            {% for course in ___ %}
+            {% for course in playlist.id %}
+            <h3>{{playlist.title}}</h3>
             <div class="card" style="width:100px;">
-                <img src="https://img.youtube.com/vi/{{Course.video_id}}/0.jpg" alt="course thumbnail" href="/video/{course.id}">
-                <p><small>{{course.title}}</small></p>
+            <img src="https://img.youtube.com/vi/{{course.video_id}}/0.jpg" alt="course thumbnail" href="/video/{course.id}">
+            <p><small>{{course.title}}</small></p>
             </div>
             {% endfor %}
             <hr class="horizontal_line"></hr>
