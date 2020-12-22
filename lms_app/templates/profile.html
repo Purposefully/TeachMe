@@ -12,7 +12,8 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 </head>
 <body>
-    <div id="wrapper">
+
+    <div id="other_wrapper">
         <!-- copy over once more finalized OR see about doing {% block nav %} -->
         <nav></nav>
         <h4>Welcome, {{user.name}}!</h4>
@@ -21,12 +22,13 @@
             <div style="overflow-x:auto;">
                 <table class="table">
                     <th scope="col">Your Playlist</th>
-                    {% for playlist in ___ %}
-                    <td scope="row">{{playlist.title}}</td> 
+                    {% for playlist in playlists %}
+                    <td scope="row"><a>{{playlist.title}}</a></td> 
                     <!-- these are all just placeholders until views are done -->
                     {% endfor %}
                 </table>
             </div>
+
             <form action="____">
                 <button class="btn btn-light">Add a Playlist</button>
             </form>
@@ -38,6 +40,7 @@
             <div class="card" style="width:100px;">
                 <img src="https://img.youtube.com/vi/{{Course.video_id}}/0.jpg" alt="course thumbnail" href="/video/{course.id}">
                 <p><small>{{course.title}}</small></p>
+
             </div>
             {% endfor %}
             <hr class="horizontal_line"></hr>
