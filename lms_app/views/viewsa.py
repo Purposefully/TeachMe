@@ -1,3 +1,5 @@
+from TeachMe.secrets import google_api_key
+import requests
 from django.shortcuts import render, redirect
 from ..models import Course, User, Topic
 
@@ -55,3 +57,26 @@ def profile(request):
 # def add_playlist():
 #   logged_user = User.objects.get(id=request.session["user_id"])
 #  logged_user.playlists.create()
+
+# create a course
+def create_course(request):
+    if request.method == "POST":
+
+        video_id = request.POST["url"].split("=")[1]
+
+        video_info = requests.get(
+            "https://youtube.googleapis.com/youtube/v3/videos?part=snippet&id="
+            + video_id
+            + "&key="
+            + google_api_key
+        ).json()
+
+        Course.objects.create(
+            title=video_info["items"][0]["snippet"]["title"],
+            description=video_info["items"][0]["snippet"]["description"],
+            video_id=video_id,
+        )
+
+        return redirect("/create_course")
+    else:
+        return render(request, "create_course.html", {"courses": Course.objects.all()})

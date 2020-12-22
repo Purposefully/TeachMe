@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>create a course</title>
+</head>
+<body>
+    <h1>Create a course</h1>
+    <form action="create_course" method="POST" >
+        {% csrf_token %}
+        <input type="text" name="url" value="https://www.youtube.com/watch?v=Q4o1wYwkv9g">
+        <button type="submit">create course</button>
+    </form>
+
+    <ul>
+        {% for course in courses %}
+        <li>{{ course.title }}</li>
+        {% endfor %}
+    </ul>
+
+</body>
+</html>
