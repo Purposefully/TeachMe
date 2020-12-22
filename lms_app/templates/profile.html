@@ -12,6 +12,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 </head>
 <body>
+
     <div id="other_wrapper">
         <!-- copy over once more finalized OR see about doing {% block nav %} -->
         <nav></nav>
@@ -27,17 +28,19 @@
                     {% endfor %}
                 </table>
             </div>
-            <!-- <form action="____">
+
+            <form action="____">
                 <button class="btn btn-light">Add a Playlist</button>
-            </form> -->
+            </form>
         </div>
         <div class="vertical_line"></div>
         <div class="col-md-8">
-            {% for course in playlist.id %}
-            <h3>{{playlist.title}}</h3>
+            <h3>{{Playlist.title}}</h3>
+            {% for course in ___ %}
             <div class="card" style="width:100px;">
-            <img src="https://img.youtube.com/vi/{{course.video_id}}/0.jpg" alt="course thumbnail" href="/video/{course.id}">
-            <p><small>{{course.title}}</small></p>
+                <img src="https://img.youtube.com/vi/{{Course.video_id}}/0.jpg" alt="course thumbnail" href="/video/{course.id}">
+                <p><small>{{course.title}}</small></p>
+
             </div>
             {% endfor %}
             <hr class="horizontal_line"></hr>
