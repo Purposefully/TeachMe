@@ -75,27 +75,40 @@ def take_quiz(request, course_id):
                 # get correct answer id from question object in db
                 # request.POST[num] is name of hidden tag in question
                 # on form with value = {{question.id}}
-                # hidden tag seems to return: 'question_num':[ question_id, chosen_answer_id]
-                this_question = Question.objects.get(id=request.POST[num][0])
+                # hidden tag seems to return: 'question_id':[chosen_answer_id]
+                q_id = request.POST[f"{num}"]
+                this_question = Question.objects.get(id=q_id)
+
+                # print("the id for the correct answer is " + str(this_question.correct_answer_id))
                 correct_answer = this_question.correct_answer_id
-                if request.POST[num][1] == correct_answer:
-                    request.session[f'question'+num] = "correct"
+                # print("what we get from POST is " + str(request.POST[f"{q_id}"]))
+
+                # capture chosen answer for each question and save to session
+                request.session[f"q" + str(num) + "chosen_answer"] = request.POST[f"{q_id}"]
+                if str(request.POST[f"{q_id}"]) == str(correct_answer):
+                    request.session[f'question'+str(num)] = "correct"
                     score += 1
                 else:
-                    request.session[f'question'+num] = "wrong"
+                    request.session[f'question'+str(num)] = "wrong"
+                # print("Score is " + str(score))
 
             # Create record of quiz results in database
-            User_Quiz_Record.objects.create(
-                user = User.objects.get(id=request.session["user_id"]),
-                course = this_question.course,
+            # print("at the end, score is " + str(score))
+            this_record = User_Quiz_Record.objects.create(
                 score = score,
             )
+            this_record.course.add(course_id)
+            this_record.users.add(request.session["user_id"])
+            # print(this_record.__dict__)
 
             return redirect('/show_quiz_results')
 
         # GET request from course page
         else:
             this_course = Course.objects.get(id=course_id)
+            # this_user = request.session["user_id"]
+            # request.session.flush()
+            # request.session["user_id"] = this_user
             # get and shuffle the five questions for this course
             # random.shuffle shuffles the list in place
             question_list = list(Question.objects.filter(course=this_course))
@@ -113,7 +126,6 @@ def take_quiz(request, course_id):
                 }
                 # add question to session for correct order retrieval
                 request.session[f'q'+str(q_num)] = question.id
-                q_num +=1
                 # get answers and shuffle them
                 answer_list = list(Answer.objects.filter(question=question))
                 random.shuffle(answer_list)
@@ -123,10 +135,22 @@ def take_quiz(request, course_id):
                 count = 1
                 for answer in answer_list:
                     quiz_item[f'answer'+str(count)+'_id'] = answer.id
+
                     request.session[f'q'+ str(q_num)+'ans'+ str(count)] = answer.id
+
+                    # print("question = "+str(q_num)+"answer = "+str(count))
+
+                    # print(request.session[f'q'+ str(q_num)+'ans'+ str(count)])
+
                     quiz_item[f'answer'+str(count)+'_content'] = answer.content
+                    request.session[f'q'+ str(q_num)+'ans'+ str(count)+'_content'] = answer.content
+                    # print("here is what the content looks like")
+                    # print(request.session[f'q'+ str(q_num)+'ans'+ str(count)+'_content'])
                     count+=1
                 items.append(quiz_item)
+                # print("here is items")
+                # print(items)
+                q_num +=1
 
             context = {
                 'course': this_course,
@@ -138,6 +162,8 @@ def show_quiz_results(request):
     # create a list of dictionaries with questions and answers
     # in order to recreate page in the same shuffled form
     items = []
+    # for key, value in request.session.items():
+    #     print(key, value)
     # loop through questions/answers
     for num in range(1,6):
         # get question id from session
@@ -147,22 +173,34 @@ def show_quiz_results(request):
             'q_num': num,
             'q_id': this_question.id,
             'q_content': this_question.content,
-            'answer1': request.session[f'q'+ str(num)+'ans1'],
-            'answer2': request.session[f'q'+ str(num)+'ans2'],
-            'answer3': request.session[f'q'+ str(num)+'ans3'],
-            'answer4': request.session[f'q'+ str(num)+'ans4'],
-            'evaluation': request.session[f'question'+num]
+            'answer1': str(request.session[f'q'+ str(num)+'ans1']),
+            'answer2': str(request.session[f'q'+ str(num)+'ans2']),
+            'answer3': str(request.session[f'q'+ str(num)+'ans3']),
+            'answer4': str(request.session[f'q'+ str(num)+'ans4']),
+            'answer1content': request.session[f'q'+ str(num)+'ans1'+'_content'],
+            'answer2content': request.session[f'q'+ str(num)+'ans2'+'_content'],
+            'answer3content': request.session[f'q'+ str(num)+'ans3'+'_content'],
+            'answer4content': request.session[f'q'+ str(num)+'ans4'+'_content'],
+            'qchosenans': request.session[f'q' + str(num) + 'chosen_answer'],
+            'evaluation': request.session[f'question'+str(num)]
         }
+        print(quiz_item["qchosenans"] +" "+ str(quiz_item["answer1"]))
         items.append(quiz_item)
 
     # get score
     this_user = User.objects.get(id=request.session["user_id"])
-    this_quiz = this_question.course.records.filter(users=this_user)
+    this_quiz = this_question.course.records.filter(users=this_user).last()
 
+    # print(this_quiz)
+    # print(this_quiz.__dict__)
+    # score = this_quiz.score
     context = {
         'items': items,
         'score': this_quiz.score
     }
+    # print("the score is " + str(score))
+    # print("here is the evaluation")
+    # print(items[0]["evaluation"])
 
     return render(request, "quiz_results.html", context)
 
