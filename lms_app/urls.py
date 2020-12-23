@@ -19,5 +19,6 @@ urlpatterns = [
     # path('test', views.test),
     # path('Lisa', views.Lisa),
     # path('grade', views.grade)
-    # path('take_quiz/<int:id>', views.get_quiz), (should go to the views where the quiz appears)
+    # path('take_quiz/<int:id>', views.get_quiz), (should go to the views where the quiz appears),
+    path("video/<int:course_id>", views.video),
 ]
