@@ -90,37 +90,32 @@
         <h2 id="title" class="shadow p-3">Take the Quiz!</h2>
         <div class="container-fluid">
             <div id=quiz class="shadow p-3">
-                <form action="/submit_quiz/{{course.id}}" method="POST">
+                <form action="/create_real_quiz/{{course_id}}" method="POST">
                     {% csrf_token %}
-                    {% for item in items %}
+                    {% for idx in question_numbers %}
                     <div id="question" class="row">
                         <div class="m-10 col-sm-6" id=description>
-                            <input type="hidden" name="{{item.q_num_key}}" value="{{item.q_id}}">
-                            <p>{{item.q_num}}. {{item.q_content}}</p>
+                            <p>{{idx}}. <textarea name="q{{idx}}content" id="" cols="30" rows="10" placeholder="Type question here"></textarea></p>
                         </div>
                         <div class="m-10 col-sm-6">
                             <div class="answer">
-                                <input type="radio" name="{{item.q_id}}" value="{{item.answer1_id}}">
-                                <label for="{{item.answer1_id}}">{{item.answer1_content}}</label>
+                                <input type="text"name="q{{idx}}wrong1" placeholder="Provide a wrong answer option">
                             </div>
                             <div class="answer">
-                                <input type="radio" name="{{item.q_id}}" value="{{item.answer2_id}}">
-                                <label for="{{item.answer2_id}}">{{item.answer2_content}}</label>
+                                <input type="text"name="q{{idx}}wrong2" placeholder="Provide a wrong answer option">
                             </div>
                             <div class="answer">
-                                <input type="radio" name="{{item.q_id}}" value="{{item.answer3_id}}">
-                                <label for="{{item.answer3_id}}">{{item.answer3_content}}</label>
+                                <input type="text"name="q{{idx}}wrong3" placeholder="Provide a wrong answer option">
                             </div>
                             <div class="answer">
-                                <input type="radio" name="{{item.q_id}}" value="{{item.answer4_id}}">
-                                <label for="{{item.answer4_id}}">{{item.answer4_content}}</label>
+                                <input type="text"name="q{{idx}}correct" placeholder="Provide the correct answer">
                             </div>
                         </div>
                     </div>
                     {% endfor %}
                     <div class="row" id="submission">
                         <div class="col-sm-12">
-                            <input id="sub-button" type="submit" value="Submit">
+                            <input id="sub-button" type="submit" value="Create Quiz">
                         </div>
                     </div>
                 </form>

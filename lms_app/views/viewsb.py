@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
+from django.db.models import Exists
 from ..models import *
 import bcrypt
 import random
@@ -58,6 +59,10 @@ def signup(request):
         return redirect('/profile')
     return redirect('/')
 
+def logout(request):
+    request.session.flush()
+    return redirect('/')
+
 #profile test - feel free to delete
 # def profile(request):
 #     return render(request, 'profile.html')
@@ -66,17 +71,17 @@ def signup(request):
 # Quizzes
 def take_quiz(request, course_id):
     if 'user_id' in request.session:
-        # user submits answers
+        # user submitted answers
         if request.method == "POST":
             # check answers on quiz and increment score
             score = 0
             # loop through questions/answers
             for num in range(1,6):
                 # get correct answer id from question object in db
-                # request.POST[num] is name of hidden tag in question
+                # request.POST[qnum] is name of hidden tag in question
                 # on form with value = {{question.id}}
-                # hidden tag seems to return: 'question_id':[chosen_answer_id]
-                q_id = request.POST[f"{num}"]
+                # access answer user chose: 'question_id':[chosen_answer_id]
+                q_id = request.POST["q"+str(num)]
                 this_question = Question.objects.get(id=q_id)
 
                 # print("the id for the correct answer is " + str(this_question.correct_answer_id))
@@ -85,12 +90,12 @@ def take_quiz(request, course_id):
 
                 # capture chosen answer for each question and save to session
                 request.session[f"q" + str(num) + "chosen_answer"] = request.POST[f"{q_id}"]
+                # save to session whether user selected correct or incorrect answer
                 if str(request.POST[f"{q_id}"]) == str(correct_answer):
                     request.session[f'question'+str(num)] = "correct"
                     score += 1
                 else:
                     request.session[f'question'+str(num)] = "wrong"
-                # print("Score is " + str(score))
 
             # Create record of quiz results in database
             # print("at the end, score is " + str(score))
@@ -106,9 +111,6 @@ def take_quiz(request, course_id):
         # GET request from course page
         else:
             this_course = Course.objects.get(id=course_id)
-            # this_user = request.session["user_id"]
-            # request.session.flush()
-            # request.session["user_id"] = this_user
             # get and shuffle the five questions for this course
             # random.shuffle shuffles the list in place
             question_list = list(Question.objects.filter(course=this_course))
@@ -121,17 +123,17 @@ def take_quiz(request, course_id):
                 # create dictionary for that question 
                 quiz_item = {
                     'q_num': q_num,
+                    'q_num_key': 'q'+ str(q_num),
                     'q_id': question.id,
                     'q_content': question.content,
                 }
-                # add question to session for correct order retrieval
+                # add question to session for correct order retrieval on results page
                 request.session[f'q'+str(q_num)] = question.id
                 # get answers and shuffle them
                 answer_list = list(Answer.objects.filter(question=question))
                 random.shuffle(answer_list)
                 # add answer choices to quiz item dictionary
-                # add answer choices to session for correct order retrieval 
-                # on results page 
+                # add answer choices to session for correct order retrieval on results page
                 count = 1
                 for answer in answer_list:
                     quiz_item[f'answer'+str(count)+'_id'] = answer.id
@@ -148,22 +150,22 @@ def take_quiz(request, course_id):
                     # print(request.session[f'q'+ str(q_num)+'ans'+ str(count)+'_content'])
                     count+=1
                 items.append(quiz_item)
-                # print("here is items")
-                # print(items)
                 q_num +=1
-
+            # print("here is items")
+            # print(items)
             context = {
                 'course': this_course,
                 'items': items,
             }
             return render(request, 'quiz_page.html', context)
+    return redirect('/')
 
 def show_quiz_results(request):
     # create a list of dictionaries with questions and answers
     # in order to recreate page in the same shuffled form
     items = []
     # for key, value in request.session.items():
-    #     print(key, value)
+        # print(key, value)
     # loop through questions/answers
     for num in range(1,6):
         # get question id from session
@@ -184,7 +186,7 @@ def show_quiz_results(request):
             'qchosenans': request.session[f'q' + str(num) + 'chosen_answer'],
             'evaluation': request.session[f'question'+str(num)]
         }
-        print(quiz_item["qchosenans"] +" "+ str(quiz_item["answer1"]))
+        # print(quiz_item["qchosenans"] +" "+ str(quiz_item["answer1"]))
         items.append(quiz_item)
 
     # get score
@@ -206,41 +208,39 @@ def show_quiz_results(request):
 
 # Creating a quiz for the database for a specific course
 # Questions and answers are random lorem ipsum
-def create_random_quiz(request):
-    if request.method == "POST":
-        course_id = request.POST['course']
-        questions = [
-            "What lorem ipsum dolor sit amet, consectetur adipiscing elit?",
-            "Who lorem ipsum dolor sit amet, consectetur adipiscing elit?",
-            "Where lorem ipsum dolor sit amet, consectetur adipiscing elit?",
-            "How lorem ipsum dolor sit amet, consectetur adipiscing elit?",
-            "When lorem ipsum dolor sit amet, consectetur adipiscing elit?"
-        ]
-        random.shuffle(questions)
+def create_random_quiz(request, course_id):
+    # if request.method == "POST":
+    # course_id = request.POST['course']
+    questions = [
+        "What lorem ipsum dolor sit amet, consectetur adipiscing elit?",
+        "Who lorem ipsum dolor sit amet, consectetur adipiscing elit?",
+        "Where lorem ipsum dolor sit amet, consectetur adipiscing elit?",
+        "How lorem ipsum dolor sit amet, consectetur adipiscing elit?",
+        "When lorem ipsum dolor sit amet, consectetur adipiscing elit?"
+    ]
+    random.shuffle(questions)
+    # temporarily assign a correct_answer_id and then come back to update it
+    for question in questions:
+        item = Question(
+            content = question,
+            correct_answer_id = 2,
+            course = Course.objects.get(id = course_id)
+        )
+        item.save()
+        
         correct_answer_index = random.randint(1,4)
-        # temporarily assign a correct_answer_id and then come back to update it
-        for question in questions:
-            item = Question(
-                content = question,
-                correct_answer_id = 2,
-                course = Course.objects.get(id = course_id)
-            )
-            item.save()
-
-            a_num = 0
-            for num in range(1,5):
-                if num == correct_answer_index:
-                    correct_option = create_correct_answer()
-                    item.correct_answer_id = correct_option.id
-                    item.save()
-                else:
-                    create_wrong_answer(a_num)
-                    a_num +=1
-        return redirect(f"/take_quiz/{course_id}")
-    else:
-        # all_courses = Course.objects.all()
-
-        return render(request, "create_random_quiz.html", {"courses": Course.objects.all()})
+        a_num = 0
+        for num in range(1,5):
+            if num == correct_answer_index:
+                correct_option = create_correct_answer()
+                item.correct_answer_id = correct_option.id
+                item.save()
+            else:
+                create_wrong_answer(a_num)
+                a_num +=1
+    return redirect(f"/take_quiz/{course_id}")
+    # else:
+    #     return render(request, "create_random_quiz.html", {"courses": Course.objects.all()})
 
 def create_correct_answer():
     # Creating a correct answer
@@ -277,8 +277,73 @@ def create_wrong_answer(idx):
 
     return answer
 
+def create_quiz(request):
+    # send list of courses that do not have quizzes yet
+    # links to create random or real quizzes
+    # need a way to edit quizzes at some point?
 
+    # Get all questions from current quizzes
+    questions = Question.objects.all()
+    courses_with_questions = []
+    # For each question, get the related course id and add to list
+    for question in questions:
+        if question.course.id not in courses_with_questions:
+            courses_with_questions.append(question.course.id)
 
+    # Query all courses and exclude those that have quizzes
+    courses_without_quizzes = Course.objects.exclude(id__in=courses_with_questions)
+
+    return render(request, "create_quiz.html", {"courses": courses_without_quizzes})
+
+def create_real_quiz(request, course_id):
+    # Submitted questions and answers to create a new quiz
+    if request.method == "POST":
+        # print(request.POST)
+        for num in range(1,6):
+            # create question; temporarily store fake correct answer id
+            this_question = Question.objects.create(
+                content = request.POST['q'+str(num)+'content'],
+                correct_answer_id = 2,
+                course = Course.objects.get(id=course_id)
+            )
+
+            # create answer objects
+            # pick random answer to be correct (not always lowest id, for example)
+            correct_answer_index = random.randint(1,4)
+            # print("correct answer index" + str(correct_answer_index))
+            a_num = 1
+            for idx in range(1,5):
+                # print(a_num)
+                if idx == correct_answer_index:
+                    # print("correct answer created")
+                    # print('q'+str(num)+'correct')
+                    correct_option = Answer.objects.create(
+                        content = request.POST['q'+str(num)+'correct'],
+                        question = this_question
+                    )
+                    # Fix question to have correct id for correct answer
+
+                    this_question.correct_answer_id = correct_option.id
+                    this_question.save()
+                    # print("the correct answer id is now:")
+                    # print(this_question.correct_answer_id)
+                else:
+                    # print("wrong answer created")
+                    # print(request.POST['q'+str(num)+'wrong'+str(a_num)])
+                    Answer.objects.create(
+                        content = request.POST['q'+str(num)+'wrong'+str(a_num)],
+                        question = this_question
+                    )
+                    a_num +=1
+        return redirect(f"/take_quiz/{course_id}")
+
+    # requested form for creating a new quiz
+    else:
+        context = {
+            'question_numbers': [1,2,3,4,5],
+            'course_id': course_id
+        }
+        return render(request, "create_real_quiz.html", context)
 
 # def Lisa(request):
 #     # this is for testing how f-strings, variables, and storing in session works

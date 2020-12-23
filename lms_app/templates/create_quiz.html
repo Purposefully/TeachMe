@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create a Quiz</title>
+</head>
+<body>
+    <h1>Create a Quiz</h1>
+    <table>
+        <thead>
+            <th></th>
+            <th></th>
+            <th>Course</th>
+        </thead>
+        {% for course in courses %}
+        <tr>
+            <td><a href="/create_real_quiz/{{course.id}}">create real quiz</a></td>
+            <td><a href="/create_random_quiz/{{course.id}}">create random quiz</a></td>
+            <td>{{course.title}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
