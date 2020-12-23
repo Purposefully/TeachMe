@@ -12,9 +12,10 @@ urlpatterns = [
     path("library", views.library),
     path("take_quiz/<int:course_id>", views.get_quiz),
     # path('add_to_playlist/<int:course_id>', views.add_to_playlist),
-    path("create_course", views.create_course)
+    path("create_course", views.create_course),
     # path('test', views.test),
     # path('Lisa', views.Lisa),
     # path('grade', views.grade)
-    # path('take_quiz/<int:id>', views.get_quiz), (should go to the views where the quiz appears)
+    # path('take_quiz/<int:id>', views.get_quiz), (should go to the views where the quiz appears),
+    path("video/<int:course_id>", views.video),
 ]
