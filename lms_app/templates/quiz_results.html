@@ -129,9 +129,9 @@
                     <div class="m-10 col-sm-6" id=description>
                         <input type="hidden" name="{{q_num}}" value="{{q_id}}">
                         {% if item.evaluation == "correct" %}
-                        <h1 id=star>★</h1>
+                        <h1 id="star_gradient_text">★</h1>
                         {% elif item.evaluation == "wrong" %}
-                        <h1 id=x>X</h1>
+                        <h1 id="x_gradient_text">X</h1>
                         {% endif %}
                         <p id=question_desc>{{item.q_num}}. {{item.q_content}}</p>
                     </div>

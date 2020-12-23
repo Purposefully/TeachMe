@@ -39,30 +39,48 @@
             </div>
         </nav>
     <!-- search bar -->
-        <form class="form-inline">
+        <br>
+        <!-- <form class="form-inline search_bar">
             <i class="fas fa-search" aria-hidden="true"></i>
-            <input class="form-control form-control-sm ml-3 w-75" type="text" placeholder="Search" aria-label="Search">
+            <input class="form-control form-control-sm ml-3 w-75 active-purple" type="text" placeholder="Search" aria-label="Search">
+        </form> -->
+        <form class="form-inline d-flex justify-content-right md-form form-sm active-purple active-purple-2 mt-2">
+        
+            <i class="fas fa-search" aria-hidden="true"></i>
+            <input class="form-control form-control-sm ml-3 w-75" type="text" placeholder="Search"
+              aria-label="Search">
         </form>
+        <br>
+        <!-- end search bar -->
         <h3>Popular Courses</h3>
-    <!--Carousel Wrapper-->
-        <div id="multi-item-example" class="carousel slide carousel-multi-item" data-ride="carousel">
-    <!--Controls-->
-            <div class="controls-top">
-                <a class="btn-floating" href="#multi-item-example" data-slide="prev"><i class="fasfa-chevron-left"></i></a>
-                <a class="btn-floating" href="#multi-item-example" data-slide="next"><i class="fas fa-chevron-right"></i></a>
-            </div>
-    <!--/.Controls-->
-    <!--Indicators-->
-            <ol class="carousel-indicators">
+        <!--Carousel Wrapper-->
+        <!-- <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel"> -->
+            <!--Controls-->
+            <!-- <ul class="carousel-indicators">
+                <li data-target="#demo" data-slide-to="0" class="active"></li>
+                <li data-target="#demo" data-slide-to="1"></li>
+                <li data-target="#demo" data-slide-to="2"></li>
+            </ul> -->
+            <!--/.Controls-->
+            <!--Indicators-->
+            <!-- <ol class="carousel-indicators">
                 <li data-target="#multi-item-example" data-slide-to="0" class="active"></li>
                 <li data-target="#multi-item-example" data-slide-to="1"></li>
-            </ol>
-    <!--/.Indicators-->
-    <!--Slides-->
-            <div class="carousel-inner" role="listbox">
-        <!--First slide-->
+            </ol> -->
+            <!--/.Indicators-->
+            <!--Slides-->
+            <!-- <div class="carousel-inner" role="listbox"> -->
+            <!--First slide-->
             {% for course in courses %}
-                <div class="carousel-item active">
+            <div class="card" style="width: 18rem;">
+                <img class="card-img-top" src="https://img.youtube.com/vi/{{course.video_id.next}}/0.jpg" alt="Card image cap">
+                <div class="card-body">
+                    <h4 class="card-title">{{course.title}}</h4>
+                    <p class="card-text">{{course.description}}</p>
+                    <a class="btn btn-light" href="/video/{{course_id}}">Visit Course Page</a>
+                </div>
+            </div>
+                <!-- <div class="carousel-item active">
                     <div class="col-md-3" style="float:left">
                         <div class="card mb-2">
                             <img class="card-img-top"
@@ -73,8 +91,8 @@
                                 <a class="btn btn-light" href="/video/{{course_id}}">Visit Course Page</a>
                             </div>
                         </div>
-                    </div>
-                {% endfor %}
+                    </div> -->
+            {% endfor %}
                 <!-- Commented this out so that hopefully the courses can loop through the carousel by one not by 4-->
                     <!-- <div class="col-md-3" style="float:left">
                         <div class="card mb-2">
@@ -113,22 +131,24 @@
                         </div>
                     </div> -->
             </div>
-            <!-- {% endfor %} -->
+           
         </div>
             <!--/.Slides-->
     </div>
     <!--/.Carousel Wrapper-->
     </div> 
-    <h3>Full List of Courses</h3>
-<!-- we probably need a way to alphabetize by title. This page has some good info. Looks like you just add a meta class for the key you want it sorted by? https://stackoverflow.com/questions/6540032/sorting-related-items-in-a-django-template  OR in views, this might work?? all_videos = video.objects.all().order_by('title')-->
-    {% for course in courses %}
-        {% if forloop.first %}<div class="row">{% endif %}
-            <div class="col-xs-4">
-                <a href="/video/{{course_id}}">{{ course.title }}</a>
-            </div>
-        {% if forloop.counter|divisibleby:3 %}</div><div class="row">{% endif %}
-        {% if forloop.last %}</div>{% endif %}   
-    {% endfor %}
+    <div>
+        <h3>Full List of Courses</h3>
+        <!-- we probably need a way to alphabetize by title. This page has some good info. Looks like you just add a meta class for the key you want it sorted by? https://stackoverflow.com/questions/6540032/sorting-related-items-in-a-django-template  OR in views, this might work?? all_videos = video.objects.all().order_by('title')-->
+        {% for course in courses %}
+            {% if forloop.first %}<div class="row">{% endif %}
+                <div class="col-xs-4">
+                    <a href="/video/{{course_id}}">{{ course.title }}</a>
+                </div>
+            {% if forloop.counter|divisibleby:3 %}</div><div class="row">{% endif %}
+            {% if forloop.last %}</div>{% endif %}   
+        {% endfor %}
+    </div>
     <footer class="bg-light text-center text-lg-start">
         <!-- Grid container -->
         <div class="container p-4">
