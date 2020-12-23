@@ -21,4 +21,7 @@ urlpatterns = [
     # path('grade', views.grade)
     # path('take_quiz/<int:id>', views.get_quiz), (should go to the views where the quiz appears),
     path("video/<int:course_id>", views.video),
+
+    #Dave: this should be used to grab courses from an individual playlist for the profile page
+    #path("playlist/<int:playlist_id>", views.individual_playlist)
 ]
