@@ -5,6 +5,7 @@ urlpatterns = [
     path("", views.index),
     path("signup", views.signup),
     path("login", views.login),
+    path("logout", views.logout),
     path("profile", views.profile),
     # path('playlist/<int:playlist_id>', views.get_playlist),
     # path('add_playlist', views.add_playlist),
@@ -15,7 +16,9 @@ urlpatterns = [
     path("show_quiz_results", views.show_quiz_results),
     # path('add_to_playlist/<int:course_id>', views.add_to_playlist),
     path("create_course", views.create_course),
-    path("create_random_quiz", views.create_random_quiz),
+    path("create_quiz", views.create_quiz),
+    path("create_random_quiz/<int:course_id>", views.create_random_quiz),
+    path("create_real_quiz/<int:course_id>", views.create_real_quiz),
     # path('test', views.test),
     # path('Lisa', views.Lisa),
     # path('grade', views.grade)
