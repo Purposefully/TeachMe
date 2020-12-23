@@ -58,10 +58,10 @@
                 <li data-target="#multi-item-example" data-slide-to="1"></li>
             </ol>
     <!--/.Indicators-->
-    {% for course in Course %}
     <!--Slides-->
             <div class="carousel-inner" role="listbox">
         <!--First slide-->
+            {% for course in courses %}
                 <div class="carousel-item active">
                     <div class="col-md-3" style="float:left">
                         <div class="card mb-2">
@@ -74,11 +74,13 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-3" style="float:left">
+                {% endfor %}
+                <!-- Commented this out so that hopefully the courses can loop through the carousel by one not by 4-->
+                    <!-- <div class="col-md-3" style="float:left">
                         <div class="card mb-2">
                             <img class="card-img-top"
                             src="https://img.youtube.com/vi/{{course.video_id.next}}/0.jpg"alt="course image">
-                            <!-- No idea if this .next stuff will work. I think we need another view to direct it to move to the next course_id? here's some info I found: https://stackoverflow.com/questions/1931008/is-there-a-clever-way-to-get-the-previous-next-item-using-the-django-orm -->
+                            <!-- No idea if this .next stuff will work. I think we need another view to direct it to move to the next course_id? here's some info I found: https://stackoverflow.com/questions/1931008/is-there-a-clever-way-to-get-the-previous-next-item-using-the-django-orm 
                             <div class="card-body">
                                 <h4 class="card-title">{{course.title.next}}</h4>
                                 <p class="card-text">{{course.description.next}}</p>
@@ -90,7 +92,7 @@
                         <div class="card mb-2">
                             <img class="card-img-top"
                             src="https://img.youtube.com/vi/{{course.video_id.next}}/0.jpg" alt="course image">
-                            <!-- No idea if this .next stuff will work. I think we need another view to direct it to move to the next course_id? -->
+                            <!-- No idea if this .next stuff will work. I think we need another view to direct it to move to the next course_id? 
                             <div class="card-body">
                                 <h4 class="card-title">{{course.title.next}}</h4>
                                 <p class="card-text">{{course.description.next}}</p>
@@ -102,16 +104,16 @@
                         <div class="card mb-2">
                             <img class="card-img-top"
                             src="https://img.youtube.com/vi/{{course.video_id.next}}/0.jpg" alt="course image">
-                            <!-- No idea if this .next stuff will work. I think we need another view to direct it to move to the next course_id? -->
+                            <!-- No idea if this .next stuff will work. I think we need another view to direct it to move to the next course_id? 
                             <div class="card-body">
                                 <h4 class="card-title">{{course.title.next}}</h4>
                                 <p class="card-text">{{course.description.next}}</p>
                                 <a class="btn btn-light" href="/video/{{course_id.next}}">Visit Course Page</a>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
             </div>
-            {% endfor %}
+            <!-- {% endfor %} -->
         </div>
             <!--/.Slides-->
     </div>
@@ -119,7 +121,7 @@
     </div> 
     <h3>Full List of Courses</h3>
 <!-- we probably need a way to alphabetize by title. This page has some good info. Looks like you just add a meta class for the key you want it sorted by? https://stackoverflow.com/questions/6540032/sorting-related-items-in-a-django-template  OR in views, this might work?? all_videos = video.objects.all().order_by('title')-->
-    {% for course in Courses %}
+    {% for course in courses %}
         {% if forloop.first %}<div class="row">{% endif %}
             <div class="col-xs-4">
                 <a href="/video/{{course_id}}">{{ course.title }}</a>
