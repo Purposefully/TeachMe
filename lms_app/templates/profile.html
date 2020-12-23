@@ -41,8 +41,13 @@
     </nav>
         <h4>Welcome, {{user.name}}!</h4>
         <div class="col-md-8">
-            <h3>{{Playlist.title}}</h3>
-            {% for course in playlists %}
+          <h3>Your Playlists</h3>
+          <ul>
+          {% for playlist in playlists %}
+            <li><a href="/playlist/{{playlist.id}}">{{Playlist.title}}</a></li>
+          {% endfor %}
+          </ul>
+            <!-- {% for course in playlists %}
             <div class="card" style="width:100px;">
                 <img src="https://img.youtube.com/vi/{{course.video_id}}/0.jpg" alt="course thumbnail" href="/video/{course.id}">
                 <p><small>{{course.title}}</small></p>
@@ -54,11 +59,11 @@
             <div>
                 <img src="https://img.youtube.com/vi/{{course.video_id}}/0.jpg" alt="course completed thumbnail" href="/get_quiz/{course.id}">
                 <p><small>{{course.title}}</small></p> 
-                <!-- would it make sense to add a context object in the get_quiz area so that i can pull over the course info using the same loop? -->
+                 would it make sense to add a context object in the get_quiz area so that i can pull over the course info using the same loop? 
                 <p><small>{{course.score}}/5</small></p>
                 <a href="/video/{{course_id}}"><small>Retake Course</small></a>
             </div>
-            {% endfor %}
+            {% endfor %} -->
         </div>
         <footer class="bg-light text-center text-lg-start">
             <!-- Grid container -->
