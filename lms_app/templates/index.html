@@ -15,8 +15,7 @@
 <body>
     <div id="index_wrapper">
         <nav class="navbar navbar-expand-lg navbar-light nav_transparency">
-            <img src="{% static 'img/LOGO_TeachMe_Owl.png' %}" alt="TeachMe Logo" class="img-fluid" style="max-width: 150px;">
-            <!-- <a class="navbar-brand" href="#">Navbar w/ text</a> -->
+            <a href="/"><img src="{% static 'img/LOGO_TeachMe_Owl.png' %}" alt="TeachMe Logo" class="img-fluid" style="max-width: 150px;" ></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
             </button>
@@ -38,7 +37,8 @@
             </div>
         </nav>
         <div class="row container justify-content-center home_background_div">
-            <div class="logregdiv col-md-4">
+          <div class="centerdiv">
+            <div class="logregdiv col-md-5">
             {% if request.session.type == "login" %}
               {% if messages %}
               <ul>
@@ -56,7 +56,7 @@
                     <button type="submit" class="btn btn-light">Login</button>
                 </form>
             </div>
-            <div class="logregdiv col-md-4">
+            <div class="logregdiv col-md-5">
             {% if request.session.type == "signup" %}
               {% if messages %}
               <ul>
@@ -66,14 +66,6 @@
               </ul>
               {% endif %}
             {% endif %}              
-              <!-- This is what Michelle had for her messages section, the above is Lisa's.  -->
-                <!-- {% if messages %}
-                <ul class="messages">
-                    {% for message in messages %}
-                    <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-                    {% endfor %}
-                </ul>
-                {% endif %} -->
                 <form action="/signup" method="POST">
                     {% csrf_token %}
                     <h3>Sign Up</h3>
@@ -84,6 +76,7 @@
                     <button type="submit" class="btn btn-light">Sign Up</button>
                 </form>    
             </div>
+          </div>
         </div>
         <footer class="bg-light text-center text-lg-start">
             <!-- Grid container -->
@@ -91,7 +84,7 @@
               <!--Grid row-->
               <div class="row">
                 <!--Grid column-->
-                <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+                <div class="col-md-6">
                   <h5 class="text-uppercase">Links</h5>
           
                   <ul class="list-unstyled mb-0">
@@ -104,7 +97,8 @@
                   </ul>
                 </div>         
                 <!--Grid column-->
-                <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+                <!-- <div class="col-lg-3 col-md-6 mb-4 mb-md-0"> -->
+                  <div class="col-md-6">
                   <h5 class="text-uppercase mb-0">Connect with TeachMe</h5>
                   <a href="http://scripteden.com/download/eden-ui/" target="_blank" class="btn-social btn-facebook"><i class="fa fa-facebook"></i></a>
                   <a href="http://scripteden.com/download/eden-ui/" target="_blank" class="btn-social btn-linkedin"><i class="fa fa-linkedin"></i></a>

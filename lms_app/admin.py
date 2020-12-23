@@ -34,11 +34,20 @@ class AnswerAdmin(admin.ModelAdmin):
         linkify(field_name="question"),
         "id",
     ]
-
+    
+@admin.register(Course)
+class CourseAdmin(admin.ModelAdmin):
+    readonly_fields = ('id',)
+    list_display = [
+        "title",
+        "description",
+        # linkify(field_name="question"),
+        "video_id",
+    ]
 
 admin.site.register(User)
 admin.site.register(Playlist)
-admin.site.register(Course)
+# admin.site.register(Course)
 # admin.site.register(Question)
 # admin.site.register(Answer)
 admin.site.register(Topic)

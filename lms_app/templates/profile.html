@@ -13,10 +13,9 @@
 </head>
 <body>
 
-    <div id="wrapper">
+    <div id="other_wrapper">
       <nav class="navbar navbar-expand-lg navbar-light nav_transparency">
-        <img src="{% static 'img/LOGO_TeachMe_Owl.png' %}" alt="TeachMe Logo" class="img-fluid" style="max-width: 150px;">
-        <!-- <a class="navbar-brand" href="#">Navbar w/ text</a> -->
+        <a href="/"><img src="{% static 'img/LOGO_TeachMe_Owl.png' %}" alt="TeachMe Logo" class="img-fluid" style="max-width: 150px;" ></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
         </button>
@@ -41,22 +40,14 @@
         </div>
     </nav>
         <h4>Welcome, {{user.name}}!</h4>
-        <!-- were we doing this? Can't remember -->
-        <div class="col-sm-4">
-            <div style="overflow-x:auto;">
-                <table class="table">
-                    <th scope="col">Your Playlist</th>
-                    {% for playlist in playlists %}
-                    <td scope="row"><a>{{playlist.title}}</a></td> 
-                    <!-- these are all just placeholders until views are done -->
-                    {% endfor %}
-                </table>
-            </div>
-        </div>
-        <div class="vertical_line"></div>
         <div class="col-md-8">
-            <h3>{{Playlist.title}}</h3>
-            {% for course in playlists %}
+          <h3>Your Playlists</h3>
+          <ul>
+          {% for playlist in playlists %}
+            <li><a href="/playlist/{{playlist.id}}">{{Playlist.title}}</a></li>
+          {% endfor %}
+          </ul>
+            <!-- {% for course in playlists %}
             <div class="card" style="width:100px;">
                 <img src="https://img.youtube.com/vi/{{course.video_id}}/0.jpg" alt="course thumbnail" href="/video/{course.id}">
                 <p><small>{{course.title}}</small></p>
@@ -68,11 +59,11 @@
             <div>
                 <img src="https://img.youtube.com/vi/{{course.video_id}}/0.jpg" alt="course completed thumbnail" href="/get_quiz/{course.id}">
                 <p><small>{{course.title}}</small></p> 
-                <!-- would it make sense to add a context object in the get_quiz area so that i can pull over the course info using the same loop? -->
+                 would it make sense to add a context object in the get_quiz area so that i can pull over the course info using the same loop? 
                 <p><small>{{course.score}}/5</small></p>
                 <a href="/video/{{course_id}}"><small>Retake Course</small></a>
             </div>
-            {% endfor %}
+            {% endfor %} -->
         </div>
         <footer class="bg-light text-center text-lg-start">
             <!-- Grid container -->
@@ -80,7 +71,7 @@
               <!--Grid row-->
               <div class="row">
                 <!--Grid column-->
-                <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+                <div class="col-md-6">
                   <h5 class="text-uppercase">Links</h5>
           
                   <ul class="list-unstyled mb-0">
@@ -93,7 +84,7 @@
                   </ul>
                 </div>         
                 <!--Grid column-->
-                <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+                <div class="col-md-6">
                   <h5 class="text-uppercase mb-0">Connect with TeachMe</h5>
                   <a href="http://scripteden.com/download/eden-ui/" target="_blank" class="btn-social btn-facebook"><i class="fa fa-facebook"></i></a>
                   <a href="http://scripteden.com/download/eden-ui/" target="_blank" class="btn-social btn-linkedin"><i class="fa fa-linkedin"></i></a>
