@@ -96,7 +96,7 @@
                     <div id=take_quiz class="shadow p-3">
                         <h4>Not sure if it's for you? </h4>
                         <p>Take a quiz to see if you already know the information...</p>
-                        <a href="/take_quiz/{{course.id}}" class="btn btn-light id="take_quiz_btn"role="button">Take the Quiz</a>
+                        <a href="/take_quiz/{{Course.id}}" class="btn btn-light id="take_quiz_btn"role="button">Take the Quiz</a>
                         <!-- Goes directly to quiz page -->
                     </div>
                 </div>
@@ -110,7 +110,7 @@
                             <ul class="dropdown-menu">
                                 <form action="add_to_playlist/{{course.id}}" method="POST">
                                     {% csrf_token %}
-                                    {% for playlists in logged_user %}
+                                    {% for playlists in logged_user.playlists.all %}
                                     {% if course in playlist %}
                                     <li class=disabled>
                                         <input id="disabled_button" type="radio" name="playlist" value="{{playlist_id}}">
@@ -145,7 +145,7 @@
                     <ul class="dropdown-menu">
                         <form action="/take_quiz/{{course.id}}" method="POST">
                             {% csrf_token %}
-                            {% for playlists in logged_user %}
+                            {% for playlists in logged_user.playlists.all %}
                             {% if course in playlist %}
                             <li class=disabled>
                                 <input id="disabled_button" type="radio" name="playlist" value="{{playlist_id}}">

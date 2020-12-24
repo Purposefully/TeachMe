@@ -38,13 +38,13 @@ def library(request):
         return render(
             request,
             "course_library.html",
-            {"topics": Topic.objects.all(), "Course": Course.objects.all()},
+            {"topics": Topic.objects.all(), "courses": Course.objects.all()},
         )
     return redirect("/")
 
 
 # profile option
-def profile(request):
+def profile(request, user_id):
     if "user_id" in request.session:
         logged_user = User.objects.get(id=request.session["user_id"])
         return render(

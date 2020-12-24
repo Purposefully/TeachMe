@@ -198,7 +198,7 @@
                     <div id=final-statement>
                         {% if score > 2 %}
                         <p class=statement>Great Job, you passed!</p>
-                        <a href="/profile/{{user.id}}" id="new_course" class="btn btn-info purple-background" role="button">Take another course</a>
+                        <a href="/profile/{{request.session.user_id}}" id="new_course" class="btn btn-info purple-background" role="button">Take another course</a>
                         {% elif score < 3 %}
                         <p class=statement>Seems like you need to try again!</p>
                         <a href="/course/{{course.id}}" id="course_again" class="btn btn-info purple-background" role="button">Take the course again</a>
