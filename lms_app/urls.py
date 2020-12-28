@@ -14,7 +14,7 @@ urlpatterns = [
     path("take_quiz/<int:course_id>", views.take_quiz),
     path("submit_quiz/<int:course_id>", views.take_quiz),
     path("show_quiz_results", views.show_quiz_results),
-    # path('add_to_playlist/<int:course_id>', views.add_to_playlist),
+    path("add_to_playlist/<int:course_id>", views.add_to_playlist),
     path("create_course", views.create_course),
     path("create_quiz", views.create_quiz),
     path("create_random_quiz/<int:course_id>", views.create_random_quiz),
@@ -24,7 +24,6 @@ urlpatterns = [
     # path('grade', views.grade)
     # path('take_quiz/<int:id>', views.get_quiz), (should go to the views where the quiz appears),
     path("video/<int:course_id>", views.video),
-
-    #Dave: this should be used to grab courses from an individual playlist for the profile page
-    #path("playlist/<int:playlist_id>", views.individual_playlist)
+    # Dave: this should be used to grab courses from an individual playlist for the profile page
+    # path("playlist/<int:playlist_id>", views.individual_playlist)
 ]
