@@ -111,23 +111,25 @@
                                 <form action="/add_to_playlist/{{course.id}}" method="POST">
                                     {% csrf_token %}
                                     {% for playlists in logged_user.playlists.all %}
-                                    {% if course in playlist %}
-                                    <li class=disabled>
-                                        <input id="disabled_button" type="radio" name="playlist" value="{{playlist_id}}">
-                                        <label for="{{playlist_id}}">{{playlist.title}}</label>
-                                    </li>
-                                    {% elif course not in playlist %}
-                                    <li class=active>
-                                        <input type="radio" name="playlist" value="{{playlist_id}}">
-                                        <label for="{{playlist_id}}">{{playlist.title}}</label>
-                                    </li>
-                                    {% endif %}
-                                    <input type="radio" name="playlist" value="Other">
-                                    <label for="Other">New Playlist – specfiy name below </label>
+                                        {% if course in playlist %}
+                                            <li class=disabled>
+                                                <input id="disabled_button" type="radio" name="playlist" value="{{playlist_id}}">
+                                                <label for="{{playlist_id}}">{{playlist.title}}</label>
+                                            </li>
+                                        {% elif course not in playlist %}
+                                            <li class=active>
+                                                <input type="radio" name="playlist" value="{{playlist_id}}">
+                                                <label for="{{playlist_id}}">{{playlist.title}}</label>
+                                            </li>
+                                        {% endif %}
+                                    {% endfor %}
+                                    <input type="hidden" value="add_to_playlist_no_quiz">
+                                    <input type="submit" value="Add to Playlist!">
+                                </form>
+                                <form action="/add_to_new_playlsit/{{course.id}}" method="POST">
                                     <input type="text" name="playlist" value="New Playlist Name">
                                     <input type="hidden" value="add_to_playlist_no_quiz">
-                                    {% endfor %}
-                                    <input type="submit" value="Add">
+                                    <input type="submit" value="Create New Playlist!">
                                 </form>
                                 <!-- Drop down menu of all playlists. If the course is already in the playlist, that option is disabled. If not, the link should lead to a view that adds the video to the playlist -->
                             </ul>
@@ -146,22 +148,24 @@
                         <form action="/take_quiz/{{course.id}}" method="POST">
                             {% csrf_token %}
                             {% for playlists in logged_user.playlists.all %}
-                            {% if course in playlist %}
-                            <li class=disabled>
-                                <input id="disabled_button" type="radio" name="playlist" value="{{playlist_id}}">
-                                <label for="{{playlist_id}}">{{playlist.title}}</label>
-                            </li>
-                            {% elif course not in playlist %}
-                            <li class=active>
-                                <input type="radio" name="playlist" value="{{playlist_id}}">
-                                <label for="{{playlist_id}}">{{playlist.title}}</label>
-                            </li>
-                            {% endif %}
-                            <input type="radio" name="playlist" value="Other">
-                            <label for="Other">New Playlist – specfiy name below </label>
+                                {% if course in playlist %}
+                                    <li class=disabled>
+                                        <input id="disabled_button" type="radio" name="playlist" value="{{playlist_id}}">
+                                        <label for="{{playlist_id}}">{{playlist.title}}</label>
+                                    </li>
+                                {% elif course not in playlist %}
+                                    <li class=active>
+                                        <input type="radio" name="playlist" value="{{playlist_id}}">
+                                        <label for="{{playlist_id}}">{{playlist.title}}</label>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                            <input type="hidden" value="add_to_playlist_and_take_quiz">
+                            <input type="submit" value="Take the Quiz!">
+                        </form>
+                        <form action="/take_quiz/new_playlsit/{{course.id}}" method="POST">
                             <input type="text" name="playlist" value="New Playlist Name">
                             <input type="hidden" value="add_to_playlist_and_take_quiz">
-                            {% endfor %}
                             <input type="submit" value="Take the Quiz!">
                         </form>
                         <!-- Drop down menu of all playlists. If the course is already in the playlist, that option is disabled. If not, the link should lead to a view that adds the video to the playlist -->
@@ -212,32 +216,29 @@
         </div>
         <!-- Copyright -->
       </footer>
-      
+
     <script type='text/javascript'>
-        var vid = document.getElementById("video");
-        vid.onended = function() {
-            modal.style.display = "block";
-        };
-        document.getElementById("take_quiz_btn").addEventListener("mouseover", function() {
-        document.getElementById("take_quiz_btn").style.backgroundColor = "rgba(156, 102, 177)";
-        document.getElementById("take_quiz_btn").style.border = "2px solid rgba(156, 102, 177)";
-        });
-        document.getElementById("take_quiz_btn").addEventListener("click", function() {
-        document.getElementById("take_quiz_btn").style.backgroundColor = "rgba(156, 102, 177)";
-        document.getElementById("take_quiz_btn").style.border = "2px solid rgba(156, 102, 177)";
-        });
-        document.getElementById("add_to_playlist_btn").addEventListener("mouseover", function() {
-        document.getElementById("add_to_playlist_btn").style.backgroundColor = "rgba(156, 102, 177)";
-        document.getElementById("add_to_playlist_btn").style.border = "2px solid rgba(156, 102, 177)";
-        });
-        document.getElementById("add_to_playlist_btn").addEventListener("click", function() {
-        document.getElementById("add_to_playlist_btn").style.backgroundColor = "rgba(156, 102, 177)";
-        document.getElementById("add_to_playlist_btn").style.border = "2px solid rgba(156, 102, 177)";
-        });
+        var tag = document.createElement('script');
+        tag.id = 'video_end_js';
+        tag.src = 'https://www.youtube.com/embed/FMFm9GxB_Eo'
+        var player;
+        $(function onYouTubeIframeAPIReady(){
+            player = new YT.Player({
+                events: {
+                    'onStateChange' : onPlayerStateChange
+                }
+            })
+        })
+        $(function onPlayerStateChange(event){
+            show_alert(event.data);
+        })
+        $(function show_alert(playerStatus){
+            if(playerStatus == 0){
+                $("#myModal").modal("show");
+            }
+        })
         document.getElementById("disabled_button").disabled = true;
-
     </script>
-
 
 </body>
 </html>
