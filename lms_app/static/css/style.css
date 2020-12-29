@@ -17,7 +17,7 @@
 }
 #profile_wrapper {
     background-image: url("/static/img/pencils_Ramakant_Sharda_Unsplash.jpg");
-    background-color: linear-gradient(#F2F1F1, #C6C7C8, #969697);
+    /* background-color: linear-gradient(#F2F1F1, #C6C7C8, #969697); */
     background-size: cover;
     vertical-align: top;
     width: 100%;
@@ -88,6 +88,10 @@
 .search_bar {
     width: 50%;
     float: right;
+}
+
+extraspace {
+    margin: 10px;
 }
 /* VIDEO PAGE */
 #video_border{
