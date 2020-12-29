@@ -46,7 +46,7 @@
         <h3>Your Playlists</h3>
         <ul>
         {% for playlist in playlists %}
-          <li id="playlist_link"><a href="/playlist/{{playlist.id}}">{{Playlist.title}}</a></li>
+          <li id="playlist_link"><a href="/playlist/{{playlist.id}}">{{playlist.title}}</a></li>
         {% endfor %}
         </ul>
         <div id=individual_playlist style=visibility:hidden>

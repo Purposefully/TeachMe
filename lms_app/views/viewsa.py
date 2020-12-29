@@ -19,7 +19,7 @@ def video(request, course_id):
             request,
             "course_video.html",
             {
-                "Course": Course.objects.get(id=course_id),
+                "course": Course.objects.get(id=course_id),
                 "logged_user": User.objects.get(id=request.session["user_id"]),
                 # "playlist":
             },
@@ -27,9 +27,12 @@ def video(request, course_id):
     return redirect("/")
 
 
-def add_to_playlist(course_id):
+def add_to_playlist(request, course_id):
 
-    pass
+    this_user = User.objects.get(id=request.session["user_id"])
+    test_playlist = this_user.playlists.get(id=1)
+    test_playlist.course.add(Course.objects.get(id=course_id))
+    return redirect(f"/view_here/{course_id}")
 
 
 # course library

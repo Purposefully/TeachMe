@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{Course.title}}</title>
+    <title>{{course.title}}</title>
     {% load static %}
 
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
@@ -69,7 +69,7 @@
                 <a class="nav-link" href="/library">Course Library</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="/profile">Profile</a>
+                  <a class="nav-link" href="/profile/{{logged_user.id}}">Profile</a>
                   </li>
                 <li class="nav-item">
                 <a class="nav-link" href="#">Contact</a>
@@ -82,13 +82,13 @@
         </nav>
         <!-- End Nav Bar -->
         <div class="container-fluid">
-            <h3>{{Course.title}}</h3>
+            <h3>{{course.title}}</h3>
             <div class="row" id=description>
                 <div class="col-sm-6 shadow p-3" >
                     <h4>Description:</h4>
-                    <p>{{Course.description}}</p>
+                    <p>{{course.description}}</p>
                 </div>
-                <div class="col-sm-6" id="video_box"><iframe id="video_border" src="https://www.youtube.com/embed/FMFm9GxB_Eo" frameborder="0" width="480" height="270"></iframe></div>
+                <div class="col-sm-6" id="video_box"><iframe id="video_border" src="https://www.youtube.com/embed/{{ course.video_id }}" frameborder="0" width="480" height="270"></iframe></div>
                 <!-- When video ends (onend), modal should pop up with a button to take the quiz -->
             </div>
             <div class="row">
@@ -96,7 +96,7 @@
                     <div id=take_quiz class="shadow p-3">
                         <h4>Not sure if it's for you? </h4>
                         <p>Take a quiz to see if you already know the information...</p>
-                        <a href="/take_quiz/{{Course.id}}" class="btn btn-light id="take_quiz_btn"role="button">Take the Quiz</a>
+                        <a href="/take_quiz/{{course.id}}" class="btn btn-light id="take_quiz_btn"role="button">Take the Quiz</a>
                         <!-- Goes directly to quiz page -->
                     </div>
                 </div>
@@ -108,7 +108,6 @@
                             <button class="btn btn-light dropdown-toggle" id="add_to_playlist_btn" type="button" data-toggle="dropdown">Add to Playlist
                             <span class="caret"></span></button>
                             <ul class="dropdown-menu">
-
                                 <form action="/add_to_playlist/{{course.id}}" method="POST">
                                     {% csrf_token %}
                                     {% for playlists in logged_user.playlists.all %}
