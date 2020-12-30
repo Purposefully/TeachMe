@@ -204,7 +204,7 @@
                         <a href="/profile/{{request.session.user_id}}" id="new_course" class="btn btn-info purple-background" role="button">Take another course</a>
                         {% elif score < 3 %}
                         <p class=statement>Seems like you need to try again!</p>
-                        <a href="/course/{{course.id}}" id="course_again" class="btn btn-info purple-background" role="button">Take the course again</a>
+                        <a href="/view_here/{{course.id}}" id="course_again" class="btn btn-info purple-background" role="button">Take the course again</a>
                         {% endif %}
                     </div>
                 </div>        

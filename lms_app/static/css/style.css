@@ -94,14 +94,14 @@ extraspace {
     margin: 10px;
 }
 /* VIDEO PAGE */
-#video_border{
+#player{
     border: 5px solid;
     border-image-source: linear-gradient(45deg,#06f0a6, #067e9c);
     border-image-slice: 1;
     width: 450px;
     margin: 10px auto;
 }
-#video_border:hover {
+#player:hover {
     border-image-source: linear-gradient(45deg,#067e9c, #06f0a6);
 }
 iframe{
