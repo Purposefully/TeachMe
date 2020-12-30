@@ -27,7 +27,10 @@
                     <a class="nav-link" href="/library">Course Library</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/profile">Profile</a>
+                    <a class="nav-link" href="/create_course">Create Course</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/profile{{user.id}}">Profile</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Contact</a>
@@ -139,12 +142,19 @@
         <h3>Full List of Courses</h3>
         <!-- we probably need a way to alphabetize by title. This page has some good info. Looks like you just add a meta class for the key you want it sorted by? https://stackoverflow.com/questions/6540032/sorting-related-items-in-a-django-template  OR in views, this might work?? all_videos = video.objects.all().order_by('title')-->
         {% for course in courses %}
-            {% if forloop.first %}<div class="row">{% endif %}
-                <div class="col-xs-4">
-                    <a href="/video/{{course_id}}">{{ course.title }}</a>
+            {% if forloop.first %}
+                <div class="row extraspace">
+            {% endif %}
+            <div class="col-xs-4 extraspace">
+                <a href="/video/{{course_id}}">{{ course.title }}</a>
+            </div>
+            {% if forloop.counter|divisibleby:3 %}
                 </div>
-            {% if forloop.counter|divisibleby:3 %}</div><div class="row">{% endif %}
-            {% if forloop.last %}</div>{% endif %}   
+                <div class="row">
+            {% endif %}
+            {% if forloop.last %}
+                </div>
+            {% endif %}   
         {% endfor %}
     </div>
     <div>

@@ -6,20 +6,90 @@
     <title>Create a Quiz</title>
 </head>
 <body>
-    <h1>Create a Quiz</h1>
-    <table>
-        <thead>
-            <th></th>
-            <th></th>
-            <th>Course</th>
-        </thead>
-        {% for course in courses %}
-        <tr>
-            <td><a href="/create_real_quiz/{{course.id}}">create real quiz</a></td>
-            <td><a href="/create_random_quiz/{{course.id}}">create random quiz</a></td>
-            <td>{{course.title}}</td>
-        </tr>
-        {% endfor %}
-    </table>
+    <div id="other-wrapper">
+        <nav class="navbar navbar-expand-lg navbar-light nav_transparency">
+            <a href="/"><img src="{% static 'img/LOGO_TeachMe_Owl.png' %}" alt="TeachMe Logo" class="img-fluid" style="max-width: 150px;" ></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarText">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">About</a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="/library">Course Library</a>
+                </li>
+                <li class="nav-item">
+                <li class="nav-item">
+                    <a class="nav-link" href="/create_course">Create Course</a>
+                </li>
+                    <a class="nav-link" href="/profile/{{user.id}}">Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Contact</a>
+                </li>
+            </ul>
+            <span class="navbar-text">
+                Your learning resource for on-demand instruction.
+            </span>
+            </div>
+        </nav>
+        <h3>Create a Quiz</h3>
+        <table>
+            <thead>
+                <th></th>
+                <th></th>
+                <th>Course</th>
+            </thead>
+            {% for course in courses %}
+            <tr>
+                <td><a href="/create_real_quiz/{{course.id}}">create real quiz</a></td>
+                <td><a href="/create_random_quiz/{{course.id}}">create random quiz</a></td>
+                <td>{{course.title}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        <footer class="bg-light text-center text-lg-start">
+            <!-- Grid container -->
+            <div class="container p-4">
+            <!--Grid row-->
+                <div class="row">
+                    <!--Grid column-->
+                    <div class="col-md-6">
+                        <h5 class="text-uppercase">Links</h5>
+                
+                        <ul class="list-unstyled mb-0">
+                            <li>
+                            <a href="#!" class="text-dark">Contact Us</a>
+                            </li>
+                            <li>
+                            <a href="#!" class="text-dark">Work for Us</a>
+                            </li>
+                        </ul>
+                    </div>         
+                    <!--Grid column-->
+                    <div class="col-md-6">
+                        <h5 class="text-uppercase mb-0">Connect with TeachMe</h5>
+                        <a href="http://scripteden.com/download/eden-ui/" target="_blank" class="btn-social btn-facebook"><i class="fa fa-facebook"></i></a>
+                        <a href="http://scripteden.com/download/eden-ui/" target="_blank" class="btn-social btn-linkedin"><i class="fa fa-linkedin"></i></a>
+                        <a href="http://scripteden.com/download/eden-ui/" target="_blank" class="btn-social btn-trello"><i class="fa fa-trello"></i></a>
+                        <a href="http://scripteden.com/download/eden-ui/" target="_blank" class="btn-social btn-twitter"><i class="fa fa-twitter"></i></a>
+                        <a href="http://scripteden.com/download/eden-ui/" target="_blank" class="btn-social btn-youtube"><i class="fa fa-youtube"></i></a>
+                    </div>
+                    <!--Grid column-->
+                </div>
+                <!--Grid row-->
+            </div>
+            <!-- Grid container -->
+        
+            <!-- Copyright -->
+            <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2)">
+            © 2020 Copyright:
+            <a class="text-dark" href="https://mdbootstrap.com/">MDBootstrap.com</a>
+            </div>
+            <!-- Copyright -->
+        </footer>
+    </div>
 </body>
 </html>
