@@ -74,6 +74,7 @@ def take_quiz(request, course_id):
         # user submitted answers
         if request.method == "POST":
             # check answers on quiz and increment score
+            print(request.POST)
             score = 0
             # loop through questions/answers
             for num in range(1,6):
@@ -89,12 +90,16 @@ def take_quiz(request, course_id):
                 # print("what we get from POST is " + str(request.POST[f"{q_id}"]))
 
                 # capture chosen answer for each question and save to session
-                request.session[f"q" + str(num) + "chosen_answer"] = request.POST[f"{q_id}"]
-                # save to session whether user selected correct or incorrect answer
-                if str(request.POST[f"{q_id}"]) == str(correct_answer):
-                    request.session[f'question'+str(num)] = "correct"
-                    score += 1
+                if str(f"{q_id}") in request.POST:
+                    request.session[f"q" + str(num) + "chosen_answer"] = request.POST[f"{q_id}"]
+                    # save to session whether user selected correct or incorrect answer
+                    if str(request.POST[f"{q_id}"]) == str(correct_answer):
+                        request.session[f'question'+str(num)] = "correct"
+                        score += 1
+                    else:
+                        request.session[f'question'+str(num)] = "wrong"
                 else:
+                    request.session[f"q" + str(num) + "chosen_answer"] = ""
                     request.session[f'question'+str(num)] = "wrong"
 
             # Create record of quiz results in database
@@ -345,68 +350,43 @@ def create_real_quiz(request, course_id):
         }
         return render(request, "create_real_quiz.html", context)
 
-# def Lisa(request):
-#     # this is for testing how f-strings, variables, and storing in session works
+def edit_quiz(request, course_id):
+    if request.method == "POST":
+        # for each question:
+            # get question number
+            # update wrong answers
+            # update correct answer
+        return redirect(f"/take_quiz/{course_id}")
 
-#     shuffled_question_list = [
-#         {
-#             'question.id': 1,
-#             'question_content': "What do you think?"
-#         },
-#         {
-#             'question.id': 2,
-#             'question_content': "What do you know?"
-#         },
-#         {
-#             'question.id': 3,
-#             'question_content': "What do you want?"
-#         }
-#     ]
-#     # create a list of dictionaries with questions and answers
-#     questions = []
-#     # for each question, get and shuffle the answers
-#     q_num = 1
-#     for question in shuffled_question_list:
-#         # create dictionary for that question 
-#         quiz_item = {
-#             'question_num': q_num,
-#             'question_id': question['question.id'],
-#             'question_content': question['question_content'],
-#         }
-#         q_num +=1
-#         # get answers and shuffle them
-#         shuffled_answer_list = [
-#             {
-#                 'answer.id': 10,
-#                 'answer_content': "this one is right!"
-#             },
-#                         {
-#                 'answer.id': 11,
-#                 'answer_content': "this one is not right!"
-#             },
-#                         {
-#                 'answer.id': 12,
-#                 'answer_content': "this one is wrong!"
-#             }
-#         ]
-#         # add answer choices to quiz item dictionary 
-#         count = 1
-#         for answer in shuffled_answer_list:
-#             quiz_item[f'answer'+str(count)+'_id'] = answer['answer.id'] 
-#             request.session[f'q'+ str(q_num)+'ans'+ str(count)] = answer['answer.id']
-#             quiz_item[f'answer'+str(count)+'content'] = answer['answer_content']
-#             count+=1
-#         questions.append(quiz_item)
+    else:
+        # provide original questions and answers
+        this_course = Course.objects.get(id=course_id)
+        questions = Question.objects.filter(course=this_course)
+        items = []
+        q_num = 1
+        for question in questions:
+            # create dictionary for that question 
+            quiz_item = {
+                'q_num': q_num,
+                # 'q_num_key': 'q'+ str(q_num),
+                'q_id': question.id,
+                'q_content': question.content,
+            }
+            # get answers
+            answers = Answer.objects.filter(question=question)
+            count = 1
+            for answer in answers:
+                if answer.id == question.correct_answer_id:
+                    quiz_item[f'q'+str({q_num})+'correct'] = answer.id
+                else:
+                    quiz_item[f'q'+str({q_num})+'wrong'+str(count)] = answer.id
+                    count += 1
+            items.append(quiz_item)
+            q_num +=1
 
-#     print(questions)
+        context = {
+            'items': items
+        }
 
-#     context = {
-#         'questions': questions,
-#     }
-#     return render(request, 'test.html', context)
 
-# def grade(request):
-#     print(request.POST)
-#     for key, value in request.session.items():
-#         print(key, request.session[key])
-#     return redirect('/')
+        return render(request, "edit_quiz.html", context)

@@ -43,11 +43,14 @@
         #quiz{
             background-image: radial-gradient(rgb(255, 246, 209), white, rgb(255, 246, 209));
         }
+        .number{
+            vertical-align: top;
+        }
         .answer{
             display: block;
         }
         #sub-button{
-            width: 66px;
+            width: 100px;
             margin: 0px 46%;
         }
         #title{
@@ -90,67 +93,44 @@
             </span>
             </div>
         </nav>
-        <div id=other_wrapper>
-            <!-- Nav Bar -->
-            <nav class="navbar navbar-expand-lg navbar-light nav_transparency">
-                <img src="{% static '/img/LOGO_TeachMe_Owl.png' %}" alt="TeachMe Logo" class="img-fluid" style="max-width: 150px;">
-                <!-- <a class="navbar-brand" href="#">Navbar w/ text</a> -->
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarText">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                    <a class="nav-link" href="#">About</a>
-                    </li>
-                    <li class="nav-item">
-                    <a class="nav-link" href="#">Course Library</a>
-                    </li>
-                    <li class="nav-item">
-                    <a class="nav-link" href="#">Contact</a>
-                    </li>
-                </ul>
-                <span class="navbar-text">
-                    Your learning resource for on-demand instruction.
-                </span>
-                </div>
-            </nav>
-            <!-- End Nav Bar -->
-            <h2 id="title" class="shadow p-3">Take the Quiz!</h2>
-            <div class="container-fluid">
-                <div id=quiz class="shadow p-3">
-                    <form action="/create_real_quiz/{{course_id}}" method="POST">
-                        {% csrf_token %}
-                        {% for idx in question_numbers %}
-                        <div id="question" class="row">
-                            <div class="m-10 col-sm-6" id=description>
-                                <p>{{idx}}. <textarea name="q{{idx}}content" id="" cols="30" rows="10" placeholder="Type question here"></textarea></p>
+        <!-- End Nav Bar -->
+        <h2 id="title" class="shadow p-3">Create a Quiz</h2>
+        <div class="container-fluid">
+            <div id=quiz class="shadow p-3">
+                <form action="/create_real_quiz/{{course_id}}" method="POST">
+                    {% csrf_token %}
+                    {% for idx in question_numbers %}
+                    <div id="question" class="row">
+                        <div class="m-10 col-sm-6" id=description>
+                            <p><span class="number">{{idx}}.</span>
+                            <textarea name="q{{idx}}content" id="" cols="60" rows="5" placeholder="Type question here"></textarea></p>
+                        </div>
+                        <div class="m-10 col-sm-6">
+                            <div class="answer">
+                                <input type="text"name="q{{idx}}wrong1" class="form-control my-2" placeholder="Provide a wrong answer option">
                             </div>
-                            <div class="m-10 col-sm-6">
-                                <div class="answer">
-                                    <input type="text"name="q{{idx}}wrong1" placeholder="Provide a wrong answer option">
-                                </div>
-                                <div class="answer">
-                                    <input type="text"name="q{{idx}}wrong2" placeholder="Provide a wrong answer option">
-                                </div>
-                                <div class="answer">
-                                    <input type="text"name="q{{idx}}wrong3" placeholder="Provide a wrong answer option">
-                                </div>
-                                <div class="answer">
-                                    <input type="text"name="q{{idx}}correct" placeholder="Provide the correct answer">
-                                </div>
+                            <div class="answer">
+                                <input type="text"name="q{{idx}}wrong2" class="form-control mb-2" placeholder="Provide a wrong answer option">
+                            </div>
+                            <div class="answer">
+                                <input type="text"name="q{{idx}}wrong3" class="form-control mb-2" placeholder="Provide a wrong answer option">
+                            </div>
+                            <div class="answer">
+                                <label for="q{{idx}}correct">Correct Answer:</label>
+                                <input type="text"name="q{{idx}}correct" class="form-control mb-2" placeholder="Provide the correct answer">
                             </div>
                         </div>
-                        {% endfor %}
-                        <div class="row" id="submission">
-                            <div class="col-sm-12">
-                                <input id="sub-button" type="submit" value="Create Quiz">
-                            </div>
+                    </div>
+                    {% endfor %}
+                    <div class="row" id="submission">
+                        <div class="col-sm-12">
+                            <input id="sub-button" type="submit" value="Create Quiz">
                         </div>
-                    </form>
-                </div>
+                    </div>
+                </form>
             </div>
         </div>
+    </div>
         <footer class="bg-light text-center text-lg-start">
             <!-- Grid container -->
             <div class="container p-4">
