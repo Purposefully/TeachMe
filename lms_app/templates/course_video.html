@@ -16,14 +16,14 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
     <style>
-        #video_border{
+        #player{
             border: 5px solid;
             border-image-source: linear-gradient(45deg,#06f0a6, #067e9c);
             border-image-slice: 1;
             width: 450px;
             margin: 10px auto;
         }
-        #video_border:hover {
+        #player:hover {
             border-image-source: linear-gradient(45deg,#067e9c, #06f0a6);
         }
         iframe{
@@ -91,7 +91,15 @@
                     <h4>Description:</h4>
                     <p>{{course.description}}</p>
                 </div>
-                <div class="col-sm-6" id="video_box"><iframe id="video_border" src="https://www.youtube.com/embed/{{ course.video_id }}" frameborder="0" width="480" height="270"></iframe></div>
+                <div class="col-sm-6" id="video_box">
+                    <iframe 
+                        id="player" 
+                        src="https://www.youtube.com/embed/FMFm9GxB_Eo?enablejsapi=1"
+                        frameborder="0"
+                        width="480" 
+                        height="270">
+                    </iframe>
+                </div>
                 <!-- When video ends (onend), modal should pop up with a button to take the quiz -->
             </div>
             <div class="row">
@@ -99,7 +107,7 @@
                     <div id=take_quiz class="shadow p-3">
                         <h4>Not sure if it's for you? </h4>
                         <p>Take a quiz to see if you already know the information...</p>
-                        <a href="/take_quiz/{{course.id}}" class="btn btn-light id="take_quiz_btn"role="button">Take the Quiz</a>
+                        <a href="/take_quiz/{{course.id}}" class="btn btn-light" id="take_quiz_btn"role="button">Take the Quiz</a>
                         <!-- Goes directly to quiz page -->
                     </div>
                 </div>
@@ -129,6 +137,7 @@
                                     <input type="hidden" value="add_to_playlist_no_quiz">
                                     <input type="submit" value="Add to Playlist!">
                                 </form>
+
                                 <form action="/add_to_new_playlist/{{course.id}}" method="POST">
                                     {% csrf_token %}
                                     <input type="text" name="playlist" value="New Playlist Name">
@@ -168,7 +177,7 @@
                             <input type="submit" value="Take the Quiz!">
                         </form>
                         <form action="/take_quiz/new_playlsit/{{course.id}}" method="POST">
-                            <input type="text" name="playlist" value="New Playlist Name">
+                            <input type="text" name="playlist" placeholder="New Playlist Name">
                             <input type="hidden" value="add_to_playlist_and_take_quiz">
                             <input type="submit" value="Take the Quiz!">
                         </form>
@@ -223,24 +232,42 @@
 
     <script type='text/javascript'>
         var tag = document.createElement('script');
-        tag.id = 'video_end_js';
-        tag.src = 'https://www.youtube.com/embed/{{ course.video_id }}'
+        tag.id = 'iframe-demo';
+        tag.src = 'https://www.youtube.com/iframe_api';
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
         var player;
-        $(function onYouTubeIframeAPIReady(){
-            player = new YT.Player({
-                events: {
-                    'onStateChange' : onPlayerStateChange
-                }
-            })
-        })
-        $(function onPlayerStateChange(event){
-            show_alert(event.data);
-        })
-        $(function show_alert(playerStatus){
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('player', {
+            width="480", 
+            height="270",
+            videoId: 'FMFm9GxB_Eo',
+            events: {
+                'onReady': onPlayerReady,
+                'onStateChange': onPlayerStateChange
+            }
+            });
+        }
+        function onPlayerReady(event) {
+        event.target.playVideo();
+        }
+
+        //function onYouTubeIframeAPIReady(){
+            //player = new YT.Player('video_border', {
+                //events: {
+                    //'onStateChange' : onPlayerStateChange
+                //}
+            //});
+        //}
+        function show_alert(playerStatus){
             if(playerStatus == 0){
+                console.log("vid ended");
                 $("#myModal").modal("show");
             }
-        })
+        };
+        function onPlayerStateChange(event){
+            show_alert(event.data);
+        };
         document.getElementById("disabled_button").disabled = true;
     </script>
 
