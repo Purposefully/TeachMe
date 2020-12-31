@@ -22,7 +22,7 @@
             <div class="collapse navbar-collapse" id="navbarText">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                <a class="nav-link" href="#">About</a>
+                <a class="nav-link" href="/about">About</a>
                 </li>
                 <li class="nav-item">
                 <a class="nav-link" href="/library">Course Library</a>
@@ -36,8 +36,8 @@
             </span>
             </div>
         </nav>
-        <div class="row container justify-content-center home_background_div">
-          <div class="centerdiv">
+        <div class="container justify-content-center home_background_div">
+          <div class="centerdiv justify-content-center">
             <div class="logregdiv col-md-5">
             {% if request.session.type == "login" %}
               {% if messages %}
@@ -51,9 +51,10 @@
                 <form action="/login" method="POST">
                     {% csrf_token %}
                     <h3>Login</h3>
-                    <p>Email: <input type="email" name="email"></p>
-                    <p>Password: <input type="password" name="password"></p>
-                    <button type="submit" class="btn btn-light">Login</button>
+                    <p>Email: <input type="email" name="email" class="home_input"></p>
+                    <p>Password: <input type="password" name="password" class="home_input"></p>
+                    <br>
+                    <button type="submit" class="btn btn-info text-center">Login</button>
                 </form>
             </div>
             <div class="logregdiv col-md-5">
@@ -69,11 +70,12 @@
                 <form action="/signup" method="POST">
                     {% csrf_token %}
                     <h3>Sign Up</h3>
-                    <p>Name: <input type="text" name="name"></p>
-                    <p>Email: <input type="email" name="email"></p>
-                    <p>Password: <input type="password" name="password"></p>
-                    <p>Confirm Password: <input type="password" name="confirm_password"></p>
-                    <button type="submit" class="btn btn-light">Sign Up</button>
+                    <p>Name: <input type="text" name="name" class="home_input"></p>
+                    <p>Email: <input type="email" name="email" class="home_input"></p>
+                    <p>Password: <input type="password" name="password" class="home_input"></p>
+                    <p>Confirm Password: <input type="password" name="confirm_password" class="home_input"></p>
+                    <br>
+                    <button type="submit" class="btn btn-info text-center">Sign Up</button>
                 </form>    
             </div>
           </div>
@@ -100,11 +102,11 @@
                 <!-- <div class="col-lg-3 col-md-6 mb-4 mb-md-0"> -->
                   <div class="col-md-6">
                   <h5 class="text-uppercase mb-0">Connect with TeachMe</h5>
-                  <a href="http://scripteden.com/download/eden-ui/" target="_blank" class="btn-social btn-facebook"><i class="fa fa-facebook"></i></a>
-                  <a href="http://scripteden.com/download/eden-ui/" target="_blank" class="btn-social btn-linkedin"><i class="fa fa-linkedin"></i></a>
-                  <a href="http://scripteden.com/download/eden-ui/" target="_blank" class="btn-social btn-trello"><i class="fa fa-trello"></i></a>
-                  <a href="http://scripteden.com/download/eden-ui/" target="_blank" class="btn-social btn-twitter"><i class="fa fa-twitter"></i></a>
-                  <a href="http://scripteden.com/download/eden-ui/" target="_blank" class="btn-social btn-youtube"><i class="fa fa-youtube"></i></a>
+                  <a href="" target="" class="btn-social btn-facebook"><i class="fa fa-facebook"></i></a>
+                  <a href="" target="" class="btn-social btn-linkedin"><i class="fa fa-linkedin"></i></a>
+                  <a href="" target="" class="btn-social btn-trello"><i class="fa fa-trello"></i></a>
+                  <a href="" target="" class="btn-social btn-twitter"><i class="fa fa-twitter"></i></a>
+                  <a href="" target="" class="btn-social btn-youtube"><i class="fa fa-youtube"></i></a>
                 </div>
                 <!--Grid column-->
               </div>

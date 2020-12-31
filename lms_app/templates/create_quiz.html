@@ -12,7 +12,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 </head>
 <body>
-    <div id="other-wrapper">
+    <div id="profile_wrapper">
         <nav class="navbar navbar-expand-lg navbar-light nav_transparency">
             <a href="/"><img src="{% static 'img/LOGO_TeachMe_Owl.png' %}" alt="TeachMe Logo" class="img-fluid" style="max-width: 150px;" ></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
@@ -21,7 +21,7 @@
             <div class="collapse navbar-collapse" id="navbarText">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="#">About</a>
+                    <a class="nav-link" href="/about">About</a>
                 </li>
                 <li class="nav-item">
                 <a class="nav-link" href="/library">Course Library</a>
@@ -41,21 +41,24 @@
             </span>
             </div>
         </nav>
-        <h3 class="m-3">Create a Quiz</h3>
-        <table class="m-3">
-            <thead>
-                <th></th>
-                <th></th>
-                <th class="p-2">Course</th>
-            </thead>
-            {% for course in courses %}
-            <tr>
-                <td class="p-2"><a href="/create_real_quiz/{{course.id}}">create real quiz</a></td>
-                <td class="p-2"><a href="/create_random_quiz/{{course.id}}">create random quiz</a></td>
-                <td class="p-2">{{course.title}}</td>
-            </tr>
-            {% endfor %}
-        </table>
+        <br>
+        <div class="content_box">
+            <h3 class="m-3">Create a Quiz</h3>
+            <table class="m-3">
+                <thead>
+                    <th></th>
+                    <th></th>
+                    <th class="p-2">Course</th>
+                </thead>
+                {% for course in courses %}
+                <tr>
+                    <td class="p-2"><a href="/create_real_quiz/{{course.id}}">create real quiz</a></td>
+                    <td class="p-2"><a href="/create_random_quiz/{{course.id}}">create random quiz</a></td>
+                    <td class="p-2">{{course.title}}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
         <footer class="bg-light text-center text-lg-start">
             <!-- Grid container -->
             <div class="container p-4">
@@ -77,11 +80,11 @@
                     <!--Grid column-->
                     <div class="col-md-6">
                         <h5 class="text-uppercase mb-0">Connect with TeachMe</h5>
-                        <a href="http://scripteden.com/download/eden-ui/" target="_blank" class="btn-social btn-facebook"><i class="fa fa-facebook"></i></a>
-                        <a href="http://scripteden.com/download/eden-ui/" target="_blank" class="btn-social btn-linkedin"><i class="fa fa-linkedin"></i></a>
-                        <a href="http://scripteden.com/download/eden-ui/" target="_blank" class="btn-social btn-trello"><i class="fa fa-trello"></i></a>
-                        <a href="http://scripteden.com/download/eden-ui/" target="_blank" class="btn-social btn-twitter"><i class="fa fa-twitter"></i></a>
-                        <a href="http://scripteden.com/download/eden-ui/" target="_blank" class="btn-social btn-youtube"><i class="fa fa-youtube"></i></a>
+                        <a href="" target="" class="btn-social btn-facebook"><i class="fa fa-facebook"></i></a>
+                        <a href="" target="" class="btn-social btn-linkedin"><i class="fa fa-linkedin"></i></a>
+                        <a href="" target="" class="btn-social btn-trello"><i class="fa fa-trello"></i></a>
+                        <a href="" target="" class="btn-social btn-twitter"><i class="fa fa-twitter"></i></a>
+                        <a href="" target="" class="btn-social btn-youtube"><i class="fa fa-youtube"></i></a>
                     </div>
                     <!--Grid column-->
                 </div>

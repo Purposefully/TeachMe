@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create a Course</title>
+    <title>About</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
@@ -12,7 +12,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 </head>
 <body>
-    <div id="profile_wrapper">
+    <div id="index_wrapper">
         <nav class="navbar navbar-expand-lg navbar-light nav_transparency">
             <a href="/"><img src="{% static 'img/LOGO_TeachMe_Owl.png' %}" alt="TeachMe Logo" class="img-fluid" style="max-width: 150px;" ></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
@@ -21,22 +21,13 @@
             <div class="collapse navbar-collapse" id="navbarText">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="/about">About</a>
+                <a class="nav-link" href="/about">About</a>
                 </li>
                 <li class="nav-item">
                 <a class="nav-link" href="/library">Course Library</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/profile/{{user.id}}">Profile</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/create_course">Create Course</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/create_quiz">Create Quiz</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Contact</a>
+                <a class="nav-link" href="#">Contact</a>
                 </li>
             </ul>
             <span class="navbar-text">
@@ -45,24 +36,16 @@
             </div>
         </nav>
         <br>
-        <div class="content_box">    
-            <h3>Create a course</h3>
-            <p>Enter YouTube link:</p>
-            <form action="create_course" method="POST" >
-                {% csrf_token %}
-                <input type="text" name="url" value="https://www.youtube.com/watch?v=Q4o1wYwkv9g" style="width: 500px;">
-                <button type="submit" class="btn btn-info text-center">Create Course</button>
-            </form>
-            <br>
-            <h4>Current Courses</h4>
-            <ul>
-                {% for course in courses %}
-                <li>{{ course.title }}</li>
-                {% endfor %}
-            </ul>
+        <div class="content_box"> 
+            <h3>About TeachMe</h3>
+            <img id="about_img" src="{% static 'img/head_w_gears.png' %}" alt="head with gears image">
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi inventore nemo perferendis voluptas voluptates aperiam molestiae ut impedit sed fuga sint facilis nulla eius, quod consequatur, hic ab obcaecati nihil!</p>
+            <p>Lorem lorem ipsum dolor sit amet consectetur adipisicing elit. Animi inventore nemo perferendis voluptas voluptates aperiam molestiae ut impedit sed fuga sint facilis nulla eius, quod consequatur, hic ab obcaecati nihil! Lorem ipsum, dolor sit amet consectetur adipisicing elit. Error odit temporibus totam. Maiores consequatur, aliquid nihil nostrum animi ab eveniet quaerat cupiditate unde obcaecati! Doloribus voluptas eos dolor fuga laudantium?</p>
+            <p>Lorem lorem ipsum dolor sit amet consectetur adipisicing elit. Animi inventore nemo perferendis voluptas voluptates aperiam molestiae ut impedit sed fuga sint facilis nulla eius, quod consequatur, hic ab obcaecati nihil! Lorem ipsum, dolor sit amet consectetur adipisicing elit. Error odit temporibus totam. Maiores consequatur, aliquid nihil nostrum animi ab eveniet quaerat cupiditate unde obcaecati! Doloribus voluptas eos dolor fuga laudantium?</p>
+            <p>Lorem lorem ipsum dolor sit amet consectetur adipisicing elit. Animi inventore nemo perferendis voluptas voluptates aperiam molestiae ut impedit sed fuga sint facilis nulla eius, quod consequatur, hic ab obcaecati nihil! Lorem ipsum, dolor sit amet consectetur adipisicing elit. Error odit temporibus totam. Maiores consequatur, aliquid nihil nostrum animi ab eveniet quaerat cupiditate unde obcaecati! Doloribus voluptas eos dolor fuga laudantium?</p>
         </div>
         <div>
-            <footer class="bg-light text-center text-lg-start">
+            <footer class="bg-light text-center text-lg-start navbar-fixed-bottom">
                 <!-- Grid container -->
                 <div class="container p-4">
                 <!--Grid row-->
@@ -98,11 +81,12 @@
                 <!-- Copyright -->
                 <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2)">
                 © 2020 Copyright:
-                <a class="text-dark" href="https://mdbootstrap.com/">MDBootstrap.com</a>
+                <a class="text-dark" href="https://mdbootstrap.com/">TeachMe.com</a>
                 </div>
                 <!-- Copyright -->
             </footer>
         </div>
+        <!-- /page wrapper -->
     </div>
 </body>
 </html>
