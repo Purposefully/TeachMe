@@ -72,7 +72,7 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/create_course">Create Course</a>
                 </li>
-                  <a class="nav-link" href="/profile/{{user.id}}">Profile</a>
+                    <a class="nav-link" href="/profile/{{user.id}}">Profile</a>
                 </li>
                 <li class="nav-item">
                 <a class="nav-link" href="#">Contact</a>
@@ -122,23 +122,25 @@
                                 <form action="/add_to_playlist/{{course.id}}" method="POST">
                                     {% csrf_token %}
                                     {% for playlists in logged_user.playlists.all %}
-                                        {% if course in playlist %}
+                                        {% if course in playlists %}
                                             <li class=disabled>
-                                                <input id="disabled_button" type="radio" name="playlist" value="{{playlist_id}}">
-                                                <label for="{{playlist_id}}">{{playlist.title}}</label>
+                                                <input id="disabled_button" type="radio" name="playlist" value="{{playlists.id}}">
+                                                <label for="{{playlists.id}}">{{playlists.title}}</label>
                                             </li>
-                                        {% elif course not in playlist %}
+                                        {% elif course not in playlists %}
                                             <li class=active>
                                                 <input type="radio" name="playlist" value="{{playlist_id}}">
-                                                <label for="{{playlist_id}}">{{playlist.title}}</label>
+                                                <label for="{{playlists.id}}">{{playlists.title}}</label>
                                             </li>
                                         {% endif %}
                                     {% endfor %}
                                     <input type="hidden" value="add_to_playlist_no_quiz">
                                     <input type="submit" value="Add to Playlist!">
                                 </form>
-                                <form action="/add_to_new_playlsit/{{course.id}}" method="POST">
-                                    <input type="text" name="playlist" placeholder="New Playlist Name">
+
+                                <form action="/add_to_new_playlist/{{course.id}}" method="POST">
+                                    {% csrf_token %}
+                                    <input type="text" name="playlist" value="New Playlist Name">
                                     <input type="hidden" value="add_to_playlist_no_quiz">
                                     <input type="submit" value="Create New Playlist!">
                                 </form>

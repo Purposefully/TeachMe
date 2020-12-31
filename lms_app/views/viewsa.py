@@ -1,7 +1,7 @@
 import requests
 from django.shortcuts import render, redirect
 from TeachMe.secrets import google_api_key
-from ..models import Course, User, Topic
+from ..models import Course, User, Topic, Playlist
 
 
 def test(request):
@@ -28,10 +28,20 @@ def video(request, course_id):
 
 
 def add_to_playlist(request, course_id):
+    if request.method == "POST":
+        this_user = User.objects.get(id=request.session["user_id"])
+        this_playlist = this_user.playlists.get(id=request.POST["playlist_id"])
+        this_playlist.course.add(Course.objects.get(id=course_id))
+    return redirect(f"/view_here/{course_id}")
 
-    this_user = User.objects.get(id=request.session["user_id"])
-    test_playlist = this_user.playlists.get(id=1)
-    test_playlist.course.add(Course.objects.get(id=course_id))
+
+def add_to_new_playlist(request, course_id):
+    if request.method == "POST":
+        this_user = User.objects.get(id=request.session["user_id"])
+        this_playlist = Playlist.objects.create(
+            title=request.POST["playlist"], user=this_user
+        )
+        this_playlist.course.add(Course.objects.get(id=course_id))
     return redirect(f"/view_here/{course_id}")
 
 
