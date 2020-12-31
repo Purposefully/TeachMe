@@ -15,6 +15,7 @@ urlpatterns = [
     path("submit_quiz/<int:course_id>", views.take_quiz),
     path("show_quiz_results", views.show_quiz_results),
     path("add_to_playlist/<int:course_id>", views.add_to_playlist),
+    path("add_to_new_playlist/<int:course_id>", views.add_to_new_playlist),
     path("create_course", views.create_course),
     path("create_quiz", views.create_quiz),
     path("create_random_quiz/<int:course_id>", views.create_random_quiz),
