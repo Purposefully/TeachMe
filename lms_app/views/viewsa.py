@@ -56,6 +56,17 @@ def library(request):
     return redirect("/")
 
 
+def library_search(request):
+    return render(
+        request,
+        "course_library.html",
+        {
+            "topics": Topic.objects.all(),
+            "courses": Course.objects.filter(title__contains=request.GET["search"]),
+        },
+    )
+
+
 # profile option
 def profile(request, user_id):
     if "user_id" in request.session:
@@ -95,3 +106,8 @@ def create_course(request):
         return redirect("/create_course")
     else:
         return render(request, "create_course.html", {"courses": Course.objects.all()})
+
+
+# about
+def about(request):
+    return render(request, "about.html")
