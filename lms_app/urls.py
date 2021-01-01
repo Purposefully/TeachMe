@@ -10,6 +10,7 @@ urlpatterns = [
     # path('playlist/<int:playlist_id>', views.get_playlist),
     # path('add_playlist', views.add_playlist),
     path("view_here/<int:course_id>", views.video),
+    path("library-search/", views.library_search),
     path("library", views.library),
     path("take_quiz/<int:course_id>", views.take_quiz),
     path("submit_quiz/<int:course_id>", views.take_quiz),
