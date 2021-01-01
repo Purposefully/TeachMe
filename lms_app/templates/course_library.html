@@ -12,7 +12,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 </head>
 <body>
-    <div id="other_wrapper">
+    <div id="library_wrapper">
         <nav class="navbar navbar-expand-lg navbar-light nav_transparency">
             <a href="/"><img src="{% static 'img/LOGO_TeachMe_Owl.png' %}" alt="TeachMe Logo" class="img-fluid" style="max-width: 150px;" ></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
@@ -21,7 +21,7 @@
             <div class="collapse navbar-collapse" id="navbarText">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="#">About</a>
+                    <a class="nav-link" href="/about">About</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/library">Course Library</a>
@@ -30,7 +30,7 @@
                     <a class="nav-link" href="/create_course">Create Course</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/profile{{user.id}}">Profile</a>
+                    <a class="nav-link" href="/profile/{{user.id}}">Profile</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Contact</a>
@@ -66,47 +66,50 @@
         </form>
         <br>
         <!-- end search bar -->
-        <h3>Popular Courses</h3>
-        <!--Carousel Wrapper-->
-        <!-- <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel"> -->
-            <!--Controls-->
-            <!-- <ul class="carousel-indicators">
-                <li data-target="#demo" data-slide-to="0" class="active"></li>
-                <li data-target="#demo" data-slide-to="1"></li>
-                <li data-target="#demo" data-slide-to="2"></li>
-            </ul> -->
-            <!--/.Controls-->
-            <!--Indicators-->
-            <!-- <ol class="carousel-indicators">
-                <li data-target="#multi-item-example" data-slide-to="0" class="active"></li>
-                <li data-target="#multi-item-example" data-slide-to="1"></li>
-            </ol> -->
-            <!--/.Indicators-->
-            <!--Slides-->
-            <!-- <div class="carousel-inner" role="listbox"> -->
-            <!--First slide-->
-        {% for course in courses %}
-        <div class="card" style="width: 18rem; display:inline-block">
-            <img class="card-img-top" src="https://img.youtube.com/vi/{{course.video_id}}/0.jpg" alt="Card image cap">
-            <div class="card-body">
-                <h4 class="card-title">{{course.title}}</h4>
-                <!-- <p class="card-text">{{course.description}}</p> -->
-                <a class="btn btn-light" href="/view_here/{{course.id}}">Visit Course Page</a>
+        <div class="content_box_purple">
+            <h3 class="white_h3">Popular Courses</h3>
+            <!--Carousel Wrapper-->
+            <!-- <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel"> -->
+                <!--Controls-->
+                <!-- <ul class="carousel-indicators">
+                    <li data-target="#demo" data-slide-to="0" class="active"></li>
+                    <li data-target="#demo" data-slide-to="1"></li>
+                    <li data-target="#demo" data-slide-to="2"></li>
+                </ul> -->
+                <!--/.Controls-->
+                <!--Indicators-->
+                <!-- <ol class="carousel-indicators">
+                    <li data-target="#multi-item-example" data-slide-to="0" class="active"></li>
+                    <li data-target="#multi-item-example" data-slide-to="1"></li>
+                </ol> -->
+                <!--/.Indicators-->
+                <!--Slides-->
+                <!-- <div class="carousel-inner" role="listbox"> -->
+                <!--First slide-->
+        
+            {% for course in courses %}
+            <div class="card classcard" style="width: 15rem; display:inline-block; ">
+                <img class="card-img-top" src="https://img.youtube.com/vi/{{course.video_id}}/0.jpg" alt="Card image cap">
+                <div class="card-body">
+                    <h4 class="card-title">{{course.title}}</h4>
+                    <!-- <p class="card-text">{{course.description}}</p> -->
+                    <a class="btn btn-info" href="/view_here/{{course.id}}">Visit Course Page</a>
+                </div>
             </div>
-        </div>
-                <!-- <div class="carousel-item active">
-                    <div class="col-md-3" style="float:left">
-                        <div class="card mb-2">
-                            <img class="card-img-top"
-                            src="https://img.youtube.com/vi/{{course.video_id.next}}/0.jpg" alt="course image">
-                            <div class="card-body">
-                                <h4 class="card-title">{{course.title}}</h4>
-                                <p class="card-text">{{course.description}}</p>
-                                <a class="btn btn-light" href="/video/{{course_id}}">Visit Course Page</a>
+                    <!-- <div class="carousel-item active">
+                        <div class="col-md-3" style="float:left">
+                            <div class="card mb-2">
+                                <img class="card-img-top"
+                                src="https://img.youtube.com/vi/{{course.video_id.next}}/0.jpg" alt="course image">
+                                <div class="card-body">
+                                    <h4 class="card-title">{{course.title}}</h4>
+                                    <p class="card-text">{{course.description}}</p>
+                                    <a class="btn btn-light" href="/video/{{course_id}}">Visit Course Page</a>
+                                </div>
                             </div>
-                        </div>
-                    </div> -->
-        {% endfor %}
+                        </div> -->
+            {% endfor %}
+        </div>
                 <!-- Commented this out so that hopefully the courses can loop through the carousel by one not by 4-->
                     <!-- <div class="col-md-3" style="float:left">
                         <div class="card mb-2">
@@ -149,15 +152,18 @@
             <!--/.Slides-->
     </div>
     <!--/.Carousel Wrapper-->
-    <div>
+    <br>
+    <div class="content_box">
         <h3>Full List of Courses</h3>
         <!-- we probably need a way to alphabetize by title. This page has some good info. Looks like you just add a meta class for the key you want it sorted by? https://stackoverflow.com/questions/6540032/sorting-related-items-in-a-django-template  OR in views, this might work?? all_videos = video.objects.all().order_by('title')-->
         {% for course in courses|dictsort:"title" %}
             {% if forloop.first %}
-                <div class="row extraspace">
+                <div class="row">
             {% endif %}
-            <div class="col-xs-4 extraspace">
-                <a href="/video/{{course.id}}">{{ course.title }}</a>
+            <div class="col-md-4">
+                <ul>
+                    <li><a href="/video/{{course_id}}">{{ course.title }}</a></li>
+                </ul>
             </div>
             {% if forloop.counter|divisibleby:3 %}
                 </div>
@@ -169,7 +175,7 @@
         {% endfor %}
     </div>
     <div>
-        <footer class="bg-light text-center text-lg-start">
+        <footer class="bg-light text-center text-lg-start navbar-fixed-bottom">
             <!-- Grid container -->
             <div class="container p-4">
             <!--Grid row-->
@@ -190,11 +196,11 @@
                     <!--Grid column-->
                     <div class="col-md-6">
                         <h5 class="text-uppercase mb-0">Connect with TeachMe</h5>
-                        <a href="http://scripteden.com/download/eden-ui/" target="_blank" class="btn-social btn-facebook"><i class="fa fa-facebook"></i></a>
-                        <a href="http://scripteden.com/download/eden-ui/" target="_blank" class="btn-social btn-linkedin"><i class="fa fa-linkedin"></i></a>
-                        <a href="http://scripteden.com/download/eden-ui/" target="_blank" class="btn-social btn-trello"><i class="fa fa-trello"></i></a>
-                        <a href="http://scripteden.com/download/eden-ui/" target="_blank" class="btn-social btn-twitter"><i class="fa fa-twitter"></i></a>
-                        <a href="http://scripteden.com/download/eden-ui/" target="_blank" class="btn-social btn-youtube"><i class="fa fa-youtube"></i></a>
+                        <a href="" target="" class="btn-social btn-facebook"><i class="fa fa-facebook"></i></a>
+                        <a href="" target="" class="btn-social btn-linkedin"><i class="fa fa-linkedin"></i></a>
+                        <a href="" target="" class="btn-social btn-trello"><i class="fa fa-trello"></i></a>
+                        <a href="" target="" class="btn-social btn-twitter"><i class="fa fa-twitter"></i></a>
+                        <a href="" target="" class="btn-social btn-youtube"><i class="fa fa-youtube"></i></a>
                     </div>
                     <!--Grid column-->
                 </div>
@@ -205,7 +211,7 @@
             <!-- Copyright -->
             <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2)">
             © 2020 Copyright:
-            <a class="text-dark" href="https://mdbootstrap.com/">MDBootstrap.com</a>
+            <a class="text-dark" href="https://mdbootstrap.com/">TeachMe.com</a>
             </div>
             <!-- Copyright -->
         </footer>
