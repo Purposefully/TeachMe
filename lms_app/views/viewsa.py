@@ -32,6 +32,8 @@ def add_to_playlist(request, course_id):
         this_user = User.objects.get(id=request.session["user_id"])
         this_playlist = this_user.playlists.get(id=request.POST["playlist_id"])
         this_playlist.course.add(Course.objects.get(id=course_id))
+    if request.POST["hidden"] == "add_to_playlist_and_take_quiz":
+        return redirect(f"take_quiz/{course_id>}")
     return redirect(f"/view_here/{course_id}")
 
 
@@ -42,6 +44,8 @@ def add_to_new_playlist(request, course_id):
             title=request.POST["playlist"], user=this_user
         )
         this_playlist.course.add(Course.objects.get(id=course_id))
+    if request.POST["hidden"] == "add_to_playlist_and_take_quiz":
+        return redirect(f"take_quiz/{course_id>}")
     return redirect(f"/view_here/{course_id}")
 
 
