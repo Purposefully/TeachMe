@@ -16,6 +16,7 @@ def login(request):
             logged_user = user[0]
             if bcrypt.checkpw(request.POST['password'].encode(), logged_user.password.encode()):
                 request.session['user_id'] = logged_user.id
+                request.session['user_level'] = logged_user.user_level
                 # For future reference, we had to add the .id to the line above to make it work
                 return redirect(f'/profile/{logged_user.id}')
             else:
@@ -56,7 +57,9 @@ def signup(request):
         # Remove entries from screen
         request.session.flush()
         request.session['user_id'] = User.objects.last().id
-        return redirect(f'/profile/{request.session.user_id}')
+        user_id = request.session['user_id']
+        request.session['user_level'] = User.objects.last().user_level
+        return redirect(f'/profile/{user_id}')
     return redirect('/')
 
 def logout(request):
@@ -203,7 +206,8 @@ def show_quiz_results(request):
     # score = this_quiz.score
     context = {
         'items': items,
-        'score': this_quiz.score
+        'score': this_quiz.score,
+        'course': this_question.course.id
     }
     # print("the score is " + str(score))
     # print("here is the evaluation")
@@ -282,10 +286,9 @@ def create_wrong_answer(idx):
 
     return answer
 
-def create_quiz(request):
+def manage_quizzes(request):
     # send list of courses that do not have quizzes yet
-    # links to create random or real quizzes
-    # need a way to edit quizzes at some point?
+    # links to create random or real quizzes or to modify existing quizzes
 
     # Get all questions from current quizzes
     questions = Question.objects.all()
@@ -298,7 +301,12 @@ def create_quiz(request):
     # Query all courses and exclude those that have quizzes
     courses_without_quizzes = Course.objects.exclude(id__in=courses_with_questions)
 
-    return render(request, "create_quiz.html", {"courses": courses_without_quizzes})
+    context = {
+        'courses': Course.objects.all(),
+        'without_quizzes': courses_without_quizzes
+    }
+
+    return render(request, "manage_quizzes.html", context)
 
 def create_real_quiz(request, course_id):
     # Submitted questions and answers to create a new quiz
@@ -351,24 +359,31 @@ def create_real_quiz(request, course_id):
         return render(request, "create_real_quiz.html", context)
 
 def edit_quiz(request, course_id):
+    # get original questions and answers
+    this_course = Course.objects.get(id=course_id)
+    questions = Question.objects.filter(course=this_course)
+
     if request.method == "POST":
-        # for each question:
-            # get question number
-            # update wrong answers
-            # update correct answer
+        print(request.POST)
+        # update the question content
+        for question in questions:
+            question.content = request.POST[str(question.id)]
+            question.save()
+            # get answers for that question
+            answers = Answer.objects.filter(question=question)
+            for answer in answers:
+                # update the answer content
+                answer.content = request.POST[str(answer.id)]
+                answer.save()
         return redirect(f"/take_quiz/{course_id}")
 
     else:
-        # provide original questions and answers
-        this_course = Course.objects.get(id=course_id)
-        questions = Question.objects.filter(course=this_course)
         items = []
         q_num = 1
         for question in questions:
             # create dictionary for that question 
             quiz_item = {
                 'q_num': q_num,
-                # 'q_num_key': 'q'+ str(q_num),
                 'q_id': question.id,
                 'q_content': question.content,
             }
@@ -377,16 +392,18 @@ def edit_quiz(request, course_id):
             count = 1
             for answer in answers:
                 if answer.id == question.correct_answer_id:
-                    quiz_item[f'q'+str({q_num})+'correct'] = answer.id
+                    quiz_item['correct_answer_id'] = answer.id
+                    quiz_item['correct_content'] = answer.content
                 else:
-                    quiz_item[f'q'+str({q_num})+'wrong'+str(count)] = answer.id
+                    quiz_item[f'wrong_answer'+str(count)+'_id'] = answer.id
+                    quiz_item[f'wrong_answer'+str(count)+'_content'] = answer.content
                     count += 1
             items.append(quiz_item)
             q_num +=1
 
         context = {
-            'items': items
+            'items': items,
+            'course_id': this_course.id
         }
-
 
         return render(request, "edit_quiz.html", context)
