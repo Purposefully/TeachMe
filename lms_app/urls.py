@@ -10,12 +10,16 @@ urlpatterns = [
     # path("about", views.about),
     # path('playlist/<int:playlist_id>', views.get_playlist),
     # path('add_playlist', views.add_playlist),
+    #Look at one specific video
     path("view_here/<int:course_id>", views.video),
+    #Library views
     path("library-search/", views.library_search),
     path("library", views.library),
+    #Take quiz from the course video page (without taking course)
     path("take_quiz/<int:course_id>", views.take_quiz),
     path("submit_quiz/<int:course_id>", views.take_quiz),
     path("show_quiz_results", views.show_quiz_results),
+    #Add to playlist from individual quiz page
     path("add_to_playlist/<int:course_id>", views.add_to_playlist),
     path("add_to_new_playlist/<int:course_id>", views.add_to_new_playlist),
     path("create_course", views.create_course),

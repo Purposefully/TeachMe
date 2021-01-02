@@ -93,10 +93,11 @@
                     <h4>Description:</h4>
                     <p>{{course.description}}</p>
                 </div>
+            <!--VIDEO HERE -->
                 <div class="col-sm-6" id="video_box">
                     <iframe 
                         id="player" 
-                        src="https://www.youtube.com/embed/FMFm9GxB_Eo?enablejsapi=1"
+                        src="https://www.youtube.com/embed/{{course.video_id}}?enablejsapi=1"
                         frameborder="0"
                         width="480" 
                         height="270">
@@ -110,9 +111,10 @@
                         <h4 class="white_h3">Not sure if it's for you? </h4>
                         <p class="white_p">Take a quiz to see if you already know the information...</p>
                         <a href="/take_quiz/{{course.id}}" class="btn btn-light" id="take_quiz_btn"role="button">Take the Quiz</a>
-                        <!-- Goes directly to quiz page -->
+                        <!-- GOES DIRECTLY TO QUIZ PAGE DOES NOT ADD TO PLAYLIST -->
                     </div>
                 </div>
+                <!--ADD TO PLAYLIST DO NOT TAKE QUIZ -->
                 <div class="col-sm-6">
                     <div class="take_quiz shadow p-3">
                         <h4 class="white_h3">Save for Later:</h4>
@@ -152,6 +154,7 @@
                     </div>
                 </div>
             </div>
+            <!--MODAL TO TAKE QUIZ AND ADD TO PLAYLIST WHEN DONE WITH VIDEO -->
             <div id="myModal" class="modal">
                 <div class="modal-content">
                 <span class="close">&times;</span>
@@ -160,7 +163,7 @@
                     <button class="btn btn-light dropdown-toggle" id="add_to_playlist_btn" type="button" data-toggle="dropdown">Add to Playlist
                     <span class="caret"></span></button>
                     <ul class="dropdown-menu">
-                        <form action="/take_quiz/{{course.id}}" method="POST">
+                        <form action="/add_to_playlist/{{course.id}}" method="POST">
                             {% csrf_token %}
                             {% for playlists in logged_user.playlists.all %}
                                 {% if course in playlist %}
@@ -175,10 +178,10 @@
                                     </li>
                                 {% endif %}
                             {% endfor %}
-                            <input type="hidden" value="add_to_playlist_and_take_quiz">
+                            <input type="hidden" name="hidden" value="add_to_playlist_and_take_quiz">
                             <input type="submit" value="Take the Quiz!">
                         </form>
-                        <form action="/take_quiz/new_playlsit/{{course.id}}" method="POST">
+                        <form action="/add_to_new_playlist/{{course.id}}" method="POST">
                             <input type="text" name="playlist" placeholder="New Playlist Name">
                             <input type="hidden" value="add_to_playlist_and_take_quiz">
                             <input type="submit" value="Take the Quiz!">
@@ -231,44 +234,28 @@
         </div>
         <!-- Copyright -->
       </footer>
-
+      
+<!--JAVASCRIPT STARTS HERE FOR MODAL-->
     <script type='text/javascript'>
         var tag = document.createElement('script');
-        tag.id = 'iframe-demo';
-        tag.src = 'https://www.youtube.com/iframe_api';
+        tag.id = 'iframe';
+        tag.src = 'https://www.youtube.com/embed/{{course.video_id}}?enablejsapi=1/iframe_api';
         var firstScriptTag = document.getElementsByTagName('script')[0];
         firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
         var player;
         function onYouTubeIframeAPIReady() {
             player = new YT.Player('player', {
-            width="480", 
-            height="270",
-            videoId: 'FMFm9GxB_Eo',
-            events: {
-                'onReady': onPlayerReady,
-                'onStateChange': onPlayerStateChange
-            }
+                events: {
+                    'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange
+                }
             });
         }
-        function onPlayerReady(event) {
-        event.target.playVideo();
-        }
-
-        //function onYouTubeIframeAPIReady(){
-            //player = new YT.Player('video_border', {
-                //events: {
-                    //'onStateChange' : onPlayerStateChange
-                //}
-            //});
-        //}
-        function show_alert(playerStatus){
-            if(playerStatus == 0){
+        function onPlayerStateChange(event){
+            if(event.data == YT.PlayerState.ENDED){
                 console.log("vid ended");
                 $("#myModal").modal("show");
             }
-        };
-        function onPlayerStateChange(event){
-            show_alert(event.data);
         };
         document.getElementById("disabled_button").disabled = true;
     </script>
