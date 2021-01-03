@@ -30,10 +30,11 @@ def video(request, course_id):
 def add_to_playlist(request, course_id):
     if request.method == "POST":
         this_user = User.objects.get(id=request.session["user_id"])
-        this_playlist = this_user.playlists.get(id=request.POST["playlist_id"])
+        this_playlist = this_user.playlists.get(id=request.POST["playlist"])
         this_playlist.course.add(Course.objects.get(id=course_id))
-    if request.POST["hidden"] == "add_to_playlist_and_take_quiz":
-        return redirect(f"take_quiz/{course_id}")
+    # the following code is not currently functioning because 'hidden' is not the name of an input:
+    # if request.POST["hidden"] == "add_to_playlist_and_take_quiz":
+        # return redirect(f"take_quiz/{course_id}")
     return redirect(f"/view_here/{course_id}")
 
 
@@ -44,8 +45,9 @@ def add_to_new_playlist(request, course_id):
             title=request.POST["playlist"], user=this_user
         )
         this_playlist.course.add(Course.objects.get(id=course_id))
-    if request.POST["hidden"] == "add_to_playlist_and_take_quiz":
-        return redirect(f"take_quiz/{course_id}")
+    # the following code is not currently functioning because 'hidden' is not the name of an input:
+    # if request.POST["hidden"] == "add_to_playlist_and_take_quiz":
+        # return redirect(f"take_quiz/{course_id}")
     return redirect(f"/view_here/{course_id}")
 
 
@@ -72,7 +74,7 @@ def library_search(request):
 
 
 # profile option
-def profile(request, user_id):
+def profile(request):
     if "user_id" in request.session:
         logged_user = User.objects.get(id=request.session["user_id"])
         return render(
