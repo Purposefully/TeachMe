@@ -18,7 +18,7 @@ def login(request):
                 request.session['user_id'] = logged_user.id
                 request.session['user_level'] = logged_user.user_level
                 # For future reference, we had to add the .id to the line above to make it work
-                return redirect(f'/profile/{logged_user.id}')
+                return redirect('/profile')
             else:
                 messages.error(request, "Incorrect password")
                 request.session['type'] = "login"
@@ -59,7 +59,7 @@ def signup(request):
         request.session['user_id'] = User.objects.last().id
         user_id = request.session['user_id']
         request.session['user_level'] = User.objects.last().user_level
-        return redirect(f'/profile/{user_id}')
+        return redirect('/profile')
     return redirect('/')
 
 def logout(request):
