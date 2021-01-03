@@ -128,9 +128,8 @@
                                     {% for playlists in logged_user.playlists.all %}
                                         {% if course in playlists.course.all %}
                                             <li class=disabled>
-                                                <!-- only the first li of class disabled is actually disabled because javascript is selecting just the first element with disabled_button id -DA -->
                                                 <label>
-                                                    <input id="disabled_button" type="radio" name="playlist" value="{{playlists.id}}">
+                                                    <input class="disabled_button" type="radio" name="playlist" value="{{playlists.id}}">
                                                     {{playlists.title}}</label>
                                             </li>
                                         {% else %}
@@ -169,15 +168,17 @@
                         <form action="/add_to_playlist/{{course.id}}" method="POST">
                             {% csrf_token %}
                             {% for playlists in logged_user.playlists.all %}
-                                {% if course in playlist %}
+                                {% if course in playlists.course.all %}
                                     <li class=disabled>
-                                        <input id="disabled_button" type="radio" name="playlist" value="{{playlist_id}}">
-                                        <label for="{{playlist_id}}">{{playlist.title}}</label>
+                                        <label>
+                                            <input class="disabled_button" type="radio" name="playlist" value="{{playlists.id}}">
+                                            {{playlists.title}}</label>
                                     </li>
-                                {% elif course not in playlist %}
+                                {% else %}
                                     <li class=active>
-                                        <input type="radio" name="playlist" value="{{playlist_id}}">
-                                        <label for="{{playlist_id}}">{{playlist.title}}</label>
+                                        <label>
+                                            <input type="radio" name="playlist" value="{{playlist.id}}">
+                                            {{playlists.title}}</label>
                                     </li>
                                 {% endif %}
                             {% endfor %}
@@ -260,7 +261,7 @@
                 $("#myModal").modal("show");
             }
         };
-        document.getElementById("disabled_button").disabled = true;
+        $(".disabled_button").prop("disabled", true);
     </script>
 
 </body>
