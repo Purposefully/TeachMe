@@ -13,15 +13,15 @@ def video(request, course_id):
     if "user_id" in request.session:
         # assumes logging in creates a key named "user_id" in session
         # if request.method == "POST":
-
+        logged_user = User.objects.get(id=request.session["user_id"])
         # assumes library page sends post request with course id in a field called "course_id"
         return render(
             request,
             "course_video.html",
             {
                 "course": Course.objects.get(id=course_id),
-                "logged_user": User.objects.get(id=request.session["user_id"]),
-                # "playlist":
+                #"logged_user": User.objects.get(id=request.session["user_id"]),
+                "playlists": Playlist.objects.filter(user=logged_user)
             },
         )
     return redirect("/")
@@ -32,10 +32,10 @@ def add_to_playlist(request, course_id):
         this_user = User.objects.get(id=request.session["user_id"])
         this_playlist = this_user.playlists.get(id=request.POST["playlist"])
         this_playlist.course.add(Course.objects.get(id=course_id))
-    # the following code is not currently functioning because 'hidden' is not the name of an input:
-    # if request.POST["hidden"] == "add_to_playlist_and_take_quiz":
-        # return redirect(f"take_quiz/{course_id}")
-    return redirect(f"/view_here/{course_id}")
+
+    if request.POST["hidden"] == "add_to_playlist_and_take_quiz":
+        return redirect(f"take_quiz/{course_id}")
+    return redirect("/library")
 
 
 def add_to_new_playlist(request, course_id):
@@ -45,10 +45,10 @@ def add_to_new_playlist(request, course_id):
             title=request.POST["playlist"], user=this_user
         )
         this_playlist.course.add(Course.objects.get(id=course_id))
-    # the following code is not currently functioning because 'hidden' is not the name of an input:
-    # if request.POST["hidden"] == "add_to_playlist_and_take_quiz":
-        # return redirect(f"take_quiz/{course_id}")
-    return redirect(f"/view_here/{course_id}")
+
+    if request.POST["hidden"] == "add_to_playlist_and_take_quiz":
+        return redirect(f"take_quiz/{course_id}")
+    return redirect("/library")
 
 
 # course library
@@ -117,3 +117,10 @@ def create_course(request):
 # about
 def about(request):
     return render(request, "about.html")
+
+def individual_playlist(request, playlist_id):
+    this_playlist = Playlist.objects.get(id=playlist_id)
+    context = {
+        'courses' : Course.objects.filter(playlists=this_playlist)
+    }
+    return render(request, "individual_playlist.html", context)
