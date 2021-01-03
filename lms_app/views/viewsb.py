@@ -17,7 +17,7 @@ def login(request):
             if bcrypt.checkpw(request.POST['password'].encode(), logged_user.password.encode()):
                 request.session['user_id'] = logged_user.id
                 # For future reference, we had to add the .id to the line above to make it work
-                return redirect(f'/profile/{logged_user.id}')
+                return redirect('/profile')
             else:
                 messages.error(request, "Incorrect password")
                 request.session['type'] = "login"
@@ -56,7 +56,7 @@ def signup(request):
         # Remove entries from screen
         request.session.flush()
         request.session['user_id'] = User.objects.last().id
-        return redirect(f'/profile/{request.session.user_id}')
+        return redirect('/profile')
     return redirect('/')
 
 def logout(request):

@@ -77,7 +77,7 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarText">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
+                <li class="nav-item">
                 <a class="nav-link" href="/about">About</a>
                 </li>
                 <li class="nav-item">
@@ -87,7 +87,7 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/create_course">Create Course</a>
                 </li>
-                    <a class="nav-link" href="/profile/{{user.id}}">Profile</a>
+                    <a class="nav-link" href="/profile">Profile</a>
                 </li>
                 <li class="nav-item">
                 <a class="nav-link" href="#">Contact</a>
@@ -141,16 +141,19 @@
                             <ul class="dropdown-menu">
                                 <form action="/add_to_playlist/{{course.id}}" method="POST">
                                     {% csrf_token %}
+
                                     {% for playlist in playlists %}
                                         {% if course in playlist %}
                                             <li class=disabled>
-                                                <input id="disabled_button" type="radio" name="playlist" value="{{playlists.id}}">
-                                                <label for="{{playlists.id}}">{{playlists.title}}</label>
+                                                <label>
+                                                    <input class="disabled_button" type="radio" name="playlist" value="{{playlists.id}}">
+                                                    {{playlists.title}}</label>
                                             </li>
                                         {% elif course not in playlist %}
                                             <li class=active>
-                                                <input type="radio" name="playlist" value="{{playlist_id}}">
-                                                <label for="{{playlists.id}}">{{playlists.title}}</label>
+                                                <label>
+                                                    <input type="radio" name="playlist" value="{{playlists.id}}">
+                                                    {{playlists.title}}</label>
                                             </li>
                                         {% endif %}
                                     {% endfor %}
@@ -172,6 +175,7 @@
             </div>
             <button style=visibility:hidden id="open-modal" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">Take Quiz</button>
             <!--MODAL TO TAKE QUIZ AND ADD TO PLAYLIST WHEN DONE WITH VIDEO -->
+
             <div id="myModal" class="modal" tabindex="-1">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -186,15 +190,15 @@
                                         <form action="/add_to_playlist/{{course.id}}" method="POST">
                                             {% csrf_token %}
                                             {% for playlists in logged_user.playlists.all %}
-                                                {% if course in playlist %}
+                                                {% if course in playlists.course.all %}
                                                     <li class=disabled>
-                                                        <input id="disabled_button" type="radio" name="playlist" value="{{playlist_id}}">
-                                                        <label for="{{playlist_id}}">{{playlist.title}}</label>
+                                                        <input id="disabled_button" type="radio" name="playlist" value="{{playlists.id}}">
+                                                        <label for="{{playlists.id}}">{{playlists.title}}</label>
                                                     </li>
-                                                {% elif course not in playlist %}
+                                                {% else %}
                                                     <li class=active>
-                                                        <input type="radio" name="playlist" value="{{playlist_id}}">
-                                                        <label for="{{playlist_id}}">{{playlist.title}}</label>
+                                                        <input type="radio" name="playlist" value="{{playlists.id}}">
+                                                        <label for="{{playlists.id}}">{{playlists.title}}</label>
                                                     </li>
                                                 {% endif %}
                                             {% endfor %}
@@ -277,6 +281,9 @@
         function onPlayerReady(event) {
             document.getElementById('player');
             }
+        };
+        $(".disabled_button").prop("disabled", true);
+
         function showModal(playerStatus) {
             if (playerStatus == 0) {
                 console.log("vid ended");
@@ -295,6 +302,7 @@
         function onPlayerStateChange(event) {
             showModal(event.data);
         }
+
     </script>
 
 </body>
