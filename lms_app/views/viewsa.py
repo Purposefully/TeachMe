@@ -1,7 +1,7 @@
 import requests
 from django.shortcuts import render, redirect
 from TeachMe.secrets import google_api_key
-from ..models import Course, User, Topic, Playlist
+from ..models import Course, User, Topic, Playlist, Question
 
 
 def test(request):
@@ -45,7 +45,6 @@ def add_to_new_playlist(request, course_id):
             title=request.POST["playlist"], user=this_user
         )
         this_playlist.course.add(Course.objects.get(id=course_id))
-
     if request.POST["hidden"] == "add_to_playlist_and_take_quiz":
         return redirect(f"take_quiz/{course_id}")
     return redirect("/library")
@@ -54,10 +53,27 @@ def add_to_new_playlist(request, course_id):
 # course library
 def library(request):
     if "user_id" in request.session:
+
+        # Note: added by Lisa.  Feel free to discard or improve
+        # If admin has added a course but not created a quiz, 
+        # I'm assuming we wouldn't want the course showing up in the library yet?
+        # Therefore, this pulls only courses that have quizzes
+        # Get all questions from current quizzes
+        questions = Question.objects.all()
+        # Create list for ids of courses that have quizzes
+        courses_with_questions = []
+        # For each question, get the related course id and add to list
+        for question in questions:
+            if question.course.id not in courses_with_questions:
+                courses_with_questions.append(question.course.id)
+
+        # Filter all courses for those that have quizzes
+        courses_to_display = Course.objects.filter(id__in=courses_with_questions)
+
         return render(
             request,
             "course_library.html",
-            {"topics": Topic.objects.all(), "courses": Course.objects.all()},
+            {"topics": Topic.objects.all(), "courses": courses_to_display},
         )
     return redirect("/")
 

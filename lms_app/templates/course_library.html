@@ -19,23 +19,33 @@
             <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarText">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="/about">About</a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="/library">Course Library</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/create_course">Create Course</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/profile">Profile</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Contact</a>
-                </li>
-            </ul>
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                      <a class="nav-link" href="/about">About</a>
+                    </li>
+                    <li class="nav-item">
+                     <a class="nav-link" href="/library">Course Library</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="/profile">Profile</a>
+                    </li>
+                    {% if request.session.user_level == "admin" %}
+                      <li class="nav-item">
+                        <a class="nav-link" href="/create_course">Create Course</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="/manage_quizzes">Manage Quizzes</a>
+                      </li>
+                    {% endif %}
+                    <li class="nav-item">
+                      <a class="nav-link" href="#">Contact</a>
+                    </li>
+                    {% if request.session.user_id %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout">Logout</a>
+                    </li>
+                    {% endif %}
+                </ul>
             <span class="navbar-text">
                 Your learning resource for on-demand instruction.
             </span>
@@ -196,11 +206,11 @@
                     <!--Grid column-->
                     <div class="col-md-6">
                         <h5 class="text-uppercase mb-0">Connect with TeachMe</h5>
-                        <a href="" target="" class="btn-social btn-facebook"><i class="fa fa-facebook"></i></a>
-                        <a href="" target="" class="btn-social btn-linkedin"><i class="fa fa-linkedin"></i></a>
-                        <a href="" target="" class="btn-social btn-trello"><i class="fa fa-trello"></i></a>
-                        <a href="" target="" class="btn-social btn-twitter"><i class="fa fa-twitter"></i></a>
-                        <a href="" target="" class="btn-social btn-youtube"><i class="fa fa-youtube"></i></a>
+                        <a href="#!" target="" class="btn-social btn-facebook"><i class="fa fa-facebook"></i></a>
+                        <a href="#!" target="" class="btn-social btn-linkedin"><i class="fa fa-linkedin"></i></a>
+                        <a href="#!" target="" class="btn-social btn-trello"><i class="fa fa-trello"></i></a>
+                        <a href="#!" target="" class="btn-social btn-twitter"><i class="fa fa-twitter"></i></a>
+                        <a href="#!" target="" class="btn-social btn-youtube"><i class="fa fa-youtube"></i></a>
                     </div>
                     <!--Grid column-->
                 </div>
