@@ -8,7 +8,7 @@ urlpatterns = [
     path("logout", views.logout),
     path("profile", views.profile),
     path("about", views.about),
-    # path('playlist/<int:playlist_id>', views.get_playlist),
+    path('playlist/<int:playlist_id>', views.individual_playlist),
     # path('add_playlist', views.add_playlist),
     #Look at one specific video
     path("view_here/<int:course_id>", views.video),
