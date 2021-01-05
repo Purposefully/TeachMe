@@ -230,6 +230,7 @@
                                         <input type="submit" value="Take the Quiz!">
                                     </form>
                                     <form action="/add_to_new_playlist/{{course.id}}" method="POST">
+                                        {% csrf_token %}
                                         <input type="text" name="playlist" placeholder="New Playlist Name">
                                         <input type="hidden" name="hidden" value="add_to_playlist_and_take_quiz">
                                         <input type="submit" value="Take the Quiz!">
