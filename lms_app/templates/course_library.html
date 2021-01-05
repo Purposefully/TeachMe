@@ -31,10 +31,10 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarText">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
+                    <li class="nav-item">
                         <a class="nav-link" href="/about">About</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item active">
                         <a class="nav-link" href="/library">Course Library</a>
                     </li>
                     <li class="nav-item">
@@ -51,13 +51,11 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#">Contact</a>
                     </li>
-                    <!-- this 'if' is not necessary
-                        attempting to access this page while not logged-in redirects to index -DA
-                    {% if request.session.user_id %}
+
                     <li class="nav-item">
                         <a class="nav-link" href="/logout">Logout</a>
                     </li>
-                    {% endif %} -->
+
                 </ul>
                 <span class="navbar-text">
                     Your learning resource for on-demand instruction.

@@ -134,5 +134,16 @@ def about(request):
 
 def individual_playlist(request, playlist_id):
     this_playlist = Playlist.objects.get(id=playlist_id)
-    context = {"courses": Course.objects.filter(playlists=this_playlist)}
-    return render(request, "individual_playlist.html", context)
+    courses = Course.objects.filter(playlists=this_playlist)
+
+    score = {}
+    for course in courses:
+        record = course.records.filter(
+            users=User.objects.get(id=request.session["user_id"])
+        )
+        if record:
+            score.update({course.id: record[0].score})
+
+    return render(
+        request, "individual_playlist.html", {"courses": courses, "scores": score}
+    )
