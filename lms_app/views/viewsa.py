@@ -1,11 +1,7 @@
 import requests
 from django.shortcuts import render, redirect
 from TeachMe.secrets import google_api_key
-from ..models import Course, User, Playlist, Question
-
-
-def test(request):
-    return render(request, "test.html")
+from ..models import Course, User, Playlist
 
 
 # course video
@@ -51,42 +47,29 @@ def add_to_new_playlist(request, course_id):
 def library(request):
 
     if "user_id" in request.session:
-        # Note: added by Lisa.  Feel free to discard or improve
-        # If admin has added a course but not created a quiz,
-        # I'm assuming we wouldn't want the course showing up in the library yet?
-        # Therefore, this pulls only courses that have quizzes
-
-        # Get all questions from current quizzes
-        questions = Question.objects.all()
-        # Create list for ids of courses that have quizzes
-        courses_with_questions = []
-        # For each question, get the related course id and add to list
-        for question in questions:
-            if question.course.id not in courses_with_questions:
-                courses_with_questions.append(question.course.id)
-
-        # Filter all courses for those that have quizzes
-        courses_to_display = Course.objects.filter(id__in=courses_with_questions)
-
         return render(
             request,
             "course_library.html",
-            {"courses": courses_to_display},
+            {"courses": Course.objects.with_questions()},
         )
     return redirect("/")
 
 
 def library_search(request):
+    courses = Course.objects.with_questions()
+    if request.POST["search"] != "":
+        courses = courses.filter(title__contains=request.POST["search"])
+
     return render(
         request,
-        "course_library.html",
+        "library_cards.html",
         {
-            "courses": Course.objects.filter(title__contains=request.GET["search"]),
+            "courses": courses,
         },
     )
 
 
-# profile option
+# profile
 def profile(request):
     if "user_id" in request.session:
         logged_user = User.objects.get(id=request.session["user_id"])
@@ -97,6 +80,23 @@ def profile(request):
         )
 
     return redirect("/")
+
+
+def individual_playlist(request, playlist_id):
+    this_playlist = Playlist.objects.get(id=playlist_id)
+    courses = Course.objects.filter(playlists=this_playlist)
+
+    score = {}
+    for course in courses:
+        record = course.records.filter(
+            users=User.objects.get(id=request.session["user_id"])
+        )
+        if record:
+            score.update({course.id: record[len(record) - 1].score})
+
+    return render(
+        request, "individual_playlist.html", {"courses": courses, "scores": score}
+    )
 
 
 # def add_playlist():
@@ -130,20 +130,3 @@ def create_course(request):
 # about
 def about(request):
     return render(request, "about.html")
-
-
-def individual_playlist(request, playlist_id):
-    this_playlist = Playlist.objects.get(id=playlist_id)
-    courses = Course.objects.filter(playlists=this_playlist)
-
-    score = {}
-    for course in courses:
-        record = course.records.filter(
-            users=User.objects.get(id=request.session["user_id"])
-        )
-        if record:
-            score.update({course.id: record[0].score})
-
-    return render(
-        request, "individual_playlist.html", {"courses": courses, "scores": score}
-    )
