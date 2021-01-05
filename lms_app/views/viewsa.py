@@ -1,7 +1,7 @@
 import requests
 from django.shortcuts import render, redirect
 from TeachMe.secrets import google_api_key
-from ..models import Course, User, Topic, Playlist, Question
+from ..models import Course, User, Playlist, Question
 
 
 def test(request):
@@ -11,17 +11,14 @@ def test(request):
 # course video
 def video(request, course_id):
     if "user_id" in request.session:
-        # assumes logging in creates a key named "user_id" in session
-        # if request.method == "POST":
         logged_user = User.objects.get(id=request.session["user_id"])
-        # assumes library page sends post request with course id in a field called "course_id"
         return render(
             request,
             "course_video.html",
             {
                 "course": Course.objects.get(id=course_id),
-                #"logged_user": User.objects.get(id=request.session["user_id"]),
-                "playlists": Playlist.objects.filter(user=logged_user)
+                # "logged_user": User.objects.get(id=request.session["user_id"]),
+                "playlists": Playlist.objects.filter(user=logged_user),
             },
         )
     return redirect("/")
@@ -52,12 +49,13 @@ def add_to_new_playlist(request, course_id):
 
 # course library
 def library(request):
-    if "user_id" in request.session:
 
+    if "user_id" in request.session:
         # Note: added by Lisa.  Feel free to discard or improve
-        # If admin has added a course but not created a quiz, 
+        # If admin has added a course but not created a quiz,
         # I'm assuming we wouldn't want the course showing up in the library yet?
         # Therefore, this pulls only courses that have quizzes
+
         # Get all questions from current quizzes
         questions = Question.objects.all()
         # Create list for ids of courses that have quizzes
@@ -73,7 +71,7 @@ def library(request):
         return render(
             request,
             "course_library.html",
-            {"topics": Topic.objects.all(), "courses": courses_to_display},
+            {"courses": courses_to_display},
         )
     return redirect("/")
 
@@ -83,7 +81,6 @@ def library_search(request):
         request,
         "course_library.html",
         {
-            "topics": Topic.objects.all(),
             "courses": Course.objects.filter(title__contains=request.GET["search"]),
         },
     )
@@ -134,9 +131,19 @@ def create_course(request):
 def about(request):
     return render(request, "about.html")
 
+
 def individual_playlist(request, playlist_id):
     this_playlist = Playlist.objects.get(id=playlist_id)
-    context = {
-        'courses' : Course.objects.filter(playlists=this_playlist)
-    }
-    return render(request, "individual_playlist.html", context)
+    courses = Course.objects.filter(playlists=this_playlist)
+
+    score = {}
+    for course in courses:
+        record = course.records.filter(
+            users=User.objects.get(id=request.session["user_id"])
+        )
+        if record:
+            score.update({course.id: record[0].score})
+
+    return render(
+        request, "individual_playlist.html", {"courses": courses, "scores": score}
+    )
