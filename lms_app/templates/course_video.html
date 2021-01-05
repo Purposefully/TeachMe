@@ -149,7 +149,7 @@
                             <button class="btn btn-light dropdown-toggle" id="add_to_playlist_btn" type="button" data-toggle="dropdown">Add to Playlist
                             <span class="caret"></span></button>
                             <ul class="dropdown-menu">
-                                <form action="/add_to_playlist/{{course.id}}" method="POST">
+                                <form class="playlist_dropdown" action="/add_to_playlist/{{course.id}}" method="POST">
                                     {% csrf_token %}
 
                                     {% for playlist in playlists %}
@@ -168,14 +168,14 @@
                                         {% endif %}
                                     {% endfor %}
                                     <input type="hidden" name="hidden" value="add_to_playlist_no_quiz">
-                                    <input type="submit" value="Add to Playlist!">
+                                    <input class="btn btn-info" type="submit" value="Add to Playlist!">
                                 </form>
-
-                                <form action="/add_to_new_playlist/{{course.id}}" method="POST">
+                                <hr>
+                                <form class="playlist_dropdown" action="/add_to_new_playlist/{{course.id}}" method="POST">
                                     {% csrf_token %}
                                     <input type="text" name="playlist" placeholder="New Playlist Name">
                                     <input type="hidden" name="hidden" value="add_to_playlist_no_quiz">
-                                    <input type="submit" value="Create New Playlist!">
+                                    <input class="btn btn-info" type="submit" value="Create New Playlist!">
                                 </form>
                                 <!-- Drop down menu of all playlists. If the course is already in the playlist, that option is disabled. If not, the link should lead to a view that adds the video to the playlist -->
                             </ul>
