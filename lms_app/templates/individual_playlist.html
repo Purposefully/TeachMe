@@ -1,23 +1,33 @@
 <div id=individual_playlist>
-    {% for course in courses %}
-    <!-- In the views, pull over courses only in that playlist (can you separate by completed and not completed -KE -->
-    <!-- Or, we can do an if/else statement, if the score is null, it isn't completed, if it is an integer, it is completed -KE -->
-      {% if course.records %}
-      <h3>Courses Completed</h3>
-      <div>
-        <img src="https://img.youtube.com/vi/{{course.video_id}}/0.jpg" alt="course completed thumbnail" href="/get_quiz/{course.id}">
-            <p><small>{{course.title}}</small></p> 
-            <!-- would it make sense to add a context object in the get_quiz area so that i can pull over the course info using the same loop? -MP -->
-            <p><small>{{course.score}}/5</small></p>
-            <a href="/video/{{course_id}}"><small>Retake Course</small></a>
-      </div>
-      <hr class="horizontal_line"></hr>
-      {% else %}
-      <h3>Courses to Take</h3>
-      <div class="card" style="width:100px;">
-        <img src="https://img.youtube.com/vi/{{course.video_id}}/0.jpg" alt="course thumbnail" href="/video/{course.id}">
-        <p><small>{{course.title}}</small></p>
-      </div>
-      {% endif %}
-    {% endfor %}
+  {% load scores %}
+  <h3>{{playlist.title}}</h3>
+  <p><small><a href="/delete_playlist/{{playlist.id}}">Delete Playlist</a></small></p>
+  <h4>Courses Completed</h4>
+  {% for course in courses %}
+  {% if course.id in scores %}
+
+  <div class="card classcard" style="width: 15rem; display:inline-block; ">
+    <img class="card-img-top" src="https://img.youtube.com/vi/{{course.video_id}}/0.jpg" alt="Card image cap">
+    <div class="card-body">
+      <h4 class="card-title">{{course.title}}</h4>
+      <p><small>{{scores|keyvalue:course.id}}/5</small></p>
+      <a class="btn btn-info" href="/view_here/{{course.id}}">Retake Course</a>
+    </div>
+  </div>
+
+  <hr class="horizontal_line">
+  </hr>
+  {% else %}
+  <h4>Courses to Take</h4>
+
+  <div class="card classcard" style="width: 15rem; display:inline-block; ">
+    <img class="card-img-top" src="https://img.youtube.com/vi/{{course.video_id}}/0.jpg" alt="Card image cap">
+    <div class="card-body">
+      <h4 class="card-title">{{course.title}}</h4>
+      <a class="btn btn-info" href="/view_here/{{course.id}}">Visit Course Page</a>
+    </div>
+  </div>
+
+  {% endif %}
+  {% endfor %}
 </div>
