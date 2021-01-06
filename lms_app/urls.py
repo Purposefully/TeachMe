@@ -27,6 +27,7 @@ urlpatterns = [
     path("create_random_quiz/<int:course_id>", views.create_random_quiz),
     path("create_real_quiz/<int:course_id>", views.create_real_quiz),
     path("edit_quiz/<int:course_id>", views.edit_quiz),
+    path("delete_playlist/<int:playlist_id>", views.delete_playlist),
     # path('grade', views.grade)
     # path('take_quiz/<int:id>', views.get_quiz), (should go to the views where the quiz appears),
     path("video/<int:course_id>", views.video),

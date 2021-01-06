@@ -212,17 +212,17 @@
                                 <ul class="dropdown-menu">
                                     <form action="/add_to_playlist/{{course.id}}" method="POST">
                                         {% csrf_token %}
-                                        {% for playlists in logged_user.playlists.all %}
-                                        {% if course in playlists.course.all %}
+                                        {% for playlist in playlists %}
+                                        {% if course in playlist.course.all %}
                                         <li class=disabled>
                                             <input id="disabled_button" type="radio" name="playlist"
                                                 value="{{playlists.id}}">
-                                            <label for="{{playlists.id}}">{{playlists.title}}</label>
+                                            <label for="{{playlists.id}}">{{playlist.title}}</label>
                                         </li>
                                         {% else %}
                                         <li class=active>
                                             <input type="radio" name="playlist" value="{{playlists.id}}">
-                                            <label for="{{playlists.id}}">{{playlists.title}}</label>
+                                            <label for="{{playlists.id}}">{{playlist.title}}</label>
                                         </li>
                                         {% endif %}
                                         {% endfor %}
