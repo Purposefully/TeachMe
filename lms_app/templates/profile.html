@@ -67,18 +67,26 @@
     <br>
     <div id="profile_container">
       <h4>Welcome, {{user.name}}!</h4>
-      <div class="col-md-8">
-        <h3>Your Playlists</h3>
-        <ul>
-          {% for playlist in playlists %}
-          <li>
-            <a href="" id="playlist_link" data-pid="{{playlist.id}}">{{playlist.title}}</a>
-          </li>
-          {% endfor %}
-        </ul>
-        <div id="individual_playlist">
 
+      <div class="row" id="playlist_list">
+        <div class="col-sm-4">
+          <h3>Your Playlists</h3>
+          <ul>
+            {% for playlist in playlists %}
+            <li>
+              <a href="" id="playlist_link" data-pid="{{playlist.id}}">{{playlist.title}}</a>
+            </li>
+            {% endfor %}
+          </ul>
         </div>
+        <div class="col-sm-8">
+          <div id="individual_playlist">
+
+          </div>
+        </div>
+      </div>
+
+    
         <!-- {% for course in playlists %}
           <div class="card" style="width:100px;">
               <img src="https://img.youtube.com/vi/{{course.video_id}}/0.jpg" alt="course thumbnail" href="/video/{course.id}">
@@ -142,7 +150,7 @@
 
     <script>
       $('a#playlist_link').click(function (e) {
-        // alert("clicked!");
+        //alert("clicked!");
         var playlist_id = $(this).data('pid');
         e.preventDefault();
         $.ajax({

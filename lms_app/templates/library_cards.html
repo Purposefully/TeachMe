@@ -1,0 +1,10 @@
+{% for course in courses %}
+<div class="card classcard" style="width: 15rem; display:inline-block; ">
+    <img class="card-img-top" src="https://img.youtube.com/vi/{{course.video_id}}/0.jpg" alt="Card image cap">
+    <div class="card-body">
+        <h4 class="card-title">{{course.title}}</h4>
+
+        <a class="btn btn-info" href="/view_here/{{course.id}}">Visit Course Page</a>
+    </div>
+</div>
+{% endfor %}
