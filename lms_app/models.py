@@ -1,20 +1,35 @@
 import re
 from django.db import models
 
+EMAIL_REGEX = re.compile(r"^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$")
+
 
 class UserManager(models.Manager):
-    def basic_validator(self, postData):
+    def basic_validator(self, post_data):
         errors = {}
-        if len(postData["name"]) < 2:
+        if len(post_data["name"]) < 2:
             errors["name"] = "Name must be at least 2 characters long."
-        EMAIL_REGEX = re.compile(r"^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$")
-        if not EMAIL_REGEX.match(postData["email"]):
+        if not EMAIL_REGEX.match(post_data["email"]):
             errors["email"] = "Email address is invalid."
-        if len(postData["password"]) < 8:
+        if len(post_data["password"]) < 8:
             errors["password"] = "Password must be at least 8 characters long."
-        if postData["password"] != postData["confirm_password"]:
+        if post_data["password"] != post_data["confirm_password"]:
             errors["pwd_match"] = "Password must match Re-type Password"
         return errors
+
+
+class CourseManager(models.Manager):
+    def with_questions(self):
+        # Get all questions from current quizzes
+        questions = Question.objects.all()
+        # Create list for ids of courses that have quizzes
+        courses_with_questions = []
+        # For each question, get the related course id and add to list
+        for question in questions:
+            if question.course.id not in courses_with_questions:
+                courses_with_questions.append(question.course.id)
+        # Return all courses for those that have quizzes
+        return Course.objects.filter(id__in=courses_with_questions)
 
 
 class User(models.Model):
@@ -39,6 +54,8 @@ class Course(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    objects = CourseManager()
+
     def __str__(self):
         return self.title
 
@@ -54,7 +71,7 @@ class Playlist(models.Model):
         return self.title
 
 
-class User_Quiz_Record(models.Model):
+class UserQuizRecord(models.Model):
     users = models.ManyToManyField(User, related_name="records")
     course = models.ManyToManyField(Course, related_name="records")
     score = models.IntegerField()
