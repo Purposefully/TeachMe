@@ -1,10 +1,11 @@
 <div id=individual_playlist>
   {% load scores %}
+  <h3>{{playlist.title}}</h3>
+  <p><small><a href="/delete_playlist/{{playlist.id}}">Delete Playlist</a></small></p>
+  <h4>Courses Completed</h4>
   {% for course in courses %}
-  <!-- In the views, pull over courses only in that playlist (can you separate by completed and not completed -KE -->
-  <!-- Or, we can do an if/else statement, if the score is null, it isn't completed, if it is an integer, it is completed -KE -->
   {% if course.id in scores %}
-  <h3>Courses Completed</h3>
+
   <div class="card classcard" style="width: 15rem; display:inline-block; ">
     <img class="card-img-top" src="https://img.youtube.com/vi/{{course.video_id}}/0.jpg" alt="Card image cap">
     <div class="card-body">
@@ -17,7 +18,7 @@
   <hr class="horizontal_line">
   </hr>
   {% else %}
-  <h3>Courses to Take</h3>
+  <h4>Courses to Take</h4>
 
   <div class="card classcard" style="width: 15rem; display:inline-block; ">
     <img class="card-img-top" src="https://img.youtube.com/vi/{{course.video_id}}/0.jpg" alt="Card image cap">

@@ -145,5 +145,11 @@ def individual_playlist(request, playlist_id):
             score.update({course.id: record[0].score})
 
     return render(
-        request, "individual_playlist.html", {"courses": courses, "scores": score}
+        request, "individual_playlist.html", {"courses": courses, "scores": score, "playlist": this_playlist}
     )
+
+def delete_playlist(request, playlist_id):
+    this_playlist = Playlist.objects.get(id=playlist_id)
+    this_playlist.delete()
+
+    return redirect("/profile")
