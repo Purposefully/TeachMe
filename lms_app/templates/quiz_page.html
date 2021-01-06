@@ -74,14 +74,15 @@
       </div>
     </nav>
     <!-- End Nav Bar -->
-    <h3>Take the Quiz!</h3>
+    <!-- <h3 class="white_h3">Take the Quiz!</h3> -->
+    <h3 class="white_h3">Take the {{course.title}} Quiz!</h3>
     <div class="container-fluid border_radius">
       <div id=quiz class="shadow p-3">
         <form action="/submit_quiz/{{course.id}}" method="POST">
           {% csrf_token %}
           {% for item in items %}
           <div id="question" class="row">
-            <div class="m-10 col-sm-6" id=description>
+            <div class="m-10 col-sm-6 quiz_question" id=description>
               <input type="hidden" name="{{item.q_num_key}}" value="{{item.q_id}}">
               <p>{{item.q_num}}. {{item.q_content}}</p>
             </div>
@@ -103,12 +104,12 @@
                 <label for="{{item.answer4_id}}">{{item.answer4_content}}</label>
               </div>
             </div>
-          </div>
           {% endfor %}
-          <div class="row" id="submission">
-            <div class="col-sm-12">
-              <input class="center_sub_button" type="submit" value="Submit">
+            <div class="row" id="submission">
+            <div class="col-sm-12 text-center">
+              <input class="btn btn-info center_sub_button" type="submit" value="Submit">
             </div>
+            <br>
           </div>
         </form>
       </div>
