@@ -82,26 +82,31 @@ def profile(request):
     return redirect("/")
 
 
-# def individual_playlist(request, playlist_id):
-#     this_playlist = Playlist.objects.get(id=playlist_id)
-#     courses = Course.objects.filter(playlists=this_playlist)
+def individual_playlist(request, playlist_id):
+    this_playlist = Playlist.objects.get(id=playlist_id)
+    courses = Course.objects.filter(playlists=this_playlist)
 
-#     score = {}
-#     for course in courses:
-#         record = course.records.filter(
-#             users=User.objects.get(id=request.session["user_id"])
-#         )
-#         if record:
-#             score.update({course.id: record[len(record) - 1].score})
+    score = {}
+    for course in courses:
+        record = course.records.filter(
+            users=User.objects.get(id=request.session["user_id"])
+        )
+        if record:
+            score.update({course.id: record[len(record) - 1].score})
 
-#     return render(
-#         request, "individual_playlist.html", {"courses": courses, "scores": score}
-#     )
+    return render(
+        request,
+        "individual_playlist.html",
+        {"courses": courses, "scores": score, "playlist": this_playlist},
+    )
 
 
-# def add_playlist():
-# logged_user = User.objects.get(id=request.session["user_id"])
-# logged_user.playlists.create()
+def delete_playlist(request, playlist_id):
+    this_playlist = Playlist.objects.get(id=playlist_id)
+    this_playlist.delete()
+
+    return redirect("/profile")
+
 
 # create a course
 def create_course(request):
@@ -130,25 +135,3 @@ def create_course(request):
 # about
 def about(request):
     return render(request, "about.html")
-
-def individual_playlist(request, playlist_id):
-    this_playlist = Playlist.objects.get(id=playlist_id)
-    courses = Course.objects.filter(playlists=this_playlist)
-
-    score = {}
-    for course in courses:
-        record = course.records.filter(
-            users=User.objects.get(id=request.session["user_id"])
-        )
-        if record:
-            score.update({course.id: record[0].score})
-
-    return render(
-        request, "individual_playlist.html", {"courses": courses, "scores": score, "playlist": this_playlist}
-    )
-
-def delete_playlist(request, playlist_id):
-    this_playlist = Playlist.objects.get(id=playlist_id)
-    this_playlist.delete()
-
-    return redirect("/profile")
