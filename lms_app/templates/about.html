@@ -1,44 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="{% static 'js/jquery.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
+    </script>
 </head>
+
 <body>
     <div id="about_wrapper">
         <nav class="navbar navbar-expand-lg navbar-light nav_transparency">
-            <a href="/"><img src="{% static 'img/LOGO_TeachMe_Owl.png' %}" alt="TeachMe Logo" class="img-fluid" style="max-width: 150px;" ></a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
+            <a href="/"><img src="{% static 'img/LOGO_TeachMe_Owl.png' %}" alt="TeachMe Logo" class="img-fluid"
+                    style="max-width: 150px;"></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText"
+                aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarText">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
-                      <a class="nav-link" href="/about">About</a>
+                        <a class="nav-link" href="/about">About</a>
                     </li>
                     <li class="nav-item">
-                     <a class="nav-link" href="/library">Course Library</a>
+                        <a class="nav-link" href="/library">Course Library</a>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link" href="/profile">Profile</a>
+                        <a class="nav-link" href="/profile">Profile</a>
                     </li>
                     {% if request.session.user_level == "admin" %}
-                      <li class="nav-item">
+                    <li class="nav-item">
                         <a class="nav-link" href="/create_course">Create Course</a>
-                      </li>
-                      <li class="nav-item">
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="/manage_quizzes">Manage Quizzes</a>
-                      </li>
+                    </li>
                     {% endif %}
                     <li class="nav-item">
-                      <a class="nav-link" href="#">Contact</a>
+                        <a class="nav-link" href="#">Contact</a>
                     </li>
                     {% if request.session.user_id %}
                     <li class="nav-item">
@@ -46,21 +55,38 @@
                     </li>
                     {% endif %}
                 </ul>
-            <span class="navbar-text">
-                Your learning resource for on-demand instruction.
-            </span>
+                <span class="navbar-text">
+                    Your learning resource for on-demand instruction.
+                </span>
             </div>
         </nav>
         <br>
-        <div class="content_box"> 
+        <div class="content_box">
             <h3>About TeachMe</h3>
             <img id="about_img" src="{% static 'img/ezgif.com-gif-maker.gif' %}" alt="head with gears image">
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi inventore nemo perferendis voluptas voluptates aperiam molestiae ut impedit sed fuga sint facilis nulla eius, quod consequatur, hic ab obcaecati nihil!</p>
-            <p>Lorem lorem ipsum dolor sit amet consectetur adipisicing elit. Animi inventore nemo perferendis voluptas voluptates aperiam molestiae ut impedit sed fuga sint facilis nulla eius, quod consequatur, hic ab obcaecati nihil! Lorem ipsum, dolor sit amet consectetur adipisicing elit. Error odit temporibus totam. Maiores consequatur, aliquid nihil nostrum animi ab eveniet quaerat cupiditate unde obcaecati! Doloribus voluptas eos dolor fuga laudantium?</p>
-            <p>Lorem lorem ipsum dolor sit amet consectetur adipisicing elit. Animi inventore nemo perferendis voluptas voluptates aperiam molestiae ut impedit sed fuga sint facilis nulla eius, quod consequatur, hic ab obcaecati nihil! Lorem ipsum, dolor sit amet consectetur adipisicing elit.</p>
-            <p>Lorem lorem ipsum dolor sit amet consectetur adipisicing elit. Animi inventore nemo perferendis voluptas voluptates aperiam molestiae ut impedit sed fuga sint facilis nulla eius, quod consequatur, hic ab obcaecati nihil! Lorem ipsum, dolor sit amet consectetur adipisicing elit. Error odit temporibus totam. Maiores consequatur, aliquid nihil nostrum animi ab eveniet quaerat cupiditate unde obcaecati! Doloribus voluptas eos dolor fuga laudantium?</p>
-            <blockquote> “YOU DON’T HAVE TO BE GREAT TO START, BUT YOU HAVE TO START TO BE GREAT.” <em>–ZIG ZIGLAR</em></blockquote>
-            <p>Lorem lorem ipsum dolor sit amet consectetur adipisicing elit. Animi inventore nemo perferendis voluptas voluptates aperiam molestiae ut impedit sed fuga sint facilis nulla eius, quod consequatur, hic ab obcaecati nihil! Lorem ipsum, dolor sit amet consectetur adipisicing elit. Error odit temporibus totam. Maiores consequatur, aliquid nihil nostrum animi ab eveniet quaerat cupiditate unde obcaecati! Doloribus voluptas eos dolor fuga laudantium?</p>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi inventore nemo perferendis voluptas
+                voluptates aperiam molestiae ut impedit sed fuga sint facilis nulla eius, quod consequatur, hic ab
+                obcaecati nihil!</p>
+            <p>Lorem lorem ipsum dolor sit amet consectetur adipisicing elit. Animi inventore nemo perferendis voluptas
+                voluptates aperiam molestiae ut impedit sed fuga sint facilis nulla eius, quod consequatur, hic ab
+                obcaecati nihil! Lorem ipsum, dolor sit amet consectetur adipisicing elit. Error odit temporibus totam.
+                Maiores consequatur, aliquid nihil nostrum animi ab eveniet quaerat cupiditate unde obcaecati! Doloribus
+                voluptas eos dolor fuga laudantium?</p>
+            <p>Lorem lorem ipsum dolor sit amet consectetur adipisicing elit. Animi inventore nemo perferendis voluptas
+                voluptates aperiam molestiae ut impedit sed fuga sint facilis nulla eius, quod consequatur, hic ab
+                obcaecati nihil! Lorem ipsum, dolor sit amet consectetur adipisicing elit.</p>
+            <p>Lorem lorem ipsum dolor sit amet consectetur adipisicing elit. Animi inventore nemo perferendis voluptas
+                voluptates aperiam molestiae ut impedit sed fuga sint facilis nulla eius, quod consequatur, hic ab
+                obcaecati nihil! Lorem ipsum, dolor sit amet consectetur adipisicing elit. Error odit temporibus totam.
+                Maiores consequatur, aliquid nihil nostrum animi ab eveniet quaerat cupiditate unde obcaecati! Doloribus
+                voluptas eos dolor fuga laudantium?</p>
+            <blockquote> “YOU DON’T HAVE TO BE GREAT TO START, BUT YOU HAVE TO START TO BE GREAT.” <em>–ZIG ZIGLAR</em>
+            </blockquote>
+            <p>Lorem lorem ipsum dolor sit amet consectetur adipisicing elit. Animi inventore nemo perferendis voluptas
+                voluptates aperiam molestiae ut impedit sed fuga sint facilis nulla eius, quod consequatur, hic ab
+                obcaecati nihil! Lorem ipsum, dolor sit amet consectetur adipisicing elit. Error odit temporibus totam.
+                Maiores consequatur, aliquid nihil nostrum animi ab eveniet quaerat cupiditate unde obcaecati! Doloribus
+                voluptas eos dolor fuga laudantium?</p>
             <div class="col-sm-12 text-center">
                 <form action="/library">
                     <input class="btn btn-info" type="submit" value="Check out our course library!">
@@ -71,21 +97,21 @@
             <footer class="bg-light text-center text-lg-start navbar-fixed-bottom">
                 <!-- Grid container -->
                 <div class="container p-4">
-                <!--Grid row-->
+                    <!--Grid row-->
                     <div class="row">
                         <!--Grid column-->
                         <div class="col-md-6">
                             <h5 class="text-uppercase">Links</h5>
-                    
+
                             <ul class="list-unstyled mb-0">
                                 <li>
-                                <a href="#!" class="text-dark">Contact Us</a>
+                                    <a href="#!" class="text-dark">Contact Us</a>
                                 </li>
                                 <li>
-                                <a href="#!" class="text-dark">Work for Us</a>
+                                    <a href="#!" class="text-dark">Work for Us</a>
                                 </li>
                             </ul>
-                        </div>         
+                        </div>
                         <!--Grid column-->
                         <div class="col-md-6">
                             <h5 class="text-uppercase mb-0">Connect with TeachMe</h5>
@@ -100,11 +126,11 @@
                     <!--Grid row-->
                 </div>
                 <!-- Grid container -->
-            
+
                 <!-- Copyright -->
                 <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2)">
-                © 2020 Copyright:
-                <a class="text-dark" href="https://mdbootstrap.com/">TeachMe.com</a>
+                    © 2020 Copyright:
+                    <a class="text-dark" href="https://mdbootstrap.com/">TeachMe.com</a>
                 </div>
                 <!-- Copyright -->
             </footer>
@@ -112,4 +138,5 @@
         <!-- /page wrapper -->
     </div>
 </body>
+
 </html>
