@@ -29,7 +29,7 @@ def add_to_playlist(request, course_id):
         this_playlist.course.add(Course.objects.get(id=course_id))
 
     if request.POST["hidden"] == "add_to_playlist_and_take_quiz":
-        return redirect(f"take_quiz/{course_id}")
+        return redirect(f"/take_quiz/{course_id}")
     return redirect("/library")
 
 
