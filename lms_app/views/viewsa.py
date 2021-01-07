@@ -8,13 +8,15 @@ from ..models import Course, User, Playlist
 def video(request, course_id):
     if "user_id" in request.session:
         logged_user = User.objects.get(id=request.session["user_id"])
+        course = Course.objects.get(id=course_id)
         return render(
             request,
             "course_video.html",
             {
-                "course": Course.objects.get(id=course_id),
+                "course": course,
                 # "logged_user": User.objects.get(id=request.session["user_id"]),
                 "playlists": Playlist.objects.filter(user=logged_user),
+                "course_playlists": Playlist.objects.filter(course=course),
             },
         )
     return redirect("/")
