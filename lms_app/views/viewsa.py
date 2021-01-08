@@ -137,3 +137,4 @@ def create_course(request):
 # about
 def about(request):
     return render(request, "about.html")
+
