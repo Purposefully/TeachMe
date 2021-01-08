@@ -19,11 +19,7 @@
     <!--Need all of these script tags (and in this order)-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.5.1.js"
-        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
-    </script>
+    <script src="{% static 'js/jquery.js' %}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous">
     </script>
@@ -198,7 +194,8 @@
                                     <input class="btn btn-info" type="submit" value="Add to Playlist!">
                                 </form>
                                 <hr>
-                                <form class="playlist_dropdown" action="/add_to_new_playlist/{{course.id}}" method="POST">
+                                <form class="playlist_dropdown" action="/add_to_new_playlist/{{course.id}}"
+                                    method="POST">
                                     {% csrf_token %}
                                     <input type="text" name="playlist" placeholder="New Playlist Name">
                                     <input type="hidden" name="hidden" value="add_to_playlist_no_quiz">
@@ -220,44 +217,50 @@
                         <div class="modal-inner-content">
                             <span class="close">&times;</span>
                             <h3>You finished the video!</h3>
-                            <p>Add it to one of your playlists and take the quiz!</p>
-                            <div class="dropdown">
-                                <button class="btn btn-light dropdown-toggle" id="add_to_playlist_btn" type="button"
-                                    data-toggle="dropdown">Add to Playlist
-                                    <span class="caret"></span></button>
-                                <ul class="dropdown-menu">
-                                    <form action="/add_to_playlist/{{course.id}}" method="POST">
-                                        {% csrf_token %}
-                                        {% for playlist in playlists %}
-                                        {% if course in playlist.course.all %}
-                                        <li class=disabled>
-                                            <input id="disabled_button" type="radio" name="playlist"
-                                                value="{{playlist.id}}">
-                                            <label for="{{playlist.id}}">{{playlist.title}}</label>
-                                        </li>
-                                        {% else %}
-                                        <li class=active>
-                                            <input type="radio" name="playlist" value="{{playlist.id}}">
-                                            <label for="{{playlist.id}}">{{playlist.title}}</label>
-                                        </li>
+                            <!--If course is in a playlist-->
+                            <!-- if course_playlists.exists -->
+                                    <a href="/take_quiz/{{course.id}}" class="btn btn-light" id="take_quiz_btn_modal" role="button">Take the quiz now!</a>
+                            <!---- else -->
+                                <p>Add it to one of your playlists and take the quiz!</p>
+                                <div class="dropdown">
+                                    <button class="btn btn-light dropdown-toggle" id="add_to_playlist_btn" type="button"
+                                        data-toggle="dropdown">Add to Playlist
+                                        <span class="caret"></span></button>
+                                    <ul class="dropdown-menu">
+                                        <!--If playlists exist-->
+                                        {% if playlists %}
+                                            <form action="/add_to_playlist/{{course.id}}" method="POST">
+                                                {% csrf_token %}
+                                                {% for playlist in playlists %}
+                                                {% if course in playlist.course.all %}
+                                                <li class=disabled>
+                                                    <input id="disabled_button" type="radio" name="playlist"
+                                                        value="{{playlist.id}}">
+                                                    <label for="{{playlist.id}}">{{playlist.title}}</label>
+                                                </li>
+                                                {% else %}
+                                                <li class=active>
+                                                    <input type="radio" name="playlist" value="{{playlist.id}}">
+                                                    <label for="{{playlist.id}}">{{playlist.title}}</label>
+                                                </li>
+                                                {% endif %}
+                                                {% endfor %}
+                                                <input type="hidden" name="hidden" value="add_to_playlist_and_take_quiz">
+                                                <input type="submit" value="Take the Quiz!">
+                                            </form>
                                         {% endif %}
-                                        {% endfor %}
-                                        <input type="hidden" name="hidden" value="add_to_playlist_and_take_quiz">
-                                        <input type="submit" value="Take the Quiz!">
-                                    </form>
-                                    <form action="/add_to_new_playlist/{{course.id}}" method="POST">
-                                        {% csrf_token %}
-                                        <input type="text" name="playlist" placeholder="New Playlist Name">
-                                        <input type="hidden" name="hidden" value="add_to_playlist_and_take_quiz">
-                                        <input type="submit" value="Take the Quiz!">
-                                    </form>
-                                    <!-- Drop down menu of all playlists. If the course is already in the playlist, that option is disabled. If not, the link should lead to a view that adds the video to the playlist -->
-                                </ul>
-                            </div>
-
+                                        <!--Add to new playlist-->
+                                        <form action="/add_to_new_playlist/{{course.id}}" method="POST">
+                                            {% csrf_token %}
+                                            <input type="text" name="playlist" placeholder="New Playlist Name">
+                                            <input type="hidden" name="hidden" value="add_to_playlist_and_take_quiz">
+                                            <input type="submit" value="Take the Quiz!">
+                                        </form>
+                                        <!-- Drop down menu of all playlists. If the course is already in the playlist, that option is disabled. If not, the link should lead to a view that adds the video to the playlist -->
+                                    </ul>
+                                </div>
+                            <!-- endif -->
                         </div>
-                        <a href="/take_quiz/{{course.id}}" class="btn btn-light" id="take_quiz_btn_modal"
-                            role="button">Already on a Playlist? Take the quiz now!</a>
                         <!-- Modal that opens when the video ends with an option to take the quiz -->
                     </div>
                 </div>
