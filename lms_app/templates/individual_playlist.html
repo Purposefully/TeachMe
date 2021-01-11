@@ -4,30 +4,30 @@
   <p><small><a href="/delete_playlist/{{playlist.id}}">Delete Playlist</a></small></p>
   <h4>Courses Completed</h4>
   {% for course in courses %}
-  {% if course.id in scores %}
+    {% if course.id in scores %}
 
-  <div class="card classcard" style="width: 15rem; display:inline-block; ">
-    <img class="card-img-top" src="https://img.youtube.com/vi/{{course.video_id}}/0.jpg" alt="Card image cap">
-    <div class="card-body">
-      <h4 class="card-title">{{course.title}}</h4>
-      <p><small>{{scores|keyvalue:course.id}}/5</small></p>
-      <a class="btn btn-info" href="/view_here/{{course.id}}">Retake Course</a>
-    </div>
-  </div>
+      <div class="card classcard" style="width: 15rem; display:inline-block; ">
+        <img class="card-img-top" src="https://img.youtube.com/vi/{{course.video_id}}/0.jpg" alt="Card image cap">
+        <div class="card-body">
+          <h4 class="card-title">{{course.title}}</h4>
+          <p><small>{{scores|keyvalue:course.id}}/5</small></p>
+          <a class="btn btn-info" href="/view_here/{{course.id}}">Retake Course</a>
+        </div>
+      </div>
 
-  <hr class="horizontal_line">
-  </hr>
-  {% else %}
-  <h4>Courses to Take</h4>
+      <hr class="horizontal_line">
+      </hr>
+      {% else %}
+      <h4>Courses to Take</h4>
 
-  <div class="card classcard" style="width: 15rem; display:inline-block; ">
-    <img class="card-img-top" src="https://img.youtube.com/vi/{{course.video_id}}/0.jpg" alt="Card image cap">
-    <div class="card-body">
-      <h4 class="card-title">{{course.title}}</h4>
-      <a class="btn btn-info" href="/view_here/{{course.id}}">Visit Course Page</a>
-    </div>
-  </div>
+      <div class="card classcard" style="width: 15rem; display:inline-block; ">
+        <img class="card-img-top" src="https://img.youtube.com/vi/{{course.video_id}}/0.jpg" alt="Card image cap">
+        <div class="card-body">
+          <h4 class="card-title">{{course.title}}</h4>
+          <a class="btn btn-info" href="/view_here/{{course.id}}">Visit Course Page</a>
+        </div>
+      </div>
 
-  {% endif %}
+    {% endif %}
   {% endfor %}
 </div>
