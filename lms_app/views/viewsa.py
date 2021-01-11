@@ -9,15 +9,17 @@ def video(request, course_id):
     if "user_id" in request.session:
         logged_user = User.objects.get(id=request.session["user_id"])
         course = Course.objects.get(id=course_id)
+        context = {
+            "course": course,
+            # "logged_user": User.objects.get(id=request.session["user_id"]),
+            "playlists": Playlist.objects.filter(user=logged_user),
+            "course_playlists": Playlist.objects.filter(course=course, user=logged_user),
+        }
+        print(Playlist.objects.filter(course=course))
         return render(
             request,
             "course_video.html",
-            {
-                "course": course,
-                # "logged_user": User.objects.get(id=request.session["user_id"]),
-                "playlists": Playlist.objects.filter(user=logged_user),
-                "course_playlists": Playlist.objects.filter(course=course),
-            },
+            context,
         )
     return redirect("/")
 

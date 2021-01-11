@@ -172,30 +172,67 @@
                             <button class="btn btn-light dropdown-toggle" id="add_to_playlist_btn" type="button"
                                 data-toggle="dropdown">Add to Playlist<span class="caret"></span></button>
                             <ul class="dropdown-menu">
-                                <form class="playlist_dropdown" action="/add_to_playlist/{{course.id}}" method="POST">
-                                    {% csrf_token %}
-                                    {% for playlist in playlists %}
-                                    {% if course in playlist.course.all %}
-                                    <li class=disabled>
-                                        <label>
-                                            <input class="disabled_button" type="radio" name="playlist"
-                                                value="{{playlist.id}}">
-                                            {{playlist.title}}</label>
-                                    </li>
-                                    {% else %}
-                                    <li class=active>
-                                        <label>
-                                            <input type="radio" name="playlist" value="{{playlist.id}}">
-                                            {{playlist.title}}</label>
-                                    </li>
-                                    {% endif %}
-                                    {% endfor %}
-                                    <input type="hidden" name="hidden" value="add_to_playlist_no_quiz">
-                                    <input class="btn btn-info" type="submit" value="Add to Playlist!">
-                                </form>
+                                {% if playlists %}
+                                {% if course_playlists %}
+                                    <form class="playlist_dropdown" action="/add_to_playlist/{{course.id}}" method="POST">
+                                        {% csrf_token %}
+                                        <p><span style="font-weight: bold">{{course.title}}</span> is in these playlists: </p>
+                                        <ul>
+                                            {% for course_playlist in course_playlists%}
+                                                <li>{{course_playlist.title}}</li>
+                                            {% endfor %}
+                                        </ul>
+                                        <hr>
+                                        <p style="font-weight: bold">Add it to another? </p>
+                                        {% for playlist in playlists %}
+                                        {% if course in playlist.course.all %}
+                                        <li class=disabled>
+                                            <label>
+                                                <input class="disabled_button" type="radio" name="playlist"
+                                                    value="{{playlist.id}}">
+                                                {{playlist.title}}</label>
+                                        </li>
+                                        {% else %}
+                                        <li class=active>
+                                            <label>
+                                                <input type="radio" name="playlist" value="{{playlist.id}}" required>
+                                                {{playlist.title}}</label>
+                                        </li>
+                                        {% endif %}
+                                        {% endfor %}
+                                        <input type="hidden" name="hidden" value="add_to_playlist_no_quiz">
+                                        <input class="btn btn-info" type="submit" value="Add to Playlist!">
+                                    </form>
                                 <hr>
+                                {% else %}
+                                    <form class="playlist_dropdown" action="/add_to_playlist/{{course.id}}" method="POST">
+                                        {% csrf_token %}
+                                        <p style="font-weight: bold">Add {{course.title}} to a playlist! </p>
+                                        {% for playlist in playlists %}
+                                        {% if course in playlist.course.all %}
+                                        <li class=disabled>
+                                            <label>
+                                                <input class="disabled_button" type="radio" name="playlist"
+                                                    value="{{playlist.id}}">
+                                                {{playlist.title}}</label>
+                                        </li>
+                                        {% else %}
+                                        <li class=active>
+                                            <label>
+                                                <input type="radio" name="playlist" value="{{playlist.id}}" required>
+                                                {{playlist.title}}</label>
+                                        </li>
+                                        {% endif %}
+                                        {% endfor %}
+                                        <input type="hidden" name="hidden" value="add_to_playlist_no_quiz">
+                                        <input class="btn btn-info" type="submit" value="Add to Playlist!">
+                                    </form>
+                                    <hr>
+                                {% endif %}
+                                {% endif %}
                                 <form class="playlist_dropdown" action="/add_to_new_playlist/{{course.id}}"
                                     method="POST">
+                                    <p style="font-weight: bold">Add to a new playlist!</p>
                                     {% csrf_token %}
                                     <input type="text" name="playlist" placeholder="New Playlist Name">
                                     <input type="hidden" name="hidden" value="add_to_playlist_no_quiz">
@@ -218,48 +255,54 @@
                             <span class="close">&times;</span>
                             <h3>You finished the video!</h3>
                             <!--If course is in a playlist-->
-                            <!-- if course_playlists.exists -->
-                                    <a href="/take_quiz/{{course.id}}" class="btn btn-light" id="take_quiz_btn_modal" role="button">Take the quiz now!</a>
-                            <!---- else -->
-                                <p>Add it to one of your playlists and take the quiz!</p>
-                                <div class="dropdown">
-                                    <button class="btn btn-light dropdown-toggle" id="add_to_playlist_btn" type="button"
-                                        data-toggle="dropdown">Add to Playlist
-                                        <span class="caret"></span></button>
-                                    <ul class="dropdown-menu">
-                                        <!--If playlists exist-->
-                                        {% if playlists %}
-                                            <form action="/add_to_playlist/{{course.id}}" method="POST">
-                                                {% csrf_token %}
-                                                {% for playlist in playlists %}
-                                                {% if course in playlist.course.all %}
-                                                <li class=disabled>
-                                                    <input id="disabled_button" type="radio" name="playlist"
-                                                        value="{{playlist.id}}">
-                                                    <label for="{{playlist.id}}">{{playlist.title}}</label>
-                                                </li>
-                                                {% else %}
-                                                <li class=active>
-                                                    <input type="radio" name="playlist" value="{{playlist.id}}">
-                                                    <label for="{{playlist.id}}">{{playlist.title}}</label>
-                                                </li>
-                                                {% endif %}
-                                                {% endfor %}
-                                                <input type="hidden" name="hidden" value="add_to_playlist_and_take_quiz">
-                                                <input type="submit" value="Take the Quiz!">
-                                            </form>
-                                        {% endif %}
-                                        <!--Add to new playlist-->
+                            {% if playlists %}
+                            {% if course_playlists %}
+                                <a href="/take_quiz/{{course.id}}" class="btn btn-info" id="take_quiz_btn_modal" role="button">Take the quiz now!</a>
+                                <hr>
+                                <p><span style="font-weight: bold">{{course.title}}</span> is in these playlists: </p>
+                                <ul>
+                                    {% for course_playlist in course_playlists%}
+                                        <li>{{course_playlist.title}}</li>
+                                    {% endfor %}
+                                </ul>
+                                <hr>
+                                <p style="font-weight: bold">Add it to another? </p>
+                            {% else %}
+                                <p style="margin: 0; font-weight: bold">Add to a Playlist:</p>
+                            {% endif %}
+                                <form class="playlist_dropdown" action="/add_to_playlist/{{course.id}}" method="POST">
+                                    {% csrf_token %}
+                                    {% for playlist in playlists %}
+                                    {% if course in playlist.course.all %}
+                                    <li class=disabled>
+                                        <label>
+                                            <input class="disabled_button" type="radio" name="playlist"
+                                                value="{{playlist.id}}">
+                                            {{playlist.title}}</label>
+                                    </li>
+                                    {% else %}
+                                    <li class=active>
+                                        <label>
+                                            <input type="radio" name="playlist" value="{{playlist.id}}" required>
+                                            {{playlist.title}}</label>
+                                    </li>
+                                    {% endif %}
+                                    {% endfor %}
+                                    <input type="hidden" name="hidden" value="add_to_playlist_and_take_quiz">
+                                    <input class="btn btn-info" type="submit" value="Add to Playlist and Take the Quiz!">
+                                </form>
+                                <hr>
+                            {% endif %}
+                                        <p style="font-weight: bold">Add to new playlist</p>
                                         <form action="/add_to_new_playlist/{{course.id}}" method="POST">
                                             {% csrf_token %}
                                             <input type="text" name="playlist" placeholder="New Playlist Name">
                                             <input type="hidden" name="hidden" value="add_to_playlist_and_take_quiz">
-                                            <input type="submit" value="Take the Quiz!">
+                                            <input type="submit" class="btn btn-info" value="Take the Quiz!">
                                         </form>
                                         <!-- Drop down menu of all playlists. If the course is already in the playlist, that option is disabled. If not, the link should lead to a view that adds the video to the playlist -->
                                     </ul>
                                 </div>
-                            <!-- endif -->
                         </div>
                         <!-- Modal that opens when the video ends with an option to take the quiz -->
                     </div>
@@ -354,3 +397,11 @@
 </body>
 
 </html>
+
+
+
+
+
+
+
+<input type="hidden" name="hidden" value="add_to_playlist_and_take_quiz">
