@@ -89,6 +89,12 @@
             width: fit-content;
             margin: 0px auto;
         }
+        #modal_button{
+            list-style-type: none;
+        }
+        #modal_button_active{
+            list-style-type: none;
+        }
     </style>
 </head>
 
@@ -274,14 +280,14 @@
                                     {% csrf_token %}
                                     {% for playlist in playlists %}
                                     {% if course in playlist.course.all %}
-                                    <li class=disabled>
+                                    <li id=modal_button class=disabled>
                                         <label>
                                             <input class="disabled_button" type="radio" name="playlist"
                                                 value="{{playlist.id}}">
                                             {{playlist.title}}</label>
                                     </li>
                                     {% else %}
-                                    <li class=active>
+                                    <li cid=modal_button_active lass=active>
                                         <label>
                                             <input type="radio" name="playlist" value="{{playlist.id}}" required>
                                             {{playlist.title}}</label>
