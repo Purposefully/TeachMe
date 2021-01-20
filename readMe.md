@@ -16,11 +16,9 @@ ___
 * [Background](#Background)
 * [Features](#Features)
 * [Technologies Used](#Technologies-Used)
-* [Screenshots](#More-Screenshots)
 * [Functionality](#Functionality)
 * [Design](#Design)
 * [Running Locally](#Running-Locally)
-* [Image Credits](#Image-Credits)
 
 ___
 
@@ -39,32 +37,36 @@ ___
 
     * User Profile Page
 
-    <img src="https://github.com/Purposefully/TeachMe/blob/main/Screenshots/Login.png?raw=true" alt="Login/Register" width="300">
+    <img src="https://github.com/Purposefully/TeachMe/blob/main/Screenshots/UserProfilePage.png?raw=true" alt="Login/Register" width="300">
 
     * Course Library
 
-    <img src="https://github.com/Purposefully/TeachMe/blob/main/Screenshots/Login.png?raw=true" alt="Login/Register" width="300">
+    <img src="https://github.com/Purposefully/TeachMe/blob/main/Screenshots/CourseLibrary.png?raw=true" alt="Login/Register" width="300">
 
     * Individual Course Page
 
-    <img src="https://github.com/Purposefully/TeachMe/blob/main/Screenshots/Login.png?raw=true" alt="Login/Register" width="300">
+    <img src="https://github.com/Purposefully/TeachMe/blob/main/Screenshots/IndividualCourse.png?raw=true" alt="Login/Register" width="300">
 
     * Multiple Choice Quiz
 
-    <img src="https://github.com/Purposefully/TeachMe/blob/main/Screenshots/Login.png?raw=true" alt="Login/Register" width="300">
+    <img src="https://github.com/Purposefully/TeachMe/blob/main/Screenshots/CourseQuiz.png?raw=true" alt="Login/Register" width="300">
 
 * Admin Features
     * Create a Course
 
-    <img src="https://github.com/Purposefully/TeachMe/blob/main/Screenshots/Login.png?raw=true" alt="Login/Register" width="300">
+    <img src="https://github.com/Purposefully/TeachMe/blob/main/Screenshots/CreateCourse.png?raw=true" alt="Login/Register" width="300">
 
     * Create or Edit a Quiz Menu
 
-    <img src="https://github.com/Purposefully/TeachMe/blob/main/Screenshots/Login.png?raw=true" alt="Login/Register" width="300">
+    <img src="https://github.com/Purposefully/TeachMe/blob/main/Screenshots/ManageQuizzes.png?raw=true" alt="Login/Register" width="300">
+
+    * Create a Quiz
+
+    <img src="https://github.com/Purposefully/TeachMe/blob/main/Screenshots/CreateQuiz.png?raw=true" alt="Login/Register" width="300">
 
     * Edit a Quiz
 
-    <img src="https://github.com/Purposefully/TeachMe/blob/main/Screenshots/Login.png?raw=true" alt="Login/Register" width="300">
+    <img src="https://github.com/Purposefully/TeachMe/blob/main/Screenshots/EditQuiz.png?raw=true" alt="Login/Register" width="300">
 
 
 [Return to Table of Contents](#Table-of-Contents)
@@ -82,28 +84,6 @@ ___
 [Return to Table of Contents](#Table-of-Contents)
 ___
 
-## More Screenshots
-* Menu screens  
-    * Single or Double Image Lesson  
-    <img src="https://github.com/Purposefully/Connections/blob/master/Screenshots/4SingleOrDouble.png?raw=true" alt="Choose single or double lesson" width="300">  
-
-    * Options for Single Image Lessons  
-
-    <img src="https://github.com/Purposefully/Connections/blob/master/Screenshots/12LessonOptions.png?raw=true" alt="Single Image Lesson Options" width="300">  
-
-    * Options for Double Image Lessons  
-
-    <img src="https://github.com/Purposefully/Connections/blob/master/Screenshots/14DoubleImageOptions.png?raw=true" alt="Double Image Lesson Options" width="300">  
-
-* Thank you screen when student is finished  
-
-<img src="https://github.com/Purposefully/Connections/blob/master/Screenshots/10ThankYouMsg.png?raw=true" alt="Thank You Screen" width="300">  
-
-
-[Return to Table of Contents](#Table-of-Contents)
-
-___
-
 ## Functionality
 Upon logging in, the user is taken to their profile page.  It lists any playlists the user has created.  When a playlist is selected, the related courses are displayed in two categories:  courses already taken and courses that could be taken.  If a course has already been taken, the user's quiz score for it is displayed.  Selecting a course takes the user to that course's page.
 
@@ -112,6 +92,8 @@ On an individual course's page, the user can read the description imported throu
 The quizzes are five multiple choice questions.  The questions and answer choices are shuffled each time the quiz is displayed.  Each quiz is immediately scored and results are displayed for the user.
 
 The course library lists all the courses with quizzes that have been entered into the TeachMe app by an administrator.  There is a search feature to faciliate locating desired courses.  Selecting a course takes the user to the individual course's page.
+
+In order to give administrative permission to a user, a superuser needs to be created so that the Django Admin page can be accessed.  Then, a user from the LMS_APP may be selected and "admin" entered as the User Level for that user.
 
 Users who have administrative permission may create a course by pasting in the YouTube url for that video on the create a course page.  The course will not appear in the course library, however, until a quiz has been created for it.
 
@@ -175,26 +157,40 @@ These steps work on Windows and assume you have Python
 9.  Get a YouTube API key
     https://developers.google.com/youtube/v3/getting-started
 
-
-
-
-
-
+    In the secrets.py file, add:
+    ```
+    google_api_key = 'paste YouTube API key here'
+    ```
 10.  Move out of the app
-    ``` 
-    cd..
-    ```
-11. Migrate
-    ```
-    python manage.py migrate
-    ```
-12. Run a local server
-    ```
-    python manage.py runserver
-    ```
-13.  Open browser  
+        ``` 
+        cd..
         ```
-        localhost8000:
+11.  Migrate
         ```
+        python manage.py migrate
+        ```
+12.  Run a local server
+        ```
+        python manage.py runserver
+        ```
+13.  If you want to be able to assign administrative permission to a user, you will need to create a superuser.
+        ```
+        python manage.py createsuperuser
+        ```
+        Follow the prompts to enter a username, email (optional), and password.
+14.  Open browser  
+        ```
+        localhost:8000
+        ```
+15.  If you want to give administrative permission to a user, first register a user in the app.
+     Next, go to 
+        ```
+        localhost:8000/admin
+        ```
+     Select Users from the LMS_APP menu (NOT the Authentication and Authorization menu).
+
+     For User level, type:  admin
+     
+     Click save
 
 [Return to Table of Contents](#Table-of-Contents)
