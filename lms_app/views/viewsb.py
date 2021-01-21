@@ -61,7 +61,7 @@ def signup(request):
         # Remove entries from screen
         request.session.flush()
         request.session["user_id"] = User.objects.last().id
-        user_id = request.session["user_id"]
+        # user_id = request.session["user_id"]
         request.session["user_level"] = User.objects.last().user_level
         return redirect("/profile")
     return redirect("/")
@@ -118,9 +118,13 @@ def take_quiz(request, course_id):
             this_record = UserQuizRecord.objects.create(
                 score=score,
             )
-            this_record.course.add(course_id)
-            this_record.users.add(request.session["user_id"])
-            # print(this_record.__dict__)
+            this_course = Course.objects.get(id=course_id)
+            this_record.course.add(this_course)
+            this_user = User.objects.get(id=request.session["user_id"])
+            this_record.users.add(this_user)
+            print(this_record.__dict__)
+            # print(f"this course is {this_record.course.id}")
+            # print(f"this user is {this_record.users.id}")
 
             return redirect("/show_quiz_results")
 

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import User, Playlist, Course, Question, Answer, Topic
+from .models import User, Playlist, Course, Question, Answer, Topic, UserQuizRecord
 from django.utils.html import format_html
 from django.urls import reverse
 
@@ -45,9 +45,26 @@ class CourseAdmin(admin.ModelAdmin):
         "video_id",
     ]
 
+@admin.register(UserQuizRecord)
+class UserQuizRecordAdmin(admin.ModelAdmin):
+
+    readonly_fields = ('id',)
+
+    list_display = [
+        "get_user",
+        "get_course",
+        # linkify(field_name="users"),
+        # linkify(field_name="course"),
+        "score",
+        "id",
+    ]
+
+    def get_course(self, obj):
+        return "\n".join([x.title for x in obj.course.all()])
+
+    def get_user(self, obj):
+        return "\n".join([x.name for x in obj.users.all()])
+
 admin.site.register(User)
 admin.site.register(Playlist)
-# admin.site.register(Course)
-# admin.site.register(Question)
-# admin.site.register(Answer)
 admin.site.register(Topic)

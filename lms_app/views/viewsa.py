@@ -51,7 +51,6 @@ def add_to_new_playlist(request, course_id):
 def library(request):
 
     if "user_id" in request.session:
-        print(request.session.user_id)
         return render(
             request,
             "course_library.html",
@@ -92,18 +91,27 @@ def individual_playlist(request, playlist_id):
     courses = Course.objects.filter(playlists=this_playlist)
 
     score = {}
+    courses_with_scores = []
+    courses_without_scores = []
     for course in courses:
         record = course.records.filter(
             users=User.objects.get(id=request.session["user_id"])
         )
+
         if record:
             score.update({course.id: record[len(record) - 1].score})
+            courses_with_scores.append(course.id)
+        else:
+            courses_without_scores.append(course.id)
 
-    return render(
-        request,
-        "individual_playlist.html",
-        {"courses": courses, "scores": score, "playlist": this_playlist},
-    )
+    context = {
+        'completed_courses' : Course.objects.filter(id__in=courses_with_scores),
+        'courses_to_take' : Course.objects.filter(id__in=courses_without_scores),
+        'scores' : score,
+        'playlist' : this_playlist
+    }
+
+    return render(request, "individual_playlist.html", context)
 
 
 def delete_playlist(request, playlist_id):

@@ -2,10 +2,29 @@
   {% load scores %}
   <h3>{{playlist.title}}</h3>
   <p><small><a href="/delete_playlist/{{playlist.id}}">Delete Playlist</a></small></p>
-  <h4>Courses Completed</h4>
-  {% for course in courses %}
-    {% if course.id in scores %}
+  {% if courses_to_take %}
+    <h4>Courses to Take</h4>
+  {% endif %}
+  {% for course in courses_to_take %}
 
+    {% if course.id not in scores %}
+
+      <div class="card classcard" style="width: 15rem; display:inline-block; ">
+        <img class="card-img-top" src="https://img.youtube.com/vi/{{course.video_id}}/0.jpg" alt="Card image cap">
+        <div class="card-body">
+          <h4 class="card-title">{{course.title}}</h4>
+          <a class="btn btn-info" href="/view_here/{{course.id}}">Visit Course Page</a>
+        </div>
+      </div>
+    {% endif%}
+  {% endfor %}
+
+  {% if completed_courses %}
+    <h4>Courses Completed</h4>
+  {% endif %}
+  {% for course in completed_courses %}
+
+    {% if course.id in scores %}
       <div class="card classcard" style="width: 15rem; display:inline-block; ">
         <img class="card-img-top" src="https://img.youtube.com/vi/{{course.video_id}}/0.jpg" alt="Card image cap">
         <div class="card-body">
@@ -17,17 +36,8 @@
 
       <hr class="horizontal_line">
       </hr>
-      {% else %}
-      <h4>Courses to Take</h4>
-
-      <div class="card classcard" style="width: 15rem; display:inline-block; ">
-        <img class="card-img-top" src="https://img.youtube.com/vi/{{course.video_id}}/0.jpg" alt="Card image cap">
-        <div class="card-body">
-          <h4 class="card-title">{{course.title}}</h4>
-          <a class="btn btn-info" href="/view_here/{{course.id}}">Visit Course Page</a>
-        </div>
-      </div>
 
     {% endif %}
   {% endfor %}
+
 </div>

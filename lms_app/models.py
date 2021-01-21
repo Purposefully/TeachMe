@@ -79,6 +79,7 @@ class UserQuizRecord(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
 
+
 class Question(models.Model):
     content = models.TextField()
     correct_answer_id = models.IntegerField()
