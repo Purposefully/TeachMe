@@ -162,6 +162,7 @@ These steps work on Windows and assume you have Python
     google_api_key = 'paste YouTube API key here'
     ```
 10.  Move out of the app
+
         ``` 
         cd..
         ```

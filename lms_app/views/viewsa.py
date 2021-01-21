@@ -51,6 +51,7 @@ def add_to_new_playlist(request, course_id):
 def library(request):
 
     if "user_id" in request.session:
+        print(request.session.user_id)
         return render(
             request,
             "course_library.html",
