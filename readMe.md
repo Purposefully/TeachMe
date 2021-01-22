@@ -7,7 +7,7 @@
     <a href="" alt="Video Tour">Take a Video Tour</a>
 </p>
 
-[![Video Tour](/Screenshots/Login.png?raw=true)](https://youtu.be/LCcyI3A38RM)
+[![Video Tour](/Screenshots/Login.png?raw=true)](https://youtu.be/xXnk30QOBy4)
 
 ### *A Learning Management System (LMS)*  
 ___
@@ -23,7 +23,7 @@ ___
 ___
 
 ## Background
-
+I do not have experience with Learning Management Systems (LMS), but a teammate had reported frequent frustration with them because they often force users to start over at the beginning instead of returning to the previous location on the learning path.  We designed this LMS to have playlists making it easy for the user to find the next course they had wanted to watch whenever they finished a course.
 
 [Return to Table of Contents](#Table-of-Contents)
 
@@ -105,9 +105,16 @@ Users who have administrative permission may create or edit a quiz for a course.
 ___
 
 ## Design
-I do not have experience with Learning Management Systems (LMS), but a teammate had reported frequent frustration with them because they often force users to start over at the beginning instead of returning to the previous location on the learning path.  We designed this LMS to have playlists making it easy for the user to find the next course they had wanted to watch whenever they finished a course.
-
 The navbar remains the same throughout the site, allowing easy navigation.  Users with administrative permission see two additional links on their navbar for creating courses and quizzes.
+
+When a course has been added to a user's playlist, the user is returned to the course library to select more courses.
+After watching a course, the user is prompted to add the course to a playlist if it isn't on one already and then prompted to take the quiz.
+Users may add courses to more than one playlist.
+
+When a user does poorly on a quiz, they are returned to the individual course page so they can watch the video again.
+When a user does well on a quiz, they are returned to their profile page for easy access to their playlists to continue learning.
+
+Courses are not added to the course library until a quiz had been created for them.
 
 
 [Return to Table of Contents](#Table-of-Contents)
@@ -150,7 +157,8 @@ These steps work on Windows and assume you have Python
     notepad secrets.py
     ```
     Choose yes to create the file.
-    Then type the following into the file.  Save and close.
+    Then type the following into the file.  Save.
+    You can leave notepad open since you will add another key in the next step.
     ```
     secret='paste secret key here'
     ```
@@ -161,6 +169,7 @@ These steps work on Windows and assume you have Python
     ```
     google_api_key = 'paste YouTube API key here'
     ```
+    Save and close.
 10.  Move out of the app
 
         ``` 
