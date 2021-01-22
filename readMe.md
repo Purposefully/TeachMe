@@ -4,7 +4,7 @@
 </h1>
 
 <p align="center">
-    <a href="" alt="Video Tour">Take a Video Tour</a>
+    <a href="https://youtu.be/xXnk30QOBy4" alt="Video Tour">Take a Video Tour</a>
 </p>
 
 [![Video Tour](/Screenshots/Login.png?raw=true)](https://youtu.be/xXnk30QOBy4)
